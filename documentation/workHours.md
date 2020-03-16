@@ -2,6 +2,6 @@
 =======================
 | päivä | aika | mitä tein  |
 | :----:|:-----| :-----|
-| 17.3. | 3    | tutustuminen JavaFX:n |
+| 16.3. | 1    | projektin ideointi ja suunnittelu |
 
-| yht   | 28   | | 
+| yht   | 1   | 
