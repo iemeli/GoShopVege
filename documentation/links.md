@@ -1,5 +1,5 @@
 # YLEISIÄ LINKKEJÄ
-==================
+------------------
 Ohjeet (Harkkatyö palautettava 31.5.
 https://github.com/fullstack-hy2019/misc/blob/master/harjoitustyo.md
 
