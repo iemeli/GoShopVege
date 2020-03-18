@@ -2,7 +2,9 @@ import React from 'react'
 import './App.css';
 import { useQuery, gql } from '@apollo/client'
 import ListFoods from './components/ListFoods'
-
+import { connect } from 'react-redux'
+import { initializeFoods } from './reducers/foodsReducer'
+ 
 const ALL_FOODS = gql`
   query {
     allFoods  {
@@ -18,7 +20,7 @@ const ALL_FOODS = gql`
   }
 `
 
-const App = () => {
+const App = (props) => {
   const foodsResult = useQuery(ALL_FOODS)
 
   if (foodsResult.loading) {
@@ -28,12 +30,18 @@ const App = () => {
   }
 
   const foods = foodsResult.data.allFoods
+  props.initializeFoods(foods)
 
   return (
     <div>
-      <ListFoods foods={foods} />
+      <ListFoods />
     </div>
   )
 }
 
-export default App;
+
+
+export default connect(
+  null,
+  { initializeFoods }
+)(App);

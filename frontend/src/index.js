@@ -5,6 +5,8 @@ import {
   ApolloClient, HttpLink, InMemoryCache, ApolloProvider,
   split
 } from '@apollo/client'
+import store from './services/store'
+import { Provider } from 'react-redux'
 // import { setContext } from 'apollo-link-context'
 // import { getMainDefinition } from '@apollo/client/utilities'
 // import { WebSocketLink } from '@apollo/link-ws'
@@ -20,7 +22,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </ApolloProvider>,
   document.getElementById('root')
 )
