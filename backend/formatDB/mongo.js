@@ -48,6 +48,7 @@ const format = async () => {
         if (obj.kiloCalories) {
           return sum + obj.kiloCalories
         }
+        return sum
       }, 0)
     const objIds = ingredientsFromDB
       .map(i => i._id)

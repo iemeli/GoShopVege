@@ -10,7 +10,10 @@ const schema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  kiloCalories: Number,
+  kiloCalories: {
+    type: Number,
+    required: true
+  },
   ingredients: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Ingredient'
