@@ -10,7 +10,12 @@ const schema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  kiloCalories: Number
+  kiloCalories: Number,
+  ingredients: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Ingredient'
+    }
+  ]
 })
 
-module.exports = mongoose.model('Ingredient', schema)
+module.exports = mongoose.model('Food', schema)

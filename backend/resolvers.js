@@ -1,8 +1,12 @@
 const Ingredient = require('./models/Ingredient')
+const Food = require('./models/Food')
 
 const resolvers = {
   Query: {
-    ingredientsCount: () => Ingredient.collection.countDocuments()
+    ingredientsCount: () => Ingredient.countDocuments(),
+    allIngredients: () => Ingredient.find({}),
+    foodsCount: () => Food.countDocuments(),
+    allFoods: () => Food.find({})
   }
 }
 
