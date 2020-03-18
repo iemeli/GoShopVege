@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
 const Ingredient = require('./models/Ingredient')
+require('dotenv').config()
+
+console.log(process.env.MONGODB_URI)
 
 const ingredients = [
   {
