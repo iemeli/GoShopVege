@@ -5,12 +5,15 @@ const typeDefs = gql`
     name: String!
     price: Float!
     kiloCalories: Int
+    id: String!
   }
 
   type Food {
+    name: String!
     ingredients: [Ingredient!]!
     price: Float!
     kiloCalories: Int
+    id: String!
   }
 
   type Query {

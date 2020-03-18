@@ -6,7 +6,7 @@ const resolvers = {
     ingredientsCount: () => Ingredient.countDocuments(),
     allIngredients: () => Ingredient.find({}),
     foodsCount: () => Food.countDocuments(),
-    allFoods: () => Food.find({})
+    allFoods: () => Food.find({}).populate('ingredients')
   }
 }
 
