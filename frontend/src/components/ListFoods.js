@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 const ListFoods = ({ foods }) => {
   return (
@@ -36,12 +35,4 @@ const ListFoods = ({ foods }) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    foods: state.foods
-  }
-}
-
-export default connect(
-  mapStateToProps
-)(ListFoods)
+export default ListFoods
