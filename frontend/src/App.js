@@ -1,41 +1,18 @@
 import React from 'react'
 import './App.css';
-import { useQuery, gql } from '@apollo/client'
-import ListFoods from './components/ListFoods'
- 
-const ALL_FOODS = gql`
-  query {
-    allFoods  {
-      name
-      price
-      kiloCalories
-      id
-      ingredients {
-        name
-        id
-      }
-    }
-  }
-`
+import { BrowserRouter as Router } from 'react-router-dom'
+import Menu from './components/Menu'
 
-const App = (props) => {
-  const foodsResult = useQuery(ALL_FOODS)
+const App = () => {
 
-  if (foodsResult.loading) {
-    return (
-      <div>...loading</div>
-    )
-  }
-
-  const foods = foodsResult.data.allFoods
 
   return (
-    <div>
-      <ListFoods foods={foods} />
-    </div>
+    <Router>
+      <div>
+        <Menu />
+      </div>
+    </Router>
   )
 }
-
-
 
 export default App

@@ -1,6 +1,20 @@
 import React from 'react'
+import { useQuery } from '@apollo/client'
+import {
+  ALL_FOODS
+} from '../queries'
 
-const ListFoods = ({ foods }) => {
+const ListFoods = () => {
+  const foodsResult = useQuery(ALL_FOODS)
+
+  if (foodsResult.loading) {
+    return (
+      <div>...loading</div>
+    )
+  }
+
+  const foods = foodsResult.data.allFoods
+
   return (
     <table>
       <tbody>
