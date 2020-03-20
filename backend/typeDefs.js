@@ -4,7 +4,7 @@ const typeDefs = gql`
   type Ingredient {
     name: String!
     price: Float!
-    kiloCalories: Int
+    kcal: Int
     id: String!
   }
 
@@ -12,7 +12,7 @@ const typeDefs = gql`
     name: String!
     ingredients: [Ingredient!]!
     price: Float!
-    kiloCalories: Int
+    kcal: Int
     recipe: [String!]!
     id: String!
   }
@@ -20,9 +20,8 @@ const typeDefs = gql`
   type Query {
     ingredientsCount: Int!
     allIngredients: [Ingredient!]!
-
     foodsCount: Int!
-    allFoods: [Food!]!
+    allFoods(name: String): [Food!]!
   }
 `
 

@@ -6,7 +6,23 @@ const resolvers = {
     ingredientsCount: () => Ingredient.countDocuments(),
     allIngredients: () => Ingredient.find({}),
     foodsCount: () => Food.countDocuments(),
-    allFoods: () => Food.find({}).populate('ingredients')
+    allFoods: async (root, args) => {
+      let foods
+      if (args.name) {
+        try {
+          foods = await Food.find({name: args.name}).populate('ingredients')
+        } catch (e) {
+          console.log('Error finding food with params: ', e.message)
+        }
+        return foods
+      }
+      try {
+        foods = await Food.find({}).populate('ingredients')
+        return foods
+      } catch (e) {
+        console.log('Error finding foods', e.message)
+      }
+    }
   }
 }
 

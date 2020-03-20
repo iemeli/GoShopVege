@@ -11,7 +11,7 @@ const schema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  kiloCalories: {
+  kcal: {
     type: Number,
     required: true
   },

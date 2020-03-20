@@ -3,4 +3,5 @@
 | :----:|:-----| :-----|
 | 16.3. | 1    | projektin ideointi ja suunnittelu |
 | 18.3. | 4.5  | Apollo server ja frontend skeletonit |
-| yht   | 5.5   | 
+| 19.3. | 1.5  | Suunnittelua -> käytetään Apollo-client reduxin sijaan |
+| yht   | 7    | 

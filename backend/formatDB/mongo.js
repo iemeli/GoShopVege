@@ -41,29 +41,19 @@ const format = async () => {
   }
   try {
     const ingredientsFromDB = await Ingredient.find({})
-    const totalPrice = ingredientsFromDB
-      .reduce((sum, obj) => sum + obj.price, 0)
-    const totalKCalories = ingredientsFromDB
-      .reduce((sum, obj) => {
-        if (obj.kiloCalories) {
-          return sum + obj.kiloCalories
-        }
-        return sum
-      }, 0)
-    const objIds = ingredientsFromDB
-      .map(i => i._id)
-    const step1 = 'paista tofu pannulla'
-    const step2 = 'keitä nuudeli'
-    const step3 = 'yhdistä ja nauti ketsupin kanssa'
-    const recipe = [step1, step2, step3]
-    const food = new Food({
-      name: 'Tofunuudelia ketsupilla',
-      price: totalPrice,
-      kiloCalories: totalKCalories,
-      recipe: recipe,
-      ingredients: objIds
-    })
-    await food.save()
+    
+    const tofuNuudeli = foods[0]
+    tofuNuudeli.ingredients = ingredientsFromDB
+      .filter(i => i.name === 'tofu' || i.name === 'nuudeli' || i.name === 'ketsuppi')
+      .map(i => i.id)
+    const avokadoPasta = foods[1]
+    avokadoPasta.ingredients = ingredientsFromDB
+      .filter(i => i.name !== 'tofu' && i.name !== 'nuudeli')
+      .map(i => i.id)
+    const food1 = new Food(tofuNuudeli)
+    const food2 = new Food(avokadoPasta)
+    await food1.save()
+    await food2.save()
     console.log('Foods inserted')
   } catch (e) {
     console.log('Error inserting foods', e.message)

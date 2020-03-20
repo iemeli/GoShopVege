@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  kiloCalories: Number
+  kcal: Number
 })
 
 schema.set('toJSON', {
