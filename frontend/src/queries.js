@@ -14,3 +14,14 @@ export const ALL_FOODS = gql`
     }
   }
 `
+
+export const ALL_INGREDIENTS = gql`
+  query {
+    allIngredients {
+      name
+      price
+      kiloCalories
+      id
+    }
+  }
+`

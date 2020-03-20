@@ -1,15 +1,14 @@
 # vegeShopListApp
-======================
 
 ## IDEA
 -------
-- Kauppaan mennessä vegaanista tuntua hankalalta ilman selkeätä ostoslistaa. Sovelluksen idea on tarjota käyttäjälle "ruokapaketteja", joita valitsemalla voi hahmottaa itselleen X päiväksi ostokset, jotka sisältävät tietyt ruoat jotka saadaan tietyistä ruoka-aineista. Ruokapaketti kolmelle päivälle voisi näyttää esim. tältä:
+Kauppaan mennessä vegaanista tuntua hankalalta ilman selkeätä ostoslistaa. Sovelluksen idea on tarjota käyttäjälle "ruokapaketteja", joita valitsemalla voi hahmottaa itselleen X päiväksi ostokset, jotka sisältävät tietyt ruoat jotka saadaan tietyistä ruoka-aineista. Ruokapaketti kolmelle päivälle voisi näyttää esim. tältä:
 	
 	- PÄIVÄ 1 | Linssibolognese | 800 kcal | 5,20e
 	- PÄIVÄ 2 | Avokadopasta | 650 kcal | 7,50e
 	- PÄIVÄ 3 | Lämpimät voileivät 9kpl | 1200 kcal | 12,50e 
 
-## TULEVAT OMINAISUUDET
+### Tulevat ominaisuudet
 -----------------------
 - Ruokapakettien listaus
 - Ruokapakettien hinta
@@ -34,4 +33,4 @@
 
 ### Toteutetut ominaisuudet
 ---------------------------
-
+- Ruokien listaus
