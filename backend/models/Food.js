@@ -4,7 +4,8 @@ const schema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    minlength: 4
+    minlength: 4,
+    unique: true
   },
   price: {
     type: Number,
@@ -12,6 +13,10 @@ const schema = new mongoose.Schema({
   },
   kiloCalories: {
     type: Number,
+    required: true
+  },
+  recipe: {
+    type: [String],
     required: true
   },
   ingredients: [{

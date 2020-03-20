@@ -52,10 +52,15 @@ const format = async () => {
       }, 0)
     const objIds = ingredientsFromDB
       .map(i => i._id)
+    const step1 = 'paista tofu pannulla'
+    const step2 = 'keitä nuudeli'
+    const step3 = 'yhdistä ja nauti ketsupin kanssa'
+    const recipe = [step1, step2, step3]
     const food = new Food({
       name: 'Tofunuudelia ketsupilla',
       price: totalPrice,
       kiloCalories: totalKCalories,
+      recipe: recipe,
       ingredients: objIds
     })
     await food.save()

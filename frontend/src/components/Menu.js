@@ -6,6 +6,7 @@ import ListFoodPacks from './ListFoodPacks'
 import ListFoods from './ListFoods'
 import ListIngredients from './ListIngredients'
 import Description from './Description'
+import Food from './Food'
 
 const Menu = () => {
   return (
@@ -19,6 +20,9 @@ const Menu = () => {
       <Switch>
         <Route path='/ruokapaketit'>
           <ListFoodPacks />
+        </Route>
+        <Route path='/ruoat/:name'>
+          <Food />
         </Route>
         <Route path='/ruoat'>
           <ListFoods />

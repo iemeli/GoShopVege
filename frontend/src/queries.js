@@ -6,6 +6,7 @@ export const ALL_FOODS = gql`
       name
       price
       kiloCalories
+      recipe
       id
       ingredients {
         name

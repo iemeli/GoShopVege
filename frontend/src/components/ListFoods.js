@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client'
 import {
   ALL_FOODS
 } from '../queries'
+import { Link } from 'react-router-dom'
 
 const ListFoods = () => {
   const foodsResult = useQuery(ALL_FOODS)
@@ -28,20 +29,12 @@ const ListFoods = () => {
           <th>
             Kilokalorit
           </th>
-          <th>
-            Ainesosat
-          </th>
         </tr>
         {foods.map(f =>
           <tr key={f.id}>
-            <td>{f.name}</td>
+            <td><Link to={`/ruoat/${f.name}`}>{f.name}</Link></td>
             <td>{f.price}€</td>
             <td>{f.kiloCalories}</td>
-            <td><ul>{f.ingredients.map(i => 
-              <li key={i.id}>
-                {i.name}
-              </li>
-            )}</ul></td>
           </tr>
         )}
       </tbody>
