@@ -4,24 +4,13 @@ const schema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    minlength: 4,
-    unique: true
+    unique: true,
+    minlength: 4
   },
-  recipe: {
-    type: [String],
-    required: true
-  },
-  ingredients: [{
-    usedAtOnce: {
-      type: Boolean,
-      default: true
-    },
-    item: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Ingredient'
-    }
-  }]
-  
+  foods: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Food'
+  }],
 })
 
 schema.set('toJSON', {
@@ -32,4 +21,4 @@ schema.set('toJSON', {
   }
 })
 
-module.exports = mongoose.model('Food', schema)
+module.exports = mongoose.model('FoodPack', schema)
