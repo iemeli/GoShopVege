@@ -20,10 +20,16 @@ const schema = new mongoose.Schema({
     required: true
   },
   ingredients: [{
+    usedAtOnce: {
+      type: Boolean,
+      default: true
+    },
+    item: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Ingredient'
     }
-  ]
+  }]
+  
 })
 
 schema.set('toJSON', {

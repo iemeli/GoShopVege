@@ -10,14 +10,18 @@ const resolvers = {
       let foods
       if (args.name) {
         try {
-          foods = await Food.find({name: args.name}).populate('ingredients')
+          foods = await Food
+            .find({name: args.name})
+            .populate('ingredients.item')
         } catch (e) {
           console.log('Error finding food with params: ', e.message)
         }
         return foods
       }
       try {
-        foods = await Food.find({}).populate('ingredients')
+        foods = await Food
+            .find()
+            .populate('ingredients.item')
         return foods
       } catch (e) {
         console.log('Error finding foods', e.message)

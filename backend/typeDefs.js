@@ -8,9 +8,15 @@ const typeDefs = gql`
     id: String!
   }
 
+  type FoodIngredient {
+    item: Ingredient!
+    usedAtOnce: Boolean!
+    id: String!
+  }
+
   type Food {
     name: String!
-    ingredients: [Ingredient!]!
+    ingredients: [FoodIngredient!]!
     price: Float!
     kcal: Int
     recipe: [String!]!
