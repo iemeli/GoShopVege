@@ -38,12 +38,23 @@ const allFoods = async (root, args) => {
   }
 }
 
+const addIngredient = async (root, args) => {
+  return new Ingredient({
+    name: args.name,
+    price: args.price,
+    ...args.kcal && { kcal: args.kcal }
+  }).save()
+}
+
 const resolvers = {
   Query: {
     ingredientsCount: () => Ingredient.countDocuments(),
     allIngredients: () => Ingredient.find({}),
     foodsCount: () => Food.countDocuments(),
     allFoods: allFoods
+  },
+  Mutation: {
+    addIngredient: addIngredient
   }
 }
 

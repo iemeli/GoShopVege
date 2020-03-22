@@ -29,6 +29,14 @@ const typeDefs = gql`
     foodsCount: Int!
     allFoods(name: String): [Food!]!
   }
+
+  type Mutation {
+    addIngredient(
+      name: String!
+      price: Float!
+      kcal: Int
+    ): Ingredient
+  }
 `
 
 module.exports = typeDefs
