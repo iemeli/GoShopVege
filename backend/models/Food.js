@@ -21,7 +21,6 @@ const schema = new mongoose.Schema({
       ref: 'Ingredient'
     }
   }]
-  
 })
 
 schema.set('toJSON', {

@@ -36,6 +36,11 @@ const typeDefs = gql`
       price: Float!
       kcal: Int
     ): Ingredient
+    addFood(
+      name: String!
+      ingredients: [String!]!
+      recipe: [String!]!
+    ): Food
   }
 `
 

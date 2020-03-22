@@ -45,12 +45,14 @@ const format = async () => {
     const tofuNuudeli = foods[0]
     tofuNuudeli.ingredients = ingredientsFromDB
       .filter(i => i.name === 'tofu' || i.name === 'nuudeli' || i.name === 'ketsuppi')
-      .map(i => ( 
+      .map(i => {
+        console.log('täs i.id', i.id)
+        return ( 
         {
           usedAtOnce: true,
           item: i.id
         }
-      ))
+      )})
     const avokadoPasta = foods[1]
     avokadoPasta.ingredients = ingredientsFromDB
       .filter(i => i.name !== 'tofu' && i.name !== 'nuudeli')

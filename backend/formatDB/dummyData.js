@@ -28,8 +28,6 @@ const ingredients = [
 const foods = [
   {
     name: 'Tofunuudelia ketsupilla',
-    price: 5.7,
-    kcal: 490,
     recipe: [
       'paista tofu pannulla',
       'keitä nuudeli',
@@ -38,8 +36,6 @@ const foods = [
   },
   {
     name: 'Avokadopasta',
-    price: 2.5,
-    kcal: 300,
     recipe: [
       'pilko avokado',
       'keitä pasta',
