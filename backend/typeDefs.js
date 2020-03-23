@@ -53,6 +53,10 @@ const typeDefs = gql`
       ingredients: [String!]!
       recipe: [String!]!
     ): Food
+    addFoodPack(
+      name: String!
+      foods: [String!]!
+    ): FoodPack
   }
 `
 

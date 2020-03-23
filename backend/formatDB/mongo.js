@@ -34,11 +34,17 @@ const format = async () => {
   } catch (e) {
     console.log('Error deleting foods', e.message)
   }
+  try {
+    await FoodPack.deleteMany({})
+    console.log('FoodPacks deleted')
+  } catch (e) {
+    console.log('Error deleting FoodPacks')
+  }
   try {
     await Ingredient.insertMany(ingredients)
     console.log('Ingredients inserted')
   } catch (e) {
-    console.log('Error deleting ingredients', e.message)
+    console.log('Error inserting ingredients', e.message)
   }
   try {
     const ingredientsFromDB = await Ingredient.find({})

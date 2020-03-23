@@ -52,7 +52,7 @@ const addFood = async (root, args) => {
   const foodIngredients = args.ingredients
     .map(i => i.split(';'))
     .map(i => ({
-      usedAtOnce: i[1] === 0 ? false : true,
+      usedAtOnce: Number(i[1]) === 0 ? false : true,
       item: i[0]
     }))
 
@@ -62,11 +62,9 @@ const addFood = async (root, args) => {
     recipe: args.recipe
   }).save()
 
-  const food = await Food
+  return Food
     .findOne({ name: args.name })
     .populate('ingredients.item')
-
-  return food
 }
 
 const allFoodPacks = (root, args) => {
@@ -86,18 +84,35 @@ const allFoodPacks = (root, args) => {
     })
 }
 
+const addFoodPack = async (root, args) => {
+  await new FoodPack({
+    name: args.name,
+    foods: args.foods,
+  }).save()
+
+  return FoodPack
+    .findOne({ name: args.name })
+    .populate({
+      path: 'foods',
+      populate: {
+        path: 'ingredients.item'
+      }
+    })
+}
+
 const resolvers = {
   Query: {
     ingredientsCount: () => Ingredient.countDocuments(),
-    allIngredients: allIngredients,
+    allIngredients,
     foodsCount: () => Food.countDocuments(),
-    allFoods: allFoods,
+    allFoods,
     foodPacksCount: () => FoodPack.countDocuments(),
-    allFoodPacks: allFoodPacks
+    allFoodPacks
   },
   Mutation: {
     addIngredient,
-    addFood
+    addFood,
+    addFoodPack
   },
   Food: {
     price: (root) => getField(root, 'price', 'Food'),
