@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Ingredient = require('../models/Ingredient')
 const Food = require('../models/Food')
+const FoodPack = require('../models/FoodPack')
 const { ingredients, foods } = require('./dummyData')
 require('dotenv').config()
 
@@ -45,14 +46,12 @@ const format = async () => {
     const tofuNuudeli = foods[0]
     tofuNuudeli.ingredients = ingredientsFromDB
       .filter(i => i.name === 'tofu' || i.name === 'nuudeli' || i.name === 'ketsuppi')
-      .map(i => {
-        console.log('täs i.id', i.id)
-        return ( 
+      .map(i => (
         {
           usedAtOnce: true,
           item: i.id
         }
-      )})
+      ))
     const avokadoPasta = foods[1]
     avokadoPasta.ingredients = ingredientsFromDB
       .filter(i => i.name !== 'tofu' && i.name !== 'nuudeli')
@@ -69,6 +68,16 @@ const format = async () => {
     console.log('Foods inserted')
   } catch (e) {
     console.log('Error inserting foods', e.message)
+  }
+  try {
+    const foods = await Food.find({})
+    await new FoodPack({
+      name: 'Kurjat setit',
+      foods: foods.map(f => f.id)
+    }).save()
+    console.log('Foodpacks inserted')
+  } catch (e) {
+    console.log('Error inserting foodPacks', e.message)
   }
   mongoose.connection.close()
 }

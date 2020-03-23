@@ -18,9 +18,18 @@ const typeDefs = gql`
     name: String!
     ingredients: [FoodIngredient!]!
     price: Float!
-    kcal: Int
+    kcal: Int!
     recipe: [String!]!
+    ingredientsCount: Int!
     id: String!
+  }
+
+  type FoodPack {
+    name: String!
+    price: Float!
+    kcal: Int!
+    foods: [Food!]!
+    foodsCount: Int!
   }
 
   type Query {
@@ -28,6 +37,8 @@ const typeDefs = gql`
     allIngredients: [Ingredient!]!
     foodsCount: Int!
     allFoods(name: String): [Food!]!
+    foodPacksCount: Int!
+    allFoodPacks: [FoodPack!]!
   }
 
   type Mutation {
