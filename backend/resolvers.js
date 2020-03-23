@@ -5,34 +5,27 @@ const FoodPack = require('./models/FoodPack')
 const getField = (root, field, obj) => {
   if (obj === 'Food') {
     return root.ingredients
-    .reduce((sum, nextIng) => {
-      if (nextIng.item[field]) {
-        return sum + nextIng.item[field]
-      }
-      return sum
-    }, 0)
+      .reduce((sum, nextIng) => {
+        if (nextIng.item[field]) {
+          return sum + nextIng.item[field]
+        }
+        return sum
+      }, 0)
   }
   return root.foods
-    .reduce((sum, nextFood) => 
+    .reduce((sum, nextFood) =>
       sum + getField(nextFood, field, 'Food'), 0)
 }
 
-const allIngredients = async (root, args) => {
-  let ingredients
-  if (args.name) {
-    try {
-      ingredients = await Ingredient.find({ name: args.name })
-    } catch (e) {
-      console.log('Error finding ingredient with params: ', e.message)
-    }
-    return ingredients
-  }
-  try {
-    ingredients = await Ingredient.find()
-  } catch (e) {
-    console.log('Error finding ingredients', e.message)
-  }
-  return ingredients
+const allIngredients = (root, args) => {
+  return Ingredient
+    .find({ ...args.name && { name: args.name } })
+    .catch(e => {
+      console.log(
+        `Error finding ingredients ${args.name ? 'with params' : ''}`,
+        e.message
+      )
+    })
 }
 
 const addIngredient = (root, args) => {
@@ -43,33 +36,23 @@ const addIngredient = (root, args) => {
   }).save()
 }
 
-const allFoods = async (root, args) => {
-  let foods
-  if (args.name) {
-    try {
-      foods = await Food
-        .find({ name: args.name })
-        .populate('ingredients.item')
-    } catch (e) {
-      console.log('Error finding food with params: ', e.message)
-    }
-    return foods
-  }
-  try {
-    foods = await Food
-      .find()
-      .populate('ingredients.item')
-  } catch (e) {
-    console.log('Error finding foods', e.message)
-  }
-  return foods
+const allFoods = (root, args) => {
+  return Food
+    .find({ ...args.name && { name: args.name } })
+    .populate('ingredients.item')
+    .catch(e => {
+      console.log(
+        `Error finding foods ${args.name ? 'with params' : ''}`,
+        e.message
+      )
+    })
 }
 
 const addFood = async (root, args) => {
   const foodIngredients = args.ingredients
     .map(i => i.split(';'))
     .map(i => ({
-      usedAtOnce: i[1] === 0 ? false: true,
+      usedAtOnce: i[1] === 0 ? false : true,
       item: i[0]
     }))
 
@@ -86,17 +69,21 @@ const addFood = async (root, args) => {
   return food
 }
 
-const allFoodPacks = async (root, args) => {
-  try { 
-    const foodPacks = await FoodPack.find({}).populate({
+const allFoodPacks = (root, args) => {
+  return FoodPack
+    .find({ ...args.name && { name: args.name } })
+    .populate({
       path: 'foods',
       populate: {
         path: 'ingredients.item'
       }
     })
-    return foodPacks
-  }
-  catch (e) {'Error finding all FoodPacks', e.message}
+    .catch(e => {
+      console.log(
+        `Error finding FoodPacks ${args.name ? 'with params' : ''}`,
+        e.message
+      )
+    })
 }
 
 const resolvers = {

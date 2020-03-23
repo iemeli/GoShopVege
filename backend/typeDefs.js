@@ -39,7 +39,7 @@ const typeDefs = gql`
     foodsCount: Int!
     allFoods(name: String): [Food!]!
     foodPacksCount: Int!
-    allFoodPacks: [FoodPack!]!
+    allFoodPacks(name: String): [FoodPack!]!
   }
 
   type Mutation {
