@@ -1,32 +1,51 @@
 import { gql } from '@apollo/client'
 
+
+
+export const ALL_INGREDIENTS = gql`
+  query allIngredients ($name: String){
+    allIngredients (name: $name) {
+      id
+      name
+      price
+      kcal
+    }
+  }
+`
+
 export const ALL_FOODS = gql`
   query allFoods ($name: String) {
     allFoods(name: $name) {
+      id
       name
       price
       kcal
       recipe
-      id
+      ingredientsCount
       ingredients {
+        id
         usedAtOnce
         item {
-          name
           id
+          name
         }
-        id
       }
     }
   }
 `
 
-export const ALL_INGREDIENTS = gql`
-  query allIngredients ($name: String){
-    allIngredients (name: $name) {
+export const ALL_FOODPACKS = gql`
+  query {
+    allFoodPacks {
+      id
       name
       price
       kcal
-      id
+      foodsCount
+      foods {
+        id
+        name  
+      }
     }
   }
 `

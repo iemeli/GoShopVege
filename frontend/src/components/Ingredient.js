@@ -29,7 +29,7 @@ const Ingredient = ({ }) => {
               Hinta:
             </th>
             <td>
-              {ingredient.price}
+              {ingredient.price} €
             </td>
           </tr>
           <tr>

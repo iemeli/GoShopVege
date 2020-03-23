@@ -30,7 +30,7 @@ const ListIngredients = () => {
         {ingredients.map(i =>
           <tr key={i.id}>
             <td>{i.name}</td>
-            <td>{i.price}€</td>
+            <td>{i.price} €</td>
             <td>{i.kcal}</td>
           </tr>
         )}

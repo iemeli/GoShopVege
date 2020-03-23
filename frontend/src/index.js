@@ -15,7 +15,8 @@ const httpLink = new HttpLink({
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: httpLink
+  link: httpLink,
+  connectToDevTools: true
 })
 
 ReactDOM.render(

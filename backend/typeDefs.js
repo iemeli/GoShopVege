@@ -30,6 +30,7 @@ const typeDefs = gql`
     kcal: Int!
     foods: [Food!]!
     foodsCount: Int!
+    id: String!
   }
 
   type Query {
