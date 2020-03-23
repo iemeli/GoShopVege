@@ -17,6 +17,32 @@ const getField = (root, field, obj) => {
       sum + getField(nextFood, field, 'Food'), 0)
 }
 
+const allIngredients = async (root, args) => {
+  let ingredients
+  if (args.name) {
+    try {
+      ingredients = await Ingredient.find({ name: args.name })
+    } catch (e) {
+      console.log('Error finding ingredient with params: ', e.message)
+    }
+    return ingredients
+  }
+  try {
+    ingredients = await Ingredient.find()
+  } catch (e) {
+    console.log('Error finding ingredients', e.message)
+  }
+  return ingredients
+}
+
+const addIngredient = (root, args) => {
+  return new Ingredient({
+    name: args.name,
+    price: args.price,
+    ...args.kcal && { kcal: args.kcal }
+  }).save()
+}
+
 const allFoods = async (root, args) => {
   let foods
   if (args.name) {
@@ -37,14 +63,6 @@ const allFoods = async (root, args) => {
     console.log('Error finding foods', e.message)
   }
   return foods
-}
-
-const addIngredient = (root, args) => {
-  return new Ingredient({
-    name: args.name,
-    price: args.price,
-    ...args.kcal && { kcal: args.kcal }
-  }).save()
 }
 
 const addFood = async (root, args) => {
@@ -84,7 +102,7 @@ const allFoodPacks = async (root, args) => {
 const resolvers = {
   Query: {
     ingredientsCount: () => Ingredient.countDocuments(),
-    allIngredients: () => Ingredient.find({}),
+    allIngredients: allIngredients,
     foodsCount: () => Food.countDocuments(),
     allFoods: allFoods,
     foodPacksCount: () => FoodPack.countDocuments(),

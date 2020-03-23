@@ -34,7 +34,7 @@ const ListFoods = () => {
           <tr key={f.id}>
             <td><Link to={`/ruoat/${f.name}`}>{f.name}</Link></td>
             <td>{f.price}€</td>
-            <td>{f.kiloCalories}</td>
+            <td>{f.kcal}</td>
           </tr>
         )}
       </tbody>

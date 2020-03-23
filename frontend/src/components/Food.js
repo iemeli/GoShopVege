@@ -1,12 +1,13 @@
 import React from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useRouteMatch, Link } from 'react-router-dom'
 import { ALL_FOODS } from '../queries'
 import { useQuery } from '@apollo/client'
 
 const Food = () => {
   const foodName = useRouteMatch('/ruoat/:name').params.name
-  console.log('täs foodName', foodName)
-  const foodsResult = useQuery(ALL_FOODS)
+  const foodsResult = useQuery(ALL_FOODS, {
+    variables: { name: foodName }
+  })
 
   if (foodsResult.loading) {
     return (
@@ -24,20 +25,34 @@ const Food = () => {
           <tr>
             <th>
               Hinta:
-          </th>
+            </th>
             <td>
               {food.price}
             </td>
+          </tr>
+          <tr>
             <th>
               Kilokalorit:
-          </th>
+            </th>
             <td>
-              {food.kiloCalories}
+              {food.kcal}
             </td>
           </tr>
         </tbody>
       </table>
-      {/* tähän sit vielä ingredients listaus -> mieti pitäiskö tehdä oma komponentti? */}
+      <br />
+      <strong>ainesosat</strong>
+      {food.ingredients.map(i =>
+        <ul key={i.id}>
+          <li>
+            <Link to={`/ainesosat/${i.item.name}`}>
+              {i.item.name}
+            </Link>
+          </li>
+        </ul>
+      )}
+      <br />
+      <strong>resepti</strong>
       {food.recipe.map(step =>
         <ul key={step}>
           <li>{step}</li>

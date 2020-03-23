@@ -7,6 +7,7 @@ import ListFoods from './ListFoods'
 import ListIngredients from './ListIngredients'
 import Description from './Description'
 import Food from './Food'
+import Ingredient from './Ingredient'
 
 const Menu = () => {
   return (
@@ -26,6 +27,9 @@ const Menu = () => {
         </Route>
         <Route path='/ruoat'>
           <ListFoods />
+        </Route>
+        <Route path='/ainesosat/:name'>
+          <Ingredient />
         </Route>
         <Route path='/ainesosat'>
           <ListIngredients />

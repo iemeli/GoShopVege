@@ -31,7 +31,7 @@ const ListIngredients = () => {
           <tr key={i.id}>
             <td>{i.name}</td>
             <td>{i.price}€</td>
-            <td>{i.kiloCalories}</td>
+            <td>{i.kcal}</td>
           </tr>
         )}
       </tbody>

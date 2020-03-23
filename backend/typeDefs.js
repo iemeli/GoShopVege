@@ -34,7 +34,7 @@ const typeDefs = gql`
 
   type Query {
     ingredientsCount: Int!
-    allIngredients: [Ingredient!]!
+    allIngredients(name: String): [Ingredient!]!
     foodsCount: Int!
     allFoods(name: String): [Food!]!
     foodPacksCount: Int!

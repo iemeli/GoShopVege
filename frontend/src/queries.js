@@ -1,15 +1,19 @@
 import { gql } from '@apollo/client'
 
 export const ALL_FOODS = gql`
-  query {
-    allFoods  {
+  query allFoods ($name: String) {
+    allFoods(name: $name) {
       name
       price
-      kiloCalories
+      kcal
       recipe
       id
       ingredients {
-        name
+        usedAtOnce
+        item {
+          name
+          id
+        }
         id
       }
     }
@@ -17,11 +21,11 @@ export const ALL_FOODS = gql`
 `
 
 export const ALL_INGREDIENTS = gql`
-  query {
-    allIngredients {
+  query allIngredients ($name: String){
+    allIngredients (name: $name) {
       name
       price
-      kiloCalories
+      kcal
       id
     }
   }
