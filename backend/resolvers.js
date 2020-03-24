@@ -1,6 +1,8 @@
 const Ingredient = require('./models/Ingredient')
 const Food = require('./models/Food')
 const FoodPack = require('./models/FoodPack')
+const { PubSub } = require('apollo-server')
+const pubsub = new PubSub()
 
 const getField = (root, field, obj) => {
   if (obj === 'Food') {
@@ -29,11 +31,21 @@ const allIngredients = (root, args) => {
 }
 
 const addIngredient = (root, args) => {
-  return new Ingredient({
+  const ingredient = new Ingredient({
     name: args.name,
     price: args.price,
     ...args.kcal && { kcal: args.kcal }
-  }).save()
+  })
+  .save()
+  .catch(e =>
+    console.log(
+      'Error adding ingredient in resolver addIngredient: ',
+      e.message
+    ))
+
+  pubsub.publish('INGREDIENT_ADDED', { ingredientAdded: ingredient })
+
+  return ingredient
 }
 
 const allFoods = (root, args) => {
@@ -113,6 +125,11 @@ const resolvers = {
     addIngredient,
     addFood,
     addFoodPack
+  },
+  Subscription: {
+    ingredientAdded: {
+      subscribe: () => pubsub.asyncIterator(['INGREDIENT_ADDED'])
+    }
   },
   Food: {
     price: (root) => getField(root, 'price', 'Food'),

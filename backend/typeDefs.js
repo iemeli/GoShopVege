@@ -58,6 +58,10 @@ const typeDefs = gql`
       foods: [String!]!
     ): FoodPack
   }
+
+  type Subscription {
+    ingredientAdded: Ingredient!
+  }
 `
 
 module.exports = typeDefs
