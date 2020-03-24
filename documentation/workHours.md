@@ -7,5 +7,6 @@
 | 20.3. | 2    | Foods ja Ingredients näkymien fiksausta frontissa ja backissa |
 | 22.3. | 4.5  | Backendin resolverien tekemistä |
 | 23.3. | 3.5  | FoodPackin queryt backiin ja listaus/näkymä fronttiin |
+| 24.3. | 3.5  | Frontendin refaktorointia ja custom hookien opettelua |
 
-| yht   | 17 | |
+| yht   | 20.5 | |
