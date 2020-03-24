@@ -19,7 +19,7 @@ const ListIngredients = ({ ingredients }) => (
         </tr>
         {ingredients.map(i =>
           <tr key={i.id}>
-            <td><Link to={`/ainesosat/$`}>{i.name}</Link></td>
+            <td><Link to={`/ainesosat/${i.name}`}>{i.name}</Link></td>
             <td>{i.price} €</td>
             <td>{i.kcal}</td>
           </tr>

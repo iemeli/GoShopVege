@@ -2,13 +2,13 @@ import React from 'react'
 import {
   Switch, Route, Link
 } from 'react-router-dom'
-import ListFoodPacks from '../../FoodPack/presentational/ListFoodPacks'
 import Description from './Description'
-import Food from '../../Food/presentational/Food'
-import Ingredient from '../../Ingredient/presentational/Ingredient'
-import FoodPack from '../../FoodPack/presentational/FoodPack'
 import ListFoodsContainer from '../../Food/containers/ListFoodsContainer'
 import ListIngredientsContainer from '../../Ingredient/containers/ListIngredientsContainer'
+import IngredientContainer from '../../Ingredient/containers/IngredientContainer'
+import FoodContainer from '../../Food/containers/FoodContainer'
+import ListFoodPacksContainer from '../../FoodPack/containers/ListFoodPacksContainer'
+import FoodPackContainer from '../../FoodPack/containers/FoodPackContainer'
 
 const Menu = () => {
   return (
@@ -21,19 +21,19 @@ const Menu = () => {
       </div>
       <Switch>
         <Route path='/ruokapaketit/:name'>
-          <FoodPack />
+          <FoodPackContainer />
         </Route>
         <Route path='/ruokapaketit'>
-          <ListFoodPacks />
+          <ListFoodPacksContainer />
         </Route>
         <Route path='/ruoat/:name'>
-          <Food />
+          <FoodContainer />
         </Route>
         <Route path='/ruoat'>
           <ListFoodsContainer />
         </Route>
         <Route path='/ainesosat/:name'>
-          <Ingredient />
+          <IngredientContainer />
         </Route>
         <Route path='/ainesosat'>
           <ListIngredientsContainer />
