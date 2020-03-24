@@ -1,7 +1,8 @@
 import React from 'react'
-import { useRouteMatch, Link } from 'react-router-dom'
+import { useRouteMatch } from 'react-router-dom'
 import { ALL_FOODPACKS } from '../../queries'
 import { useQuery } from '@apollo/client'
+import ListFoods from '../../Food/presentational/ListFoods'
 
 const FoodPack = () => {
   const foodPackName = useRouteMatch('/ruokapaketit/:name')
@@ -23,31 +24,7 @@ const FoodPack = () => {
       <p><strong>Kilokalorit: </strong>{foodPack.kcal}</p>
       <p><strong>Hinta: </strong>{foodPack.price} €</p>
       
-      <br/>
-
-      <h3>Ruoat</h3>
-      <table>
-      <tbody>
-        <tr>
-          <th>
-            Nimi
-            </th>
-          <th>
-            Hinta
-          </th>
-          <th>
-            Kilokalorit
-          </th>
-        </tr>
-        {foodPack.foods.map(f =>
-          <tr key={f.id}>
-            <td><Link to={`/ruoat/${f.name}`}>{f.name}</Link></td>
-            <td>{f.price} €</td>
-            <td>{f.kcal}</td>
-          </tr>
-        )}
-      </tbody>
-    </table>
+      <ListFoods foods={foodPack.foods} />
     </div>
   )
 }

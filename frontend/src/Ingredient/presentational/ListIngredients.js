@@ -1,19 +1,9 @@
 import React from 'react'
-import { useQuery } from '@apollo/client'
-import { ALL_INGREDIENTS } from '../../queries'
+import { Link } from 'react-router-dom'
 
-const ListIngredients = () => {
-  const ingredientsResult = useQuery(ALL_INGREDIENTS)
-
-  if (ingredientsResult.loading) {
-    return (
-      <div>...loading</div>
-    )
-  }
-
-  const ingredients = ingredientsResult.data.allIngredients
-
-  return (
+const ListIngredients = ({ ingredients }) => (
+  <div>
+    <h3>Ainesosat</h3>
     <table>
       <tbody>
         <tr>
@@ -29,14 +19,15 @@ const ListIngredients = () => {
         </tr>
         {ingredients.map(i =>
           <tr key={i.id}>
-            <td>{i.name}</td>
+            <td><Link to={`/ainesosat/$`}>{i.name}</Link></td>
             <td>{i.price} €</td>
             <td>{i.kcal}</td>
           </tr>
         )}
       </tbody>
     </table>
-  )
-}
+  </div>
+)
+
 
 export default ListIngredients

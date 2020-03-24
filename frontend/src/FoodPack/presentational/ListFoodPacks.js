@@ -11,7 +11,7 @@ const ListFoodPacks = () => {
       <div>...loading</div>
     )
   }
-  console.log(foodPacksResult.data)
+  
   const foodPacks = foodPacksResult.data.allFoodPacks
 
   return (

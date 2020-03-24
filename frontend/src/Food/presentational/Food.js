@@ -1,7 +1,8 @@
 import React from 'react'
-import { useRouteMatch, Link } from 'react-router-dom'
+import { useRouteMatch } from 'react-router-dom'
 import { ALL_FOODS } from '../../queries'
 import { useQuery } from '@apollo/client'
+import ListIngredients from '../../Ingredient/presentational/ListIngredients'
 
 const Food = () => {
   const foodName = useRouteMatch('/ruoat/:name').params.name
@@ -16,7 +17,7 @@ const Food = () => {
   }
 
   const food = foodsResult.data.allFoods[0]
-
+  
   return (
     <div>
       <h3>{food.name}</h3>
@@ -41,16 +42,9 @@ const Food = () => {
         </tbody>
       </table>
       <br />
-      <strong>ainesosat</strong>
-      {food.ingredients.map(i =>
-        <ul key={i.id}>
-          <li>
-            <Link to={`/ainesosat/${i.item.name}`}>
-              {i.item.name}
-            </Link>
-          </li>
-        </ul>
-      )}
+      <ListIngredients 
+        ingredients={food.ingredients.map(i => i.item)}
+      />
       <br />
       <strong>resepti</strong>
       {food.recipe.map(step =>

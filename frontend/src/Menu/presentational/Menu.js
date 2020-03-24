@@ -3,12 +3,12 @@ import {
   Switch, Route, Link
 } from 'react-router-dom'
 import ListFoodPacks from '../../FoodPack/presentational/ListFoodPacks'
-import ListFoods from '../../Food/presentational/ListFoods'
-import ListIngredients from '../../Ingredient/presentational/ListIngredients'
 import Description from './Description'
 import Food from '../../Food/presentational/Food'
 import Ingredient from '../../Ingredient/presentational/Ingredient'
 import FoodPack from '../../FoodPack/presentational/FoodPack'
+import ListFoodsContainer from '../../Food/containers/ListFoodsContainer'
+import ListIngredientsContainer from '../../Ingredient/containers/ListIngredientsContainer'
 
 const Menu = () => {
   return (
@@ -30,13 +30,13 @@ const Menu = () => {
           <Food />
         </Route>
         <Route path='/ruoat'>
-          <ListFoods />
+          <ListFoodsContainer />
         </Route>
         <Route path='/ainesosat/:name'>
           <Ingredient />
         </Route>
         <Route path='/ainesosat'>
-          <ListIngredients />
+          <ListIngredientsContainer />
         </Route>
         <Route path='/'>
           <Description />

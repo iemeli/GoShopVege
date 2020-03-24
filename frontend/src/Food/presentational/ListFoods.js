@@ -1,34 +1,21 @@
 import React from 'react'
-import { useQuery } from '@apollo/client'
-import {
-  ALL_FOODS
-} from '../../queries'
 import { Link } from 'react-router-dom'
 
-const ListFoods = () => {
-  const foodsResult = useQuery(ALL_FOODS)
-
-  if (foodsResult.loading) {
-    return (
-      <div>...loading</div>
-    )
-  }
-
-  const foods = foodsResult.data.allFoods
-
-  return (
+const ListFoods = ({ foods }) => (
+  <div>
+    <h3>Ruoat</h3>
     <table>
       <tbody>
         <tr>
           <th>
             Nimi
-            </th>
+        </th>
           <th>
             Hinta
-          </th>
+        </th>
           <th>
             Kilokalorit
-          </th>
+        </th>
         </tr>
         {foods.map(f =>
           <tr key={f.id}>
@@ -39,7 +26,8 @@ const ListFoods = () => {
         )}
       </tbody>
     </table>
-  )
-}
+  </div>
+)
+
 
 export default ListFoods
