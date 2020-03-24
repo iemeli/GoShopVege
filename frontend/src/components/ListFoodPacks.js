@@ -1,6 +1,7 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
 import { ALL_FOODPACKS } from '../queries'
+import { Link } from 'react-router-dom'
 
 const ListFoodPacks = () => {
   const foodPacksResult = useQuery(ALL_FOODPACKS)
@@ -33,7 +34,11 @@ const ListFoodPacks = () => {
           </tr>
           {foodPacks.map(fp =>
             <tr key={fp.id}>
-              <td>{fp.name}</td>
+              <td>
+                <Link to={`/ruokapaketit/${fp.name}`}>
+                  {fp.name}
+                </Link>
+              </td>
               <td>{fp.price} €</td>
               <td>{fp.kcal}</td>
               <td>{fp.foodsCount}</td>

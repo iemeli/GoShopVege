@@ -8,6 +8,7 @@ import ListIngredients from './ListIngredients'
 import Description from './Description'
 import Food from './Food'
 import Ingredient from './Ingredient'
+import FoodPack from './FoodPack'
 
 const Menu = () => {
   return (
@@ -19,6 +20,9 @@ const Menu = () => {
         <Link style={{ padding: 5 }} to='/ainesosat'>Ainesosat</Link>
       </div>
       <Switch>
+        <Route path='/ruokapaketit/:name'>
+          <FoodPack />
+        </Route>
         <Route path='/ruokapaketit'>
           <ListFoodPacks />
         </Route>

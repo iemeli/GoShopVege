@@ -54,8 +54,7 @@ export const ALL_INGREDIENTS = gql`
 export const ALL_FOODS = gql`
   query allFoods ($name: String) {
     allFoods(name: $name) {
-        ...FoodDetails
-      }
+      ...FoodDetails
     }
   }
   ${FOOD_DETAILS}
