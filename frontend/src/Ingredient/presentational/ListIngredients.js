@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { ALL_INGREDIENTS } from '../queries'
+import { ALL_INGREDIENTS } from '../../queries'
 
 const ListIngredients = () => {
   const ingredientsResult = useQuery(ALL_INGREDIENTS)

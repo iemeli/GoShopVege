@@ -2,13 +2,13 @@ import React from 'react'
 import {
   Switch, Route, Link
 } from 'react-router-dom'
-import ListFoodPacks from './ListFoodPacks'
-import ListFoods from './ListFoods'
-import ListIngredients from './ListIngredients'
+import ListFoodPacks from '../../FoodPack/presentational/ListFoodPacks'
+import ListFoods from '../../Food/presentational/ListFoods'
+import ListIngredients from '../../Ingredient/presentational/ListIngredients'
 import Description from './Description'
-import Food from './Food'
-import Ingredient from './Ingredient'
-import FoodPack from './FoodPack'
+import Food from '../../Food/presentational/Food'
+import Ingredient from '../../Ingredient/presentational/Ingredient'
+import FoodPack from '../../FoodPack/presentational/FoodPack'
 
 const Menu = () => {
   return (

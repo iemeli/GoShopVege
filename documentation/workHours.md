@@ -8,4 +8,4 @@
 | 22.3. | 4.5  | Backendin resolverien tekemistä |
 | 23.3. | 3.5  | FoodPackin queryt backiin ja listaus/näkymä fronttiin |
 
-| yht   | 17 | 
+| yht   | 17 | |

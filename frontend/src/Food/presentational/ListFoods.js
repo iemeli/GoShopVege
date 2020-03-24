@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import {
   ALL_FOODS
-} from '../queries'
+} from '../../queries'
 import { Link } from 'react-router-dom'
 
 const ListFoods = () => {
