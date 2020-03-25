@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouteMatch } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
-import { ALL_INGREDIENTS } from '../../queries'
+import { ALL_INGREDIENTS } from '../queries'
 import Ingredient from '../presentational/Ingredient'
 
 const IngredientContainer = () => {

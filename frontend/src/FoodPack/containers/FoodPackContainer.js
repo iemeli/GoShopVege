@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRouteMatch } from 'react-router-dom'
-import { ALL_FOODPACKS } from '../../queries'
+import { ALL_FOODPACKS } from '../queries'
 import { useQuery } from '@apollo/client'
 import FoodPack from '../presentational/FoodPack'
 

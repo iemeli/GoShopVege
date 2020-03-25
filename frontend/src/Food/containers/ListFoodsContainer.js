@@ -1,8 +1,6 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import {
-  ALL_FOODS
-} from '../../queries'
+import { ALL_FOODS } from '../queries'
 import ListFoods from '../presentational/ListFoods'
 
 const ListFoodsContainer = () => {

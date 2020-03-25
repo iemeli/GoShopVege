@@ -1,7 +1,7 @@
 import React from 'react'
 import useField from '../../hooks/useField'
 import { useMutation } from '@apollo/client'
-import { ADD_INGREDIENT } from '../../queries'
+import { ADD_INGREDIENT } from '../queries'
 
 const NewIngredient = () => {
   const [name, resetName] = useField('text')
