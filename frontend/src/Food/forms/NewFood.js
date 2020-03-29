@@ -4,8 +4,9 @@ import { useQuery, useMutation } from '@apollo/client'
 import { ADD_FOOD } from '../queries'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import {
-  Form, Button, Dropdown, DropdownButton
+  Form, Button, Dropdown, DropdownButton, Table
 } from 'react-bootstrap'
+import { v4 as uuid } from 'uuid'
 
 const NewFood = () => {
   const [name, resetName] = useField('text')
@@ -19,12 +20,12 @@ const NewFood = () => {
   if (ingredientsResult.loading) {
     return <div>...loading</div>
   }
-  
+
   const ingredients = ingredientsResult.data.allIngredients
 
   const submit = async (e) => {
     e.preventDefault()
-    
+
     try {
       await addFood({
         variables: {
@@ -43,26 +44,101 @@ const NewFood = () => {
     setKcal(null)
   }
 
+  const toggleUsedAtOnce = (event) => {
+    console.log('event', event.target.id)
+    console.log('event.target')
+    const foodIngredientID = event.target.id
+    setFoodIngredients(foodIngredients.map(fi => {
+      console.log('täs fi.id === foodIngredientID', fi.id === foodIngredientID)
+      console.log(`
+      
+      fi.id = ${fi.id}
+      typeof fi.id = ${typeof fi.id}
+
+      foodIngredientID = ${foodIngredientID}
+      typeof foodIngredientID = ${typeof foodIngredientID}
+      
+      
+      `)
+      if (fi.id === foodIngredientID) {
+        console.log('sama id!')
+        fi.usedAtOnce = !fi.usedAtOnce
+      }
+    }))
+    console.log(foodIngredients)
+  }
+
+  const handleSelect = (ingredientID) => {
+    const newFoodIngredient = {
+      usedAtOnce: true,
+      id: uuid()
+    }
+    newFoodIngredient.item = ingredients
+      .find(i => i.id === ingredientID)
+    console.log('täs newFoodIngredient', newFoodIngredient)
+    setFoodIngredients(foodIngredients.concat(newFoodIngredient))
+  }
+
   return (
     <div>
       <h2>Luo uusi ruoka</h2>
       <Form onSubmit={submit}>
         <Form.Group>
-          <Form.Label>Nimi</Form.Label>
+          <Form.Label>Ruoan nimi</Form.Label>
           <Form.Control {...name} />
-          <Form.Label>Ruoat</Form.Label>
-          <DropdownButton
-            id="dropdown-basic-button"
-            title="Lisää ainesosa"
-          >
-            {ingredients.map(i => 
-              <Dropdown.Item key={i.id}>
-                {i.name}
-              </Dropdown.Item>
-            )}
-          </DropdownButton>
         </Form.Group>
       </Form>
+      <Table>
+        <thead>
+          <tr>
+            <th><h6>AINESOSAT</h6></th>
+            <th>nimi</th>
+            <th>menee kerralla</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foodIngredients.map(fi =>
+            <tr key={fi.id}>
+              <td></td>
+              <td>{fi.item.name}</td>
+              <td>
+                {
+                  fi.usedAtOnce
+                    ?
+                    <Button
+                      variant='success'
+                      id={fi.id}
+                      onClick={toggleUsedAtOnce}
+                      >
+                      kyllä
+                    </Button>
+                    :
+                    <Button
+                      variant="danger"
+                      // onClick={toggleUsedAtOnce(fi.id)}
+                      >
+                      ei
+                  </Button>
+                }
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
+      <DropdownButton
+        id="dropdown-basic-button"
+        title="Lisää ainesosa"
+      >
+        {ingredients.map(i =>
+          <Dropdown.Item
+            key={i.id}
+            eventKey={i.id}
+            onSelect={handleSelect}
+          >
+            {i.name}
+          </Dropdown.Item>
+        )}
+      </DropdownButton>
     </div>
   )
 }

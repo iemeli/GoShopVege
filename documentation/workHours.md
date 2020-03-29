@@ -9,4 +9,5 @@
 | 23.3. | 3.5  | FoodPackin queryt backiin ja listaus/näkymä fronttiin |
 | 24.3. | 3.5  | Frontendin refaktorointia ja custom hookien opettelua |
 | 25.3. | 2    | Selvittämistä kuinka subscribe toimisi näppärästi frontissa |
-| yht   | 20.5 | |
+| 29.3. | 3.5  | Subscribeä, formeja ja bootstrapia |
+| yht   | 26   | |
