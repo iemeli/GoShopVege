@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useQuery } from '@apollo/client'
 import { ALL_INGREDIENTS, INGREDIENT_ADDED } from '../queries'
 import ListIngredients from '../presentational/ListIngredients'
@@ -17,16 +17,12 @@ const ListIngredientsContainer = () => {
 
     const dataInStore = client.readQuery({ query: ALL_INGREDIENTS })
     if (!includedIn(dataInStore.allIngredients, addedIngredient)) {
-      console.log('täs dataInStore.allIngredients', dataInStore.allIngredients)
-      console.log('ja täs dataInStore.allIngredients.concat(addedIngredient)',dataInStore.allIngredients.concat(addedIngredient))
       client.writeQuery({
         query: ALL_INGREDIENTS,
         data: { 
           allIngredients: dataInStore.allIngredients.concat(addedIngredient)
         }
       })
-      const dataInStore2 = client.readQuery({ query: ALL_INGREDIENTS })
-      console.log('täs dataInStore2.allIngredients', dataInStore2.allIngredients)
     } 
   }
 

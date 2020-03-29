@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 
 const ListFoods = ({ foods }) => (
   <div>
-    <h3>Ruoat</h3>
     <table>
       <tbody>
         <tr>

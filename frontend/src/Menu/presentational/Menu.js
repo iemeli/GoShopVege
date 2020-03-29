@@ -9,6 +9,7 @@ import IngredientContainer from '../../Ingredient/containers/IngredientContainer
 import FoodContainer from '../../Food/containers/FoodContainer'
 import ListFoodPacksContainer from '../../FoodPack/containers/ListFoodPacksContainer'
 import FoodPackContainer from '../../FoodPack/containers/FoodPackContainer'
+import NewFood from '../../Food/forms/NewFood'
 
 const Menu = () => {
   return (
@@ -25,6 +26,9 @@ const Menu = () => {
         </Route>
         <Route path='/ruokapaketit'>
           <ListFoodPacksContainer />
+        </Route>
+        <Route path='/ruoat/uusi'>
+          <NewFood />
         </Route>
         <Route path='/ruoat/:name'>
           <FoodContainer />

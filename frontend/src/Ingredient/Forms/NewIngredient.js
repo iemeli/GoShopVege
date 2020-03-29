@@ -1,7 +1,7 @@
 import React from 'react'
 import useField from '../../hooks/useField'
 import { useMutation } from '@apollo/client'
-import { ADD_INGREDIENT, ALL_INGREDIENTS } from '../queries'
+import { ADD_INGREDIENT } from '../queries'
 
 const NewIngredient = () => {
   const [name, resetName] = useField('text')
@@ -23,7 +23,7 @@ const NewIngredient = () => {
 
   const submit = async (e) => {
     e.preventDefault()
-
+    
     try {
       await addIngredient({
         variables: {
@@ -33,7 +33,7 @@ const NewIngredient = () => {
         }
       })
     } catch (e) {
-      console.log('Error adding ingredient in NewIngredient', e.message)
+      console.log('Error adding ingredient in NewIngredient.js', e.message)
     }
 
     resetName()
