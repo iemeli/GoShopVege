@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { INGREDIENTS_DETAILS } from '../Ingredient/queries'
+import { INGREDIENT_DETAILS } from '../Ingredient/queries'
 
 export const FOOD_DETAILS = gql`
   fragment FoodDetails on Food {
@@ -13,11 +13,11 @@ export const FOOD_DETAILS = gql`
       id
       usedAtOnce
       item {
-        ...IngredientsDetails
+        ...IngredientDetails
       }
     }
   }
-  ${INGREDIENTS_DETAILS}
+  ${INGREDIENT_DETAILS}
 `
 
 export const ALL_FOODS = gql`

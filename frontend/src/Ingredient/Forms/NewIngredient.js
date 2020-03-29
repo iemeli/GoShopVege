@@ -1,14 +1,25 @@
 import React from 'react'
 import useField from '../../hooks/useField'
 import { useMutation } from '@apollo/client'
-import { ADD_INGREDIENT } from '../queries'
+import { ADD_INGREDIENT, ALL_INGREDIENTS } from '../queries'
 
 const NewIngredient = () => {
   const [name, resetName] = useField('text')
   const [price, resetPrice] = useField('number')
-  const [kcal, resetKcal] = useField('text')
+  const [kcal, resetKcal] = useField('number')
 
-  const [addIngredient] = useMutation(ADD_INGREDIENT)
+  const [addIngredient] = useMutation(ADD_INGREDIENT, {
+    // update: (store, response) => {
+    //   const dataInStore = store.readQuery({ query: ALL_INGREDIENTS })
+    //   if (!dataInStore.allIngredients.includes(response.data.addBook)) {
+    //     dataInStore.allIngredients.push(response.data.allIngredients)
+    //   }
+    //   store.writeQuery({
+    //     query: ALL_INGREDIENTS,
+    //     data: dataInStore
+    //   })
+    // }
+  })
 
   const submit = async (e) => {
     e.preventDefault()

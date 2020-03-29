@@ -8,5 +8,5 @@
 | 22.3. | 4.5  | Backendin resolverien tekemistä |
 | 23.3. | 3.5  | FoodPackin queryt backiin ja listaus/näkymä fronttiin |
 | 24.3. | 3.5  | Frontendin refaktorointia ja custom hookien opettelua |
-
+| 25.3. | 2    | Selvittämistä kuinka subscribe toimisi näppärästi frontissa |
 | yht   | 20.5 | |
