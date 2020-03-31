@@ -10,4 +10,5 @@
 | 24.3. | 3.5  | Frontendin refaktorointia ja custom hookien opettelua |
 | 25.3. | 2    | Selvittämistä kuinka subscribe toimisi näppärästi frontissa |
 | 29.3. | 3.5  | Subscribeä, formeja ja bootstrapia |
-| yht   | 26   | |
+| 31.3. | 5    | Foodin ja Foodpacking lisääminen frontissa |
+| yht   | 31   | |
