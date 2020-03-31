@@ -188,6 +188,8 @@ const NewFood = () => {
       <DropdownButton
         id="dropdown-basic-button"
         title="Lisää ainesosa"
+        flip="offset"
+        preventoverflow="padding"
       >
         {ingredients.map(i =>
           <Dropdown.Item
