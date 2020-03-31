@@ -10,6 +10,7 @@ import FoodContainer from '../../Food/containers/FoodContainer'
 import ListFoodPacksContainer from '../../FoodPack/containers/ListFoodPacksContainer'
 import FoodPackContainer from '../../FoodPack/containers/FoodPackContainer'
 import NewFood from '../../Food/forms/NewFood'
+import NewFoodPack from '../../FoodPack/forms/NewFoodPack'
 
 const Menu = () => {
   return (
@@ -21,6 +22,9 @@ const Menu = () => {
         <Link style={{ padding: 5 }} to='/ainesosat'>Ainesosat</Link>
       </div>
       <Switch>
+        <Route path='/ruokapaketit/uusi'>
+          <NewFoodPack />
+        </Route>
         <Route path='/ruokapaketit/:name'>
           <FoodPackContainer />
         </Route>

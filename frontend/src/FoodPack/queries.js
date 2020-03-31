@@ -23,3 +23,18 @@ export const ALL_FOODPACKS = gql`
   }
   ${FOODPACK_DETAILS}
 `
+
+export const ADD_FOODPACK = gql`
+  mutation addFoodPack(
+    $name: String!
+    $foods: [String!]!
+  ) {
+    addFoodPack(
+      name: $name
+      foods: $foods
+    ) {
+      ...FoodPackDetails
+    }
+  }
+  ${FOODPACK_DETAILS}
+`

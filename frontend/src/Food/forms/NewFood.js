@@ -136,6 +136,22 @@ const NewFood = () => {
           </ListGroup.Item>
         )}
       </ListGroup>
+      <DropdownButton
+        id="dropdown-basic-button"
+        title="Lisää ainesosa"
+        flip="offset"
+        preventoverflow="padding"
+      >
+        {ingredients.map(i =>
+          <Dropdown.Item
+            key={i.id}
+            eventKey={i.id}
+            onSelect={handleSelect}
+          >
+            {i.name}
+          </Dropdown.Item>
+        )}
+      </DropdownButton>
       <Table>
         <thead>
           <tr>
@@ -177,7 +193,8 @@ const NewFood = () => {
                 <Button
                   variant='light'
                   id={fi.id}
-                  onClick={removeIngredient}>
+                  onClick={removeIngredient}
+                >
                   poista
                 </Button>
               </td>
@@ -185,22 +202,6 @@ const NewFood = () => {
           )}
         </tbody>
       </Table>
-      <DropdownButton
-        id="dropdown-basic-button"
-        title="Lisää ainesosa"
-        flip="offset"
-        preventoverflow="padding"
-      >
-        {ingredients.map(i =>
-          <Dropdown.Item
-            key={i.id}
-            eventKey={i.id}
-            onSelect={handleSelect}
-          >
-            {i.name}
-          </Dropdown.Item>
-        )}
-      </DropdownButton>
     </div>
   )
 }
