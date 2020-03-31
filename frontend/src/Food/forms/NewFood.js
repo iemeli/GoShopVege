@@ -24,7 +24,7 @@ const NewFood = () => {
   }
 
   const ingredients = ingredientsResult.data.allIngredients
-    .filter(i => 
+    .filter(i =>
       !foodIngredients
         .map(fi => fi.item.id)
         .includes(i.id)
@@ -69,18 +69,6 @@ const NewFood = () => {
     ))
   }
 
-  const removeIngredient = (event) => {
-    const ingredient = foodIngredients
-      .find(fi => fi.id === event.target.id)
-      .item
-    setFoodIngredients(foodIngredients.filter(fi =>
-      fi.id !== event.target.id
-    ))
-
-    setPrice(price - ingredient.price)
-    setKcal(kcal - ingredient.kcal)
-  }
-
   const handleSelect = (ingredientID) => {
     const newFoodIngredient = {
       usedAtOnce: true,
@@ -92,6 +80,18 @@ const NewFood = () => {
 
     setPrice(price + ingredient.price)
     setKcal(kcal + ingredient.kcal)
+  }
+
+  const removeIngredient = (event) => {
+    const ingredient = foodIngredients
+      .find(fi => fi.id === event.target.id)
+      .item
+    setFoodIngredients(foodIngredients.filter(fi =>
+      fi.id !== event.target.id
+    ))
+
+    setPrice(price - ingredient.price)
+    setKcal(kcal - ingredient.kcal)
   }
 
   const addStep = () => {
@@ -106,7 +106,7 @@ const NewFood = () => {
   return (
     <div>
       <h2>Luo uusi ruoka</h2>
-      <strong><p>Yhteishinta: {price} €</p></strong>
+      <strong><p>Yhteishinta: {price.toFixed(2)} €</p></strong>
       <strong><p>Yhteensä kcal: {kcal}</p></strong>
       <Form onSubmit={submit}>
         <Form.Group>
@@ -152,7 +152,7 @@ const NewFood = () => {
             <tr key={fi.id}>
               <td></td>
               <td>{fi.item.name}</td>
-              <td>{fi.item.price}</td>
+              <td>{fi.item.price.toFixed(2)}</td>
               <td>{fi.item.kcal}</td>
               <td>
                 {

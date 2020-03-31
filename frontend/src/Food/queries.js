@@ -45,3 +45,12 @@ export const ADD_FOOD = gql`
   }
   ${FOOD_DETAILS}
 `
+
+export const FOOD_ADDED = gql`
+  subscription {
+    foodAdded {
+      ...FoodDetails
+    }
+  }
+  ${FOOD_DETAILS}
+`

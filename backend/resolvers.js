@@ -74,9 +74,13 @@ const addFood = async (root, args) => {
     recipe: args.recipe
   }).save()
 
-  return Food
+  const food = await Food
     .findOne({ name: args.name })
     .populate('ingredients.item')
+
+  pubsub.publish('FOOD_ADDED', { foodAdded: food })
+
+  return food
 }
 
 const allFoodPacks = (root, args) => {
@@ -129,6 +133,9 @@ const resolvers = {
   Subscription: {
     ingredientAdded: {
       subscribe: () => pubsub.asyncIterator(['INGREDIENT_ADDED'])
+    },
+    foodAdded: {
+      subscribe: () => pubsub.asyncIterator(['FOOD_ADDED'])
     }
   },
   Food: {

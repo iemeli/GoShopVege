@@ -1,6 +1,16 @@
 import React from 'react'
+import { FOOD_ADDED } from '../../Food/queries'
+import {
+  useSubscription, 
+} from '@apollo/client'
 
-const Description = () => (
+const Description = () => {
+  useSubscription(FOOD_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      console.log('Descin subi')
+    }
+  })
+  return (
   <div>
     <h1>GoShopVege</h1>
     <h3>Kauppalistasovellus vegaaneille</h3>
@@ -15,6 +25,6 @@ const Description = () => (
       sinulle valmiin kauppalistan. 
     </p>
   </div>
-)
+)}
 
 export default Description
