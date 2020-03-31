@@ -64,6 +64,18 @@ const NewFood = () => {
     ))
   }
 
+  const removeIngredient = (event) => {
+    const ingredient = foodIngredients
+      .find(fi => fi.id === event.target.id)
+      .item
+    setFoodIngredients(foodIngredients.filter(fi =>
+      fi.id !== event.target.id
+    ))
+
+    setPrice(price - ingredient.price)
+    setKcal(kcal - ingredient.kcal)
+  }
+
   const handleSelect = (ingredientID) => {
     const newFoodIngredient = {
       usedAtOnce: true,
@@ -78,9 +90,12 @@ const NewFood = () => {
   }
 
   const addStep = () => {
-    console.log('täs step', step)
     setRecipe(recipe.concat({ value: step.value, id: uuid() }))
     resetStep()
+  }
+
+  const removeStep = (event) => {
+    setRecipe(recipe.filter(row => row.id !== event.target.id))
   }
 
   return (
@@ -93,8 +108,8 @@ const NewFood = () => {
           <Button variant="primary" type="submit">
             Lisää ruoka
           </Button>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <Form.Label>Ruoan nimi</Form.Label>
           <Form.Control {...name} />
           <Form.Label>Resepti</Form.Label>
@@ -104,7 +119,16 @@ const NewFood = () => {
       </Form>
       <ListGroup>
         {recipe.map(row =>
-          <ListGroup.Item key={row.id}><li>{row.value}</li></ListGroup.Item>
+          <ListGroup.Item key={row.id}>
+            <li>{row.value}
+              <Button
+                variant='light'
+                id={row.id}
+                onClick={removeStep}>
+                poista
+            </Button>
+            </li>
+          </ListGroup.Item>
         )}
       </ListGroup>
       <Table>
@@ -115,6 +139,7 @@ const NewFood = () => {
             <th>hinta (€)</th>
             <th>kcal</th>
             <th>menee kerralla</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -136,12 +161,20 @@ const NewFood = () => {
                   </Button>
                     :
                     <Button
-                      variant="danger"
+                      variant='danger'
                       id={fi.id}
                       onClick={toggleUsedAtOnce}>
                       ei
                   </Button>
                 }
+              </td>
+              <td>
+                <Button
+                  variant='light'
+                  id={fi.id}
+                  onClick={removeIngredient}>
+                  poista
+                </Button>
               </td>
             </tr>
           )}
