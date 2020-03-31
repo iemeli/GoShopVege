@@ -32,13 +32,13 @@ export const ALL_FOODS = gql`
 export const ADD_FOOD = gql`
   mutation addFood(
     $name: String!
-    $price: Float!
-    $kcal: Int
+    $ingredients: [String!]!
+    $recipe: [String!]!
   ) {
     addFood(
       name: $name
-      price: $price
-      kcal: $kcal
+      ingredients: $ingredients
+      recipe: $recipe
     ) {
       ...FoodDetails
     }

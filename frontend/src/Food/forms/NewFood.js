@@ -4,15 +4,17 @@ import { useQuery, useMutation } from '@apollo/client'
 import { ADD_FOOD } from '../queries'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import {
-  Form, Button, Dropdown, DropdownButton, Table
+  Form, Button, Dropdown, DropdownButton, Table, ListGroup
 } from 'react-bootstrap'
 import { v4 as uuid } from 'uuid'
 
 const NewFood = () => {
   const [name, resetName] = useField('text')
+  const [step, resetStep] = useField('text')
+  const [recipe, setRecipe] = useState([])
   const [foodIngredients, setFoodIngredients] = useState([])
-  const [price, setPrice] = useState(null)
-  const [kcal, setKcal] = useState(null)
+  const [price, setPrice] = useState(0)
+  const [kcal, setKcal] = useState(0)
 
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
   const [addFood] = useMutation(ADD_FOOD)
@@ -23,6 +25,14 @@ const NewFood = () => {
 
   const ingredients = ingredientsResult.data.allIngredients
 
+  const parseIngredients = () => {
+    return foodIngredients.map(i => `${i.item.id};${i.usedAtOnce ? 1 : 0}`)
+  }
+
+  const parseRecipe = () => {
+    return recipe.map(row => row.value)
+  }
+
   const submit = async (e) => {
     e.preventDefault()
 
@@ -30,8 +40,8 @@ const NewFood = () => {
       await addFood({
         variables: {
           name: name.value,
-          price: Number(price.value),
-          ...kcal.value && { kcal: Number(kcal.value) }
+          ingredients: parseIngredients(),
+          recipe: parseRecipe()
         }
       })
     } catch (e) {
@@ -39,9 +49,11 @@ const NewFood = () => {
     }
 
     resetName()
+    resetStep()
     setFoodIngredients([])
-    setPrice(null)
-    setKcal(null)
+    setRecipe([])
+    setPrice(0)
+    setKcal(0)
   }
 
   const toggleUsedAtOnce = (event) => {
@@ -57,25 +69,51 @@ const NewFood = () => {
       usedAtOnce: true,
       id: uuid()
     }
-    newFoodIngredient.item = ingredients
-      .find(i => i.id === ingredientID)
+    const ingredient = ingredients.find(i => i.id === ingredientID)
+    newFoodIngredient.item = ingredient
     setFoodIngredients(foodIngredients.concat(newFoodIngredient))
+
+    setPrice(price + ingredient.price)
+    setKcal(kcal + ingredient.kcal)
+  }
+
+  const addStep = () => {
+    console.log('täs step', step)
+    setRecipe(recipe.concat({ value: step.value, id: uuid() }))
+    resetStep()
   }
 
   return (
     <div>
       <h2>Luo uusi ruoka</h2>
+      <strong><p>Yhteishinta: {price} €</p></strong>
+      <strong><p>Yhteensä kcal: {kcal}</p></strong>
       <Form onSubmit={submit}>
         <Form.Group>
+          <Button variant="primary" type="submit">
+            Lisää ruoka
+          </Button>
+          <br/>
+          <br/>
           <Form.Label>Ruoan nimi</Form.Label>
           <Form.Control {...name} />
+          <Form.Label>Resepti</Form.Label>
+          <Form.Control {...step} />
+          <Button onClick={addStep}>lisää reseptiin</Button>
         </Form.Group>
       </Form>
+      <ListGroup>
+        {recipe.map(row =>
+          <ListGroup.Item key={row.id}><li>{row.value}</li></ListGroup.Item>
+        )}
+      </ListGroup>
       <Table>
         <thead>
           <tr>
             <th><h6>AINESOSAT</h6></th>
             <th>nimi</th>
+            <th>hinta (€)</th>
+            <th>kcal</th>
             <th>menee kerralla</th>
           </tr>
         </thead>
@@ -84,6 +122,8 @@ const NewFood = () => {
             <tr key={fi.id}>
               <td></td>
               <td>{fi.item.name}</td>
+              <td>{fi.item.price}</td>
+              <td>{fi.item.kcal}</td>
               <td>
                 {
                   fi.usedAtOnce
