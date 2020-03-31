@@ -24,6 +24,11 @@ const NewFood = () => {
   }
 
   const ingredients = ingredientsResult.data.allIngredients
+    .filter(i => 
+      !foodIngredients
+        .map(fi => fi.item.id)
+        .includes(i.id)
+    )
 
   const parseIngredients = () => {
     return foodIngredients.map(i => `${i.item.id};${i.usedAtOnce ? 1 : 0}`)
