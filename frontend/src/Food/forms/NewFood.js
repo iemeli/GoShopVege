@@ -45,27 +45,11 @@ const NewFood = () => {
   }
 
   const toggleUsedAtOnce = (event) => {
-    console.log('event', event.target.id)
-    console.log('event.target')
-    const foodIngredientID = event.target.id
-    setFoodIngredients(foodIngredients.map(fi => {
-      console.log('täs fi.id === foodIngredientID', fi.id === foodIngredientID)
-      console.log(`
-      
-      fi.id = ${fi.id}
-      typeof fi.id = ${typeof fi.id}
-
-      foodIngredientID = ${foodIngredientID}
-      typeof foodIngredientID = ${typeof foodIngredientID}
-      
-      
-      `)
-      if (fi.id === foodIngredientID) {
-        console.log('sama id!')
-        fi.usedAtOnce = !fi.usedAtOnce
-      }
-    }))
-    console.log(foodIngredients)
+    setFoodIngredients(foodIngredients.map(fi =>
+      fi.id === event.target.id
+        ? { ...fi, usedAtOnce: !fi.usedAtOnce }
+        : fi
+    ))
   }
 
   const handleSelect = (ingredientID) => {
@@ -75,7 +59,6 @@ const NewFood = () => {
     }
     newFoodIngredient.item = ingredients
       .find(i => i.id === ingredientID)
-    console.log('täs newFoodIngredient', newFoodIngredient)
     setFoodIngredients(foodIngredients.concat(newFoodIngredient))
   }
 
@@ -108,15 +91,14 @@ const NewFood = () => {
                     <Button
                       variant='success'
                       id={fi.id}
-                      onClick={toggleUsedAtOnce}
-                      >
+                      onClick={toggleUsedAtOnce}>
                       kyllä
-                    </Button>
+                  </Button>
                     :
                     <Button
                       variant="danger"
-                      // onClick={toggleUsedAtOnce(fi.id)}
-                      >
+                      id={fi.id}
+                      onClick={toggleUsedAtOnce}>
                       ei
                   </Button>
                 }
