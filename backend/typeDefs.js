@@ -48,15 +48,29 @@ const typeDefs = gql`
       price: Float!
       kcal: Int
     ): Ingredient
+
+    deleteIngredient(
+      id: String!
+    ): String!
+
     addFood(
       name: String!
       ingredients: [String!]!
       recipe: [String!]!
     ): Food
+    
+    deleteFood(
+      id: String!
+    ): String!
+
     addFoodPack(
       name: String!
       foods: [String!]!
     ): FoodPack
+
+    deleteFoodPack(
+      id: String!
+    ): String!
   }
 
   type Subscription {

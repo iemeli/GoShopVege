@@ -48,6 +48,15 @@ const addIngredient = (root, args) => {
   return ingredient
 }
 
+const deleteIngredient = async (root, args) => {
+  try {
+    await Ingredient.findByIdAndRemove(args.id)
+  } catch (e) {
+    console.log('Error deleting Ingredient', e.message)
+  }
+  return 'Ingredient deleted succesfully'
+}
+
 const allFoods = (root, args) => {
   return Food
     .find({ ...args.name && { name: args.name } })
@@ -83,6 +92,15 @@ const addFood = async (root, args) => {
   return food
 }
 
+const deleteFood = async (root, args) => {
+  try {
+    await Food.findByIdAndRemove(args.id)
+  } catch (e) {
+    console.log('Error deleting Food', e.message)
+  }
+  return 'Food deleted succesfully'
+}
+
 const allFoodPacks = (root, args) => {
   return FoodPack
     .find({ ...args.name && { name: args.name } })
@@ -116,6 +134,15 @@ const addFoodPack = async (root, args) => {
     })
 }
 
+const deleteFoodPack = async (root, args) => {
+  try {
+    await FoodPack.findByIdAndRemove(args.id)
+  } catch (e) {
+    console.log('Error deleting FoodPack')
+  }
+  return 'FoodPack deleted succesfully'
+}
+
 const resolvers = {
   Query: {
     ingredientsCount: () => Ingredient.countDocuments(),
@@ -127,8 +154,11 @@ const resolvers = {
   },
   Mutation: {
     addIngredient,
+    deleteIngredient,
     addFood,
-    addFoodPack
+    deleteFood,
+    addFoodPack,
+    deleteFoodPack
   },
   Subscription: {
     ingredientAdded: {
