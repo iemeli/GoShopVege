@@ -16,8 +16,8 @@ const FOODPACK_DETAILS = gql`
 `
 
 export const ALL_FOODPACKS = gql`
-  query {
-    allFoodPacks {
+  query allFoodPacks ($name: String) {
+    allFoodPacks(name: $name) {
       ...FoodPackDetails
     }
   }

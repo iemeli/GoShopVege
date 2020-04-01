@@ -16,7 +16,7 @@ const FoodContainer = () => {
       <div>...loading</div>
     )
   }
-
+  
   const food = foodsResult.data.allFoods[0]
 
   return (

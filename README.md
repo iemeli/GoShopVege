@@ -12,9 +12,6 @@ Kauppaan mennessä vegaanista voi tuntua hankalalta ilman selkeätä ostoslistaa
 
 ### Tulevat ominaisuudet
 -----------------------
-- Ruokapakettien listaus
-- Ruokapakettien hinta
-- Ruokapakettien raaka-aineet
 - Ruokapakettien kuvat
 - Admin käyttäjän luominen
 	- Admin voi luoda lisää käyttäjä ja ruokapaketteja käyttöliittymästä
@@ -25,13 +22,11 @@ Kauppaan mennessä vegaanista voi tuntua hankalalta ilman selkeätä ostoslistaa
 	- Käyttäjän allergeenit
 	- Käyttäjän budjetti viikolle, kuukaudelle .yms
 - Ruokapakettien ravintoainemäärä
-	- Kuinka monta kilokaloria
 	- kuinka paljon protskua, hiilaria yms.
 - Ruokapakettien listaus parametrien kanssa
 	- Listaus päivien mukaan
 	- Listaus allergeenien mukaan
 		- Esim. herneallergikkoa ei kiinnosta hernekeitto
--
 
 ### Toteutetut ominaisuudet
 ---------------------------

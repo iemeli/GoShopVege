@@ -3,7 +3,7 @@ import useField from '../../hooks/useField'
 import { useQuery, useMutation } from '@apollo/client'
 import { ADD_FOODPACK } from '../queries'
 import {
-  Form, Button, Dropdown, DropdownButton, Table, ListGroup
+  Form, Button, Dropdown, DropdownButton, Table,
 } from 'react-bootstrap'
 import { ALL_FOODS } from '../../Food/queries'
 
