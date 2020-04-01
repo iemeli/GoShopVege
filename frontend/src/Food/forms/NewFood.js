@@ -4,7 +4,8 @@ import { useQuery, useMutation } from '@apollo/client'
 import { ADD_FOOD } from '../queries'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import {
-  Form, Button, Dropdown, DropdownButton, Table, ListGroup
+  Form, Button, Dropdown, DropdownButton,
+  Table, ListGroup, Alert
 } from 'react-bootstrap'
 import { v4 as uuid } from 'uuid'
 
@@ -15,9 +16,12 @@ const NewFood = () => {
   const [foodIngredients, setFoodIngredients] = useState([])
   const [price, setPrice] = useState(0)
   const [kcal, setKcal] = useState(0)
+  const [alert, setAlert] = useState(null)
 
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
   const [addFood] = useMutation(ADD_FOOD)
+
+  
 
   if (ingredientsResult.loading) {
     return <div>...loading</div>
@@ -37,10 +41,18 @@ const NewFood = () => {
   const parseRecipe = () => {
     return recipe.map(row => row.value)
   }
-
+  
   const submit = async (e) => {
     e.preventDefault()
 
+    if (name.value.length < 4) {
+      setAlert('Nimen pituuden täytyy olla vähintään 4 !')
+      setTimeout(() => {
+        setAlert(null)
+      }, 5000)
+      return
+    }
+    
     try {
       await addFood({
         variables: {
@@ -108,6 +120,9 @@ const NewFood = () => {
       <h2>Luo uusi ruoka</h2>
       <strong><p>Yhteishinta: {price.toFixed(2)} €</p></strong>
       <strong><p>Yhteensä kcal: {kcal}</p></strong>
+      {alert &&
+        <Alert variant='danger'>{alert}</Alert>
+      }
       <Form onSubmit={submit}>
         <Form.Group>
           <Button variant="primary" type="submit">
@@ -137,10 +152,9 @@ const NewFood = () => {
         )}
       </ListGroup>
       <DropdownButton
-        id="dropdown-basic-button"
-        title="Lisää ainesosa"
-        flip="offset"
-        preventoverflow="padding"
+        id='dropdown-basic-button'
+        title='Lisää ainesosa'
+        flip='true'
       >
         {ingredients.map(i =>
           <Dropdown.Item

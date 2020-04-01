@@ -3,7 +3,8 @@ import useField from '../../hooks/useField'
 import { useQuery, useMutation } from '@apollo/client'
 import { ADD_FOODPACK } from '../queries'
 import {
-  Form, Button, Dropdown, DropdownButton, Table,
+  Form, Button, Dropdown, DropdownButton,
+  Table, Alert
 } from 'react-bootstrap'
 import { ALL_FOODS } from '../../Food/queries'
 
@@ -13,6 +14,7 @@ const NewFoodPack = () => {
   const [foods, setFoods] = useState([])
   const [price, setPrice] = useState(0)
   const [kcal, setKcal] = useState(0)
+  const [alert, setAlert] = useState(null)
 
   const foodsResult = useQuery(ALL_FOODS)
   const [addFoodPack] = useMutation(ADD_FOODPACK)
@@ -40,6 +42,14 @@ const NewFoodPack = () => {
   const submit = async (e) => {
     e.preventDefault()
 
+    if (name.value.length < 4) {
+      setAlert('Nimen pituuden täytyy olla vähintään 4 !')
+      setTimeout(() => {
+        setAlert(null)
+      }, 5000)
+      return
+    }
+    
     try {
       await addFoodPack({
         variables: {
@@ -70,6 +80,9 @@ const NewFoodPack = () => {
       <h2>Luo uusi ruokapaketti</h2>
       <strong><p>Yhteishinta: {price.toFixed(2)} €</p></strong>
       <strong><p>Yhteensä kcal: {kcal}</p></strong>
+      {alert &&
+        <Alert variant='danger'>{alert}</Alert>
+      }
       <Form onSubmit={submit}>
         <Form.Group>
           <Button type='submit'>

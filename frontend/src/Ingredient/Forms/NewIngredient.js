@@ -1,29 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import useField from '../../hooks/useField'
 import { useMutation } from '@apollo/client'
 import { ADD_INGREDIENT } from '../queries'
+import { Alert, Form, Button } from 'react-bootstrap'
 
 const NewIngredient = () => {
   const [name, resetName] = useField('text')
   const [price, resetPrice] = useField('number')
   const [kcal, resetKcal] = useField('number')
-
-  const [addIngredient] = useMutation(ADD_INGREDIENT, {
-    // update: (store, response) => {
-    //   const dataInStore = store.readQuery({ query: ALL_INGREDIENTS })
-    //   if (!dataInStore.allIngredients.includes(response.data.addBook)) {
-    //     dataInStore.allIngredients.push(response.data.allIngredients)
-    //   }
-    //   store.writeQuery({
-    //     query: ALL_INGREDIENTS,
-    //     data: dataInStore
-    //   })
-    // }
-  })
+  const [alert, setAlert] = useState(null)
+  const [addIngredient] = useMutation(ADD_INGREDIENT)
 
   const submit = async (e) => {
     e.preventDefault()
-    
+
+    if (name.value.length < 4) {
+      setAlert('Nimen pituuden täytyy olla vähintään 4 !')
+      setTimeout(() => {
+        setAlert(null)
+      }, 5000)
+      return
+    }
+
     try {
       await addIngredient({
         variables: {
@@ -43,17 +41,20 @@ const NewIngredient = () => {
 
   return (
     <div>
-      <form onSubmit={submit}>
-        Nimi:
-        <input {...name} />
-        <br />
-        Hinta:
-        <input {...price} />
-        <br />
-        Kilokalorit:
-        <input {...kcal} />
-        <button type='submit'>Lisää ainesosa</button>
-      </form>
+      {alert &&
+        <Alert variant='danger'>{alert}</Alert>
+      }
+      <Form onSubmit={submit}>
+        <Form.Group>
+          <Form.Label>Nimi</Form.Label>
+          <Form.Control {...name} />
+          <Form.Label>Hinta</Form.Label>
+          <Form.Control {...price} />
+          <Form.Label>Kilokalorit</Form.Label>
+          <Form.Control {...kcal} />
+          <Button type='submit'>Lisää ainesosa</Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 }

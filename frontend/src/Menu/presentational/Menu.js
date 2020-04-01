@@ -11,6 +11,7 @@ import ListFoodPacksContainer from '../../FoodPack/containers/ListFoodPacksConta
 import FoodPackContainer from '../../FoodPack/containers/FoodPackContainer'
 import NewFood from '../../Food/forms/NewFood'
 import NewFoodPack from '../../FoodPack/forms/NewFoodPack'
+import NewIngredient from '../../Ingredient/Forms/NewIngredient'
 
 const Menu = () => {
   return (
@@ -39,6 +40,9 @@ const Menu = () => {
         </Route>
         <Route path='/ruoat'>
           <ListFoodsContainer />
+        </Route>
+        <Route path='/ainesosat/uusi'>
+          <NewIngredient />
         </Route>
         <Route path='/ainesosat/:name'>
           <IngredientContainer />
