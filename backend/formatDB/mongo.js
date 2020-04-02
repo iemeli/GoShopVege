@@ -112,11 +112,20 @@ const format = async () => {
       name: 'Kurjat setit',
       foods: foods.map(f => f.id)
     }).save()
+    const foodPacks = await FoodPack.find({})
+    const foodPackID = foodPacks[0]._id
+    await foods.forEach(async f => {
+      f.usedInFoodPacks.push(foodPackID)
+      await f.save()
+    })
     console.log('Foodpacks inserted')
   } catch (e) {
     console.log('Error inserting foodPacks', e.message)
   }
-  mongoose.connection.close()
+  // mongoose.connection.close()
+  // tää on kommenttina koska mahdollisesti
+  // sulkee connectionin ennen kuin Foodien usedInFoodPacks
+  // ehtii päivittyy
 }
 
 format()

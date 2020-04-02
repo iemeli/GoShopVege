@@ -22,6 +22,7 @@ const getField = (root, field, obj) => {
 const allIngredients = (root, args) => {
   return Ingredient
     .find({ ...args.name && { name: args.name } })
+    .populate('usedInFoods')
     .catch(e => {
       console.log(
         `Error finding ingredients ${args.name ? 'with params' : ''}`,
@@ -70,6 +71,7 @@ const allFoods = (root, args) => {
   return Food
     .find({ ...args.name && { name: args.name } })
     .populate('ingredients.item')
+    .populate('usedInFoodPacks')
     .catch(e => {
       console.log(
         `Error finding foods ${args.name ? 'with params' : ''}`,
@@ -103,7 +105,28 @@ const addFood = async (root, args) => {
 
 const deleteFood = async (root, args) => {
   try {
-    await Food.findByIdAndRemove(args.id)
+    const food = await Food.findOneAndDelete(args.id)
+    
+    food.usedInFoodPacks
+      .forEach(async foodPackID => {
+        const foodPack = await FoodPack.findOne({_id: foodPackID})
+        foodPack.foods = foodPack.foods
+          .filter(f =>
+            f._id.toString() !== food._id.toString()  
+          )
+        await foodPack.save()
+      })
+    
+    food.ingredients
+      .map(i => i.item._id)
+      .forEach(async i => {
+        const ingredient = await Ingredient.findOne({_id: i})
+        ingredient.usedInFoods = ingredient.usedInFoods
+          .filter(f => 
+            f._id.toString() !== food._id.toString()  
+          )
+        await ingredient.save()
+      })
   } catch (e) {
     console.log('Error deleting Food', e.message)
   }

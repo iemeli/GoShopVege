@@ -20,6 +20,10 @@ const schema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Ingredient'
     }
+  }],
+  usedInFoodPacks: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'FoodPack'
   }]
 })
 

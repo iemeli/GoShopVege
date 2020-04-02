@@ -37,7 +37,8 @@ const foods = [
       'paista tofu pannulla',
       'keitä nuudeli',
       'yhdistä ja nauti ketsupin kanssa',
-    ]
+    ],
+    usedInFoodPacks: []
   },
   {
     name: 'Avokadopasta',
@@ -45,7 +46,8 @@ const foods = [
       'pilko avokado',
       'keitä pasta',
       'yhdistä ja nauti ketsupin kanssa',
-    ]
+    ],
+    usedInFoodPacks: []
   }
 ]
 

@@ -5,6 +5,7 @@ const typeDefs = gql`
     name: String!
     price: Float!
     kcal: Int
+    usedInFoods: [Food!]!
     id: String!
   }
 
@@ -21,6 +22,7 @@ const typeDefs = gql`
     kcal: Int!
     recipe: [String!]!
     ingredientsCount: Int!
+    usedInFoodPacks: [FoodPack!]!
     id: String!
   }
 
