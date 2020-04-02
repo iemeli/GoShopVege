@@ -168,7 +168,17 @@ const addFoodPack = async (root, args) => {
 
 const deleteFoodPack = async (root, args) => {
   try {
-    await FoodPack.findByIdAndRemove(args.id)
+    const foodPack = await FoodPack.findOneAndDelete(args.id)
+    foodPack.foods
+      .map(async foodID => {
+        const food = await Food.findOne({_id: foodID})
+        console.log('täs food', food)
+        food.usedInFoodPacks = food.usedInFoodPacks
+          .filter(
+            fp => fp._id.toString() !== foodPack._id.toString()
+          )
+        await food.save()
+      })
   } catch (e) {
     console.log('Error deleting FoodPack')
   }
