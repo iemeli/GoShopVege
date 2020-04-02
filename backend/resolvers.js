@@ -50,7 +50,16 @@ const addIngredient = (root, args) => {
 
 const deleteIngredient = async (root, args) => {
   try {
-    await Ingredient.findByIdAndRemove(args.id)
+    const ingredient = await Ingredient.findOneAndDelete(args.id)
+    ingredient.usedInFoods
+      .forEach(async foodID => {
+        const food = await Food.findOne({_id: foodID})
+        food.ingredients = food.ingredients
+          .filter(i => 
+            i.item._id.toString() !== ingredient._id.toString()
+          )
+        await food.save()
+      })
   } catch (e) {
     console.log('Error deleting Ingredient', e.message)
   }

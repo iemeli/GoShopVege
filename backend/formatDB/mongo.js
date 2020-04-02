@@ -34,7 +34,7 @@ const format = async () => {
   } catch (e) {
     console.log('Error deleting foods', e.message)
   }
-  try {
+  try {
     await FoodPack.deleteMany({})
     console.log('FoodPacks deleted')
   } catch (e) {
@@ -48,7 +48,7 @@ const format = async () => {
   }
   try {
     const ingredientsFromDB = await Ingredient.find({})
-    
+
     const tofuNuudeli = foods[0]
     tofuNuudeli.ingredients = ingredientsFromDB
       .filter(i => i.name === 'tofu' || i.name === 'nuudeli' || i.name === 'ketsuppi')
@@ -61,7 +61,7 @@ const format = async () => {
     const avokadoPasta = foods[1]
     avokadoPasta.ingredients = ingredientsFromDB
       .filter(i => i.name !== 'tofu' && i.name !== 'nuudeli')
-      .map(i => ( 
+      .map(i => (
         {
           usedAtOnce: true,
           item: i.id
@@ -71,6 +71,37 @@ const format = async () => {
     const food2 = new Food(avokadoPasta)
     await food1.save()
     await food2.save()
+
+    //tässä tallennetaan Tofunuudelin refu respective ainesosiin
+    tofuNuudeliFromDB = await Food.findOne({ name: tofuNuudeli.name })
+
+    tofuNuudeliFromDB.ingredients
+      .map(i => i.item.toString())
+      .forEach(async ingrID => {
+        try {
+          const ingredient = await Ingredient.findOne({ _id: ingrID })
+          ingredient.usedInFoods.push(tofuNuudeliFromDB._id)
+          await ingredient.save()
+        } catch (e) {
+          console.log('Error updating ingredients usedInFoods', e.message)
+        }
+      })
+    
+    //täs tallennetaan Avokadopastan refu respective ainesosiin
+    avokadoPastaFromDB = await Food.findOne({ name: avokadoPasta.name})
+
+    avokadoPastaFromDB.ingredients
+      .map(i => i.item.toString())
+      .forEach(async ingrID => {
+        try {
+          const ingredient = await Ingredient.findOne({ _id: ingrID })
+          ingredient.usedInFoods.push(avokadoPastaFromDB._id)
+          await ingredient.save()
+        } catch (e) {
+          console.log('Error updating ingredients usedInFoods', e.message)
+        }
+      })
+    
     console.log('Foods inserted')
   } catch (e) {
     console.log('Error inserting foods', e.message)

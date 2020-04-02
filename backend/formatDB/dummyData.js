@@ -2,26 +2,31 @@ const ingredients = [
   {
     name: 'tofu',
     price: 3,
-    kcal: 459
+    kcal: 459,
+    usedInFoods: []
   },
   {
     name: 'nuudeli',
     price: 0.7,
-    kcal: 31
+    kcal: 31,
+    usedInFoods: []
   },
   {
     name: 'ketsuppi',
     price: 2,
+    usedInFoods: []
   },
   {
     name: 'avokado',
     price: 1,
-    kcal: 198
+    kcal: 198,
+    usedInFoods: []
   },
   {
     name: 'pasta',
     price: 1.5,
-    kcal: 700 
+    kcal: 700,
+    usedInFoods: []
   }
 ]
 

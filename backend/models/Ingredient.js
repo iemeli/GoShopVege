@@ -11,7 +11,11 @@ const schema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  kcal: Number
+  kcal: Number,
+  usedInFoods: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Food'
+  }]
 })
 
 schema.set('toJSON', {
