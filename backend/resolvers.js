@@ -37,12 +37,12 @@ const addIngredient = (root, args) => {
     price: args.price,
     ...args.kcal && { kcal: args.kcal }
   })
-  .save()
-  .catch(e =>
-    console.log(
-      'Error adding ingredient in resolver addIngredient: ',
-      e.message
-    ))
+    .save()
+    .catch(e =>
+      console.log(
+        'Error adding ingredient in resolver addIngredient: ',
+        e.message
+      ))
 
   pubsub.publish('INGREDIENT_ADDED', { ingredientAdded: ingredient })
 
@@ -54,9 +54,9 @@ const deleteIngredient = async (root, args) => {
     const ingredient = await Ingredient.findOneAndDelete(args.id)
     ingredient.usedInFoods
       .forEach(async foodID => {
-        const food = await Food.findOne({_id: foodID})
+        const food = await Food.findOne({ _id: foodID })
         food.ingredients = food.ingredients
-          .filter(i => 
+          .filter(i =>
             i.item._id.toString() !== ingredient._id.toString()
           )
         await food.save()
@@ -65,6 +65,14 @@ const deleteIngredient = async (root, args) => {
     console.log('Error deleting Ingredient', e.message)
   }
   return 'Ingredient deleted succesfully'
+}
+
+const updateIngredient = async (root, args) => {
+  const ingredient = await Ingredient.findOne({ _id: args.id })
+  ingredient.name = args.name ? args.name : ingredient.name
+  ingredient.price = args.price ? args.price : ingredient.price
+  ingredient.kcal = args.kcal ? args.kcal : ingredient.kcal
+  return await ingredient.save()
 }
 
 const allFoods = (root, args) => {
@@ -106,24 +114,24 @@ const addFood = async (root, args) => {
 const deleteFood = async (root, args) => {
   try {
     const food = await Food.findOneAndDelete(args.id)
-    
+
     food.usedInFoodPacks
       .forEach(async foodPackID => {
-        const foodPack = await FoodPack.findOne({_id: foodPackID})
+        const foodPack = await FoodPack.findOne({ _id: foodPackID })
         foodPack.foods = foodPack.foods
           .filter(f =>
-            f._id.toString() !== food._id.toString()  
+            f._id.toString() !== food._id.toString()
           )
         await foodPack.save()
       })
-    
+
     food.ingredients
       .map(i => i.item._id)
       .forEach(async i => {
-        const ingredient = await Ingredient.findOne({_id: i})
+        const ingredient = await Ingredient.findOne({ _id: i })
         ingredient.usedInFoods = ingredient.usedInFoods
-          .filter(f => 
-            f._id.toString() !== food._id.toString()  
+          .filter(f =>
+            f._id.toString() !== food._id.toString()
           )
         await ingredient.save()
       })
@@ -171,7 +179,7 @@ const deleteFoodPack = async (root, args) => {
     const foodPack = await FoodPack.findOneAndDelete(args.id)
     foodPack.foods
       .map(async foodID => {
-        const food = await Food.findOne({_id: foodID})
+        const food = await Food.findOne({ _id: foodID })
         console.log('täs food', food)
         food.usedInFoodPacks = food.usedInFoodPacks
           .filter(
@@ -197,6 +205,7 @@ const resolvers = {
   Mutation: {
     addIngredient,
     deleteIngredient,
+    updateIngredient,
     addFood,
     deleteFood,
     addFoodPack,

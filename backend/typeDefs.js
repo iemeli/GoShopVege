@@ -49,17 +49,24 @@ const typeDefs = gql`
       name: String!
       price: Float!
       kcal: Int
-    ): Ingredient
+    ): Ingredient!
 
     deleteIngredient(
       id: String!
     ): String!
+    
+    updateIngredient(
+      id: String!
+      name: String
+      price: Float
+      kcal: Int
+    ): Ingredient!
 
     addFood(
       name: String!
       ingredients: [String!]!
       recipe: [String!]!
-    ): Food
+    ): Food!
     
     deleteFood(
       id: String!
@@ -68,7 +75,7 @@ const typeDefs = gql`
     addFoodPack(
       name: String!
       foods: [String!]!
-    ): FoodPack
+    ): FoodPack!
 
     deleteFoodPack(
       id: String!
