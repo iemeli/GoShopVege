@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const ListIngredients = ({ ingredients }) => (
+const ListIngredients = ({ ingredients, deleteIngredient }) => (
   <div>
     <h3>Ainesosat</h3>
     <table>
@@ -16,12 +16,20 @@ const ListIngredients = ({ ingredients }) => (
           <th>
             Kilokalorit
           </th>
+          <th>
+
+          </th>
         </tr>
         {ingredients.map(i =>
           <tr key={i.id}>
             <td><Link to={`/ainesosat/${i.name}`}>{i.name}</Link></td>
             <td>{i.price} €</td>
             <td>{i.kcal}</td>
+            <td>
+              <button onClick={deleteIngredient} id={i.id}>
+                poista
+              </button>
+            </td>
           </tr>
         )}
       </tbody>

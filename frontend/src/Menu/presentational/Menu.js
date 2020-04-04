@@ -22,6 +22,8 @@ const Menu = () => {
         <Link style={{ padding: 5 }} to='/ruoat'>Ruoat</Link>
         <Link style={{ padding: 5 }} to='/ainesosat'>Ainesosat</Link>
       </div>
+      <br/>
+      <br/>
       <Switch>
         <Route path='/ruokapaketit/uusi'>
           <NewFoodPack />
