@@ -11,4 +11,5 @@
 | 25.3. | 2    | Selvittämistä kuinka subscribe toimisi näppärästi frontissa |
 | 29.3. | 3.5  | Subscribeä, formeja ja bootstrapia |
 | 31.3. | 5    | Foodin ja Foodpackin lisääminen frontissa |
-| yht   | 31   | |
+| 2.4   | 6    | delete ja update mutaatioita backendissä |
+| yht   | 37   | |

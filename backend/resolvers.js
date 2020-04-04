@@ -19,6 +19,15 @@ const getField = (root, field, obj) => {
       sum + getField(nextFood, field, 'Food'), 0)
 }
 
+const getFoodIngredients = (ingr) => {
+  return foodIngredients = ingr
+    .map(i => i.split(';'))
+    .map(i => ({
+      usedAtOnce: Number(i[1]) === 0 ? false : true,
+      item: i[0]
+    }))
+}
+
 const allIngredients = (root, args) => {
   return Ingredient
     .find({ ...args.name && { name: args.name } })
@@ -31,8 +40,8 @@ const allIngredients = (root, args) => {
     })
 }
 
-const addIngredient = (root, args) => {
-  const ingredient = new Ingredient({
+const addIngredient = async (root, args) => {
+  const ingredient = await new Ingredient({
     name: args.name,
     price: args.price,
     ...args.kcal && { kcal: args.kcal }
@@ -72,7 +81,11 @@ const updateIngredient = async (root, args) => {
   ingredient.name = args.name ? args.name : ingredient.name
   ingredient.price = args.price ? args.price : ingredient.price
   ingredient.kcal = args.kcal ? args.kcal : ingredient.kcal
-  return await ingredient.save()
+  return await ingredient
+    .save()
+    .catch(e => {
+      console.log('Error updating ingredient', e.message)
+    })
 }
 
 const allFoods = (root, args) => {
@@ -89,22 +102,25 @@ const allFoods = (root, args) => {
 }
 
 const addFood = async (root, args) => {
-  const foodIngredients = args.ingredients
-    .map(i => i.split(';'))
-    .map(i => ({
-      usedAtOnce: Number(i[1]) === 0 ? false : true,
-      item: i[0]
-    }))
-
   await new Food({
     name: args.name,
-    ingredients: foodIngredients,
+    ingredients: getFoodIngredients(args.ingredients),
     recipe: args.recipe
   }).save()
 
   const food = await Food
     .findOne({ name: args.name })
     .populate('ingredients.item')
+
+  food.ingredients
+    .map(i => i.item.id)
+    .forEach(async id => {
+      const ingredient = await Ingredient.findOne({ _id: id })
+      if (!ingredient.usedInFoods.includes(food._id)) {
+        ingredient.usedInFoods.push(food._id)
+      }
+      await ingredient.save()
+    })
 
   pubsub.publish('FOOD_ADDED', { foodAdded: food })
 
@@ -141,6 +157,61 @@ const deleteFood = async (root, args) => {
   return 'Food deleted succesfully'
 }
 
+const updateFood = async (root, args) => {
+  const food = await Food.findOne({ _id: args.id })
+  food.name = args.name ? args.name : food.name
+  food.recipe = args.recipe ? args.recipe : food.recipe
+
+  let newIngredients
+  let previousIngredients = food.ingredients.map(i => i.item.toString())
+
+  if (args.ingredients) {
+    newIngredients = getFoodIngredients(args.ingredients)
+    food.ingredients = newIngredients
+  }
+
+  try {
+    await food.save()
+  } catch (e) {
+    console.log('Error updating food', e.message)
+  }
+
+  if (args.ingredients) {
+    const newIngredientsItems = newIngredients.map(i => i.item)
+
+    for (i = 0; i < previousIngredients.length; i++) {
+      if (newIngredientsItems.includes(previousIngredients[i])) {
+        continue
+      }
+      try {
+        const ingr = await Ingredient.
+          findOne({ _id: previousIngredients[i] })
+        ingr.usedInFoods = ingr.usedInFoods
+          .filter(f => f.toString() !== food._id.toString())
+        await ingr.save()
+      }
+      catch (e) {
+        console.log('Error finding Ingredient', e.message)
+      }
+    }
+
+    for (i = 0; i < newIngredientsItems.length; i++) {
+      try {
+        const ingr = await Ingredient.findOne({ _id: newIngredientsItems[i] })
+        if (ingr.usedInFoods.includes(food._id)) {
+          continue
+        }
+        ingr.usedInFoods.push(food._id)
+        await ingr.save()
+      } catch (e) {
+        console.log('Error finding Ingredient', e.message)
+      }
+    }
+  }
+
+  return Food.findOne({ _id: food._id }).populate('ingredients.item')
+}
+
 const allFoodPacks = (root, args) => {
   return FoodPack
     .find({ ...args.name && { name: args.name } })
@@ -164,7 +235,7 @@ const addFoodPack = async (root, args) => {
     foods: args.foods,
   }).save()
 
-  return FoodPack
+  const foodPack = FoodPack
     .findOne({ name: args.name })
     .populate({
       path: 'foods',
@@ -172,6 +243,18 @@ const addFoodPack = async (root, args) => {
         path: 'ingredients.item'
       }
     })
+
+  foodPack.foods
+    .map(f => f.id)
+    .forEach(async id => {
+      const food = Food.findOne({ _id: id })
+      if (!food.usedInFoodPacks.includes(foodPack.id)) {
+        food.usedInFoodPacks.push(foodPack.id)
+      }
+      food.save()
+    })
+
+  return foodPack
 }
 
 const deleteFoodPack = async (root, args) => {
@@ -180,7 +263,6 @@ const deleteFoodPack = async (root, args) => {
     foodPack.foods
       .map(async foodID => {
         const food = await Food.findOne({ _id: foodID })
-        console.log('täs food', food)
         food.usedInFoodPacks = food.usedInFoodPacks
           .filter(
             fp => fp._id.toString() !== foodPack._id.toString()
@@ -208,6 +290,7 @@ const resolvers = {
     updateIngredient,
     addFood,
     deleteFood,
+    updateFood,
     addFoodPack,
     deleteFoodPack
   },
