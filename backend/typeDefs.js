@@ -87,6 +87,11 @@ const typeDefs = gql`
     deleteFoodPack(
       id: String!
     ): String!
+
+    updateFoodPack(
+      id: String!
+      foods: [String!]!
+    ): FoodPack!
   }
 
   type Subscription {

@@ -173,7 +173,7 @@ const updateFood = async (root, args) => {
   try {
     await food.save()
   } catch (e) {
-    console.log('Error updating food', e.message)
+    console.log('Error saving food in updateFood: ', e.message)
   }
 
   if (args.ingredients) {
@@ -191,16 +191,16 @@ const updateFood = async (root, args) => {
         await ingr.save()
       }
       catch (e) {
-        console.log('Error finding Ingredient', e.message)
+        console.log('Error finding Ingredient in updateFood: ', e.message)
       }
     }
 
     for (i = 0; i < newIngredientsItems.length; i++) {
+      if (previousIngredients.includes(newIngredientsItems[i])) {
+        continue
+      }
       try {
         const ingr = await Ingredient.findOne({ _id: newIngredientsItems[i] })
-        if (ingr.usedInFoods.includes(food._id)) {
-          continue
-        }
         ingr.usedInFoods.push(food._id)
         await ingr.save()
       } catch (e) {
@@ -275,6 +275,56 @@ const deleteFoodPack = async (root, args) => {
   return 'FoodPack deleted succesfully'
 }
 
+const updateFoodPack = async (root, args) => {
+  const foodPack = await FoodPack.findOne({ _id: args.id })
+  const previousFoods = foodPack.foods.map(food => food.toString())
+  const newFoods = args.foods
+  console.log('previousFoods: ', previousFoods)
+  console.log('newFoods: ', newFoods)
+  foodPack.foods = newFoods
+
+  try {
+    await foodPack.save()
+  } catch (e) {
+    console.log('Error updating foodPack: ', e.message)
+  }
+
+  for (i = 0; i < previousFoods.length; i++) {
+    if (newFoods.includes(previousFoods[i])) {
+      continue
+    }
+    try {
+      const food = await Food.findOne({ _id: previousFoods[i] })
+      food.usedInFoodPacks = food.usedInFoodPacks
+        .filter(fp => fp._id.toString() !== foodPack._id.toString())
+      await food.save()
+    } catch (e) {
+      console.log('Error finding Food in updateFoodPack: ', e.message)
+    }
+  }
+  
+  for (i = 0; i < newFoods.length; i++) {
+    try {
+      const food = await Food.findOne({ _id: newFoods[i] })
+      if (!food.usedInFoodPacks.includes(foodPack._id)) {
+        food.usedInFoodPacks.push(foodPack._id)
+        await food.save()
+      }
+    } catch (e) {
+      console.log('Error updating food\'s usedInFoodPacks in updateFoodPack', e.message)
+    }
+  }
+
+  return FoodPack
+    .findOne({ _id: foodPack._id })
+    .populate({
+      path: 'foods',
+      populate: {
+        path: 'ingredients.item'
+      }
+    })
+}
+
 const resolvers = {
   Query: {
     ingredientsCount: () => Ingredient.countDocuments(),
@@ -292,7 +342,8 @@ const resolvers = {
     deleteFood,
     updateFood,
     addFoodPack,
-    deleteFoodPack
+    deleteFoodPack,
+    updateFoodPack
   },
   Subscription: {
     ingredientAdded: {
