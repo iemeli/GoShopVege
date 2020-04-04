@@ -90,7 +90,8 @@ const typeDefs = gql`
 
     updateFoodPack(
       id: String!
-      foods: [String!]!
+      name: String
+      foods: [String!]
     ): FoodPack!
   }
 
