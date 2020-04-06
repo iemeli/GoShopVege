@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Switch, Route, Link
+  Switch, Route, Link, Redirect
 } from 'react-router-dom'
 import Description from './Description'
 import ListFoodsContainer from '../../Food/containers/ListFoodsContainer'
@@ -52,8 +52,11 @@ const Menu = () => {
         <Route path='/ainesosat'>
           <ListIngredientsContainer />
         </Route>
-        <Route path='/'>
+        <Route exact path='/'>
           <Description />
+        </Route>
+        <Route path='*'>
+          <Redirect to='/'/>
         </Route>
       </Switch>
     </div>
