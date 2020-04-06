@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import FoodPackRow from './FoodPackRow'
 
 const ListFoodPacks = ({ foodPacks }) => (
   <div>
@@ -17,19 +17,13 @@ const ListFoodPacks = ({ foodPacks }) => (
             </th>
           <th>
             Ruoat
-            </th>
+          </th>
+          <th>
+            
+          </th>
         </tr>
         {foodPacks.map(fp =>
-          <tr key={fp.id}>
-            <td>
-              <Link to={`/ruokapaketit/${fp.name}`}>
-                {fp.name}
-              </Link>
-            </td>
-            <td>{fp.price} €</td>
-            <td>{fp.kcal}</td>
-            <td>{fp.foodsCount}</td>
-          </tr>
+          <FoodPackRow foodPack={fp} key={fp.id} />
         )}
       </tbody>
     </table>

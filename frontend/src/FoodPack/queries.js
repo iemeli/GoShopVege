@@ -38,3 +38,9 @@ export const ADD_FOODPACK = gql`
   }
   ${FOODPACK_DETAILS}
 `
+
+export const DELETE_FOODPACK = gql`
+  mutation deleteFoodPack($id: String!) {
+    deleteFoodPack(id: $id)
+  }
+`

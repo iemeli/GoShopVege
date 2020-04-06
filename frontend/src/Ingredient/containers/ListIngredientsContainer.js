@@ -1,18 +1,17 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
 import {
-  ALL_INGREDIENTS, INGREDIENT_ADDED, DELETE_INGREDIENT 
+  ALL_INGREDIENTS, INGREDIENT_ADDED 
 } from '../queries'
 import ListIngredients from '../presentational/ListIngredients'
 import NewIngredient from '../Forms/NewIngredient' 
 import {
-  useSubscription, useApolloClient, useMutation
+  useSubscription, useApolloClient
 } from '@apollo/client'
 
 const ListIngredientsContainer = () => {
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
   const client = useApolloClient()
-  const [launchDeleteIngredient] = useMutation(DELETE_INGREDIENT)
   const updateCacheWith = (addedIngredient) => {
     const includedIn = (set, object) =>
       set.map(i => i.id).includes(object.id)
@@ -45,30 +44,12 @@ const ListIngredientsContainer = () => {
   const dataInStore = client.readQuery({ query: ALL_INGREDIENTS })
   const ingredients = dataInStore.allIngredients
 
-  const deleteIngredient = async (e) => {
-    const ingredient = ingredients.find(i => i.id === e.target.id)
-    const result = window.confirm(`Poistetaanko ainesosa ${ingredient.name}?`)
-    if (result) {
-      try {
-        await launchDeleteIngredient({
-          variables: {
-            id: ingredient.id
-          }
-        })
-      } catch (e) {
-        console.log('Error deleting ingredient: ', e.message)
-      }
-    }
-  }
-  
-  
 
   return (
     <div>
       <NewIngredient />
       <ListIngredients
         ingredients={ingredients}
-        deleteIngredient={deleteIngredient}
       />
     </div>
   )

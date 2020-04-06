@@ -54,3 +54,9 @@ export const FOOD_ADDED = gql`
   }
   ${FOOD_DETAILS}
 `
+
+export const DELETE_FOOD = gql`
+  mutation deleteFood($id: String!) {
+    deleteFood(id: $id)
+  }
+`

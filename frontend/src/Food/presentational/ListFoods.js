@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import FoodRow from './FoodRow'
 
 const ListFoods = ({ foods }) => (
   <div>
@@ -17,11 +17,7 @@ const ListFoods = ({ foods }) => (
         </th>
         </tr>
         {foods.map(f =>
-          <tr key={f.id}>
-            <td><Link to={`/ruoat/${f.name}`}>{f.name}</Link></td>
-            <td>{f.price} €</td>
-            <td>{f.kcal}</td>
-          </tr>
+          <FoodRow food={f} key={f.id} />
         )}
       </tbody>
     </table>
