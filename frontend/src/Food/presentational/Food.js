@@ -1,9 +1,12 @@
 import React from 'react'
 import ListIngredients from '../../Ingredient/presentational/ListIngredients'
+import DeleteFoodButton from '../DeleteFoodButton'
 
 const Food = ({ food }) => (
   <div>
-    <h3>{food.name}</h3>
+    <h3>
+      {food.name} <DeleteFoodButton food={food} />
+    </h3>
     <table>
       <tbody>
         <tr>

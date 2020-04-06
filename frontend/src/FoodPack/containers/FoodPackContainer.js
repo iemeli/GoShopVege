@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useRouteMatch, Redirect } from 'react-router-dom'
 import { ALL_FOODPACKS } from '../queries'
 import { useQuery } from '@apollo/client'
 import FoodPack from '../presentational/FoodPack'
@@ -18,6 +18,10 @@ const FoodPackContainer = () => {
   }
 
   const foodPack = foodPacksResult.data.allFoodPacks[0]
+  
+  if (!foodPack) {
+    return <Redirect to='/ruokapaketit' />
+  }
   
   return (
     <div>

@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useRouteMatch, Redirect } from 'react-router-dom'
 import { ALL_FOODS } from '../queries'
 import { useQuery } from '@apollo/client'
 import Food from '../presentational/Food'
@@ -19,6 +19,10 @@ const FoodContainer = () => {
   
   const food = foodsResult.data.allFoods[0]
 
+  if (!food) {
+    return <Redirect to='/ruoat' />
+  }
+  
   return (
     <div>
       <Food food={food} />      

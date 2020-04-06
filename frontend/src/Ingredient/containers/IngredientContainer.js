@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useRouteMatch, Redirect } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { ALL_INGREDIENTS } from '../queries'
 import Ingredient from '../presentational/Ingredient'
@@ -17,6 +17,10 @@ const IngredientContainer = () => {
   }
 
   const ingredient = ingredientsResult.data.allIngredients[0]
+
+  if (!ingredient) {
+    return <Redirect to='/ainesosat' />
+  }
 
   return (
     <div>
