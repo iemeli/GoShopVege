@@ -12,6 +12,7 @@ import FoodPackContainer from '../../FoodPack/containers/FoodPackContainer'
 import NewFood from '../../Food/forms/NewFood'
 import NewFoodPack from '../../FoodPack/forms/NewFoodPack'
 import NewIngredient from '../../Ingredient/Forms/NewIngredient'
+import UpdateFood from '../../Food/containers/UpdateFood'
 
 const Menu = () => {
   return (
@@ -33,6 +34,9 @@ const Menu = () => {
         </Route>
         <Route path='/ruokapaketit'>
           <ListFoodPacksContainer />
+        </Route>
+        <Route path='/ruoat/paivita/:name'>
+          <UpdateFood />
         </Route>
         <Route path='/ruoat/uusi'>
           <NewFood />

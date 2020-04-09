@@ -25,9 +25,9 @@ const IngredientRow = ({ ingredient }) => {
       await launchUpdateIngredient({
         variables: {
           id: ingredient.id,
-          ...ingredient.name !== name.value && { name: name.value },
-          ...ingredient.price !== price.value && { price: price.value },
-          ...ingredient.kcal !== kcal.value && { kcal: kcal.value }
+          name: name.value,
+          price: price.value,
+          kcal: kcal.value
         }
       })
     } catch (e) {

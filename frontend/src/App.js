@@ -16,7 +16,6 @@ const App = () => {
 
     const dataInStore = client.readQuery({ query: ALL_FOODS })
     if (!includedIn(dataInStore.allFoods, addedFood)) {
-      console.log('päästiin tänne')
       client.writeQuery({
         query: ALL_FOODS,
         data: { 

@@ -51,20 +51,20 @@ export const DELETE_INGREDIENT = gql`
 `
 
 export const UPDATE_INGREDIENT = gql`
-mutation updateIngredient(
-  $id: String!
-  $name: String
-  $price: Float
-  $kcal: Int
-) {
-  updateIngredient(
-    id: $id
-    name: $name
-    price: $price
-    kcal: $kcal
+  mutation updateIngredient(
+    $id: String!
+    $name: String
+    $price: Float
+    $kcal: Int
   ) {
-    ...IngredientDetails
+    updateIngredient(
+      id: $id
+      name: $name
+      price: $price
+      kcal: $kcal
+    ) {
+      ...IngredientDetails
+    }
   }
-}
-${INGREDIENT_DETAILS}
+  ${INGREDIENT_DETAILS}
 `

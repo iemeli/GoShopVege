@@ -1,27 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useField from '../../hooks/useField'
 import { useQuery, useMutation } from '@apollo/client'
-import { ADD_FOOD } from '../queries'
+import { ADD_FOOD, UPDATE_FOOD } from '../queries'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import {
   Form, Button, Dropdown, DropdownButton,
   Table, ListGroup, Alert
 } from 'react-bootstrap'
 import { v4 as uuid } from 'uuid'
+import { Redirect } from 'react-router-dom'
 
-const NewFood = () => {
-  const [name, resetName] = useField('text')
+const NewFood = ({ food }) => {
+  const [alreadyUpdated, setAlreadyUpdated] = useState(false)
+  const [name, resetName] = useField('text', food ? food.name : null)
   const [step, resetStep] = useField('text')
   const [recipe, setRecipe] = useState([])
-  const [foodIngredients, setFoodIngredients] = useState([])
-  const [price, setPrice] = useState(0)
-  const [kcal, setKcal] = useState(0)
+  const [foodIngredients, setFoodIngredients] = useState(food ? food.ingredients : [])
+  const [price, setPrice] = useState(food ? food.price : 0)
+  const [kcal, setKcal] = useState(food ? food.kcal : 0)
   const [alert, setAlert] = useState(null)
+  
 
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
-  const [addFood] = useMutation(ADD_FOOD)
+  const [launchAddFood] = useMutation(ADD_FOOD)
+  const [launchUpdateFood] = useMutation(UPDATE_FOOD)
 
-  
+  useEffect(() => {
+    if (food) {
+      const recipeRows = food.recipe.map(r => ({ value: r, id: uuid() }))
+      setRecipe(recipeRows)
+    }
+  }, [food])
+
+  if (alreadyUpdated) {
+    return <Redirect to={`/ruoat/${food.name}`} />
+  }
 
   if (ingredientsResult.loading) {
     return <div>...loading</div>
@@ -41,8 +54,8 @@ const NewFood = () => {
   const parseRecipe = () => {
     return recipe.map(row => row.value)
   }
-  
-  const submit = async (e) => {
+
+  const addFood = async (e) => {
     e.preventDefault()
 
     if (name.value.length < 4) {
@@ -52,9 +65,9 @@ const NewFood = () => {
       }, 5000)
       return
     }
-    
+
     try {
-      await addFood({
+      await launchAddFood({
         variables: {
           name: name.value,
           ingredients: parseIngredients(),
@@ -71,6 +84,32 @@ const NewFood = () => {
     setRecipe([])
     setPrice(0)
     setKcal(0)
+  }
+
+  const updateFood = async (e) => {
+    e.preventDefault()
+
+    if (name.value.length < 4) {
+      setAlert('Nimen pituuden täytyy olla vähintään 4 !')
+      setTimeout(() => {
+        setAlert(null)
+      }, 5000)
+      return
+    }
+
+    try {
+      await launchUpdateFood({
+        variables: {
+          id: food.id,
+          name: name.value,
+          ingredients: parseIngredients(),
+          recipe: parseRecipe()
+        }
+      })
+    } catch (e) {
+      console.log('Error updating food in NewFood.js', e.message)
+    }
+    setAlreadyUpdated(true)
   }
 
   const toggleUsedAtOnce = (event) => {
@@ -117,16 +156,18 @@ const NewFood = () => {
 
   return (
     <div>
-      <h2>Luo uusi ruoka</h2>
+      <h2>
+        {food ? `Päivitä ${food.name}` : 'Luo uusi ruoka'}
+      </h2>
       <strong><p>Yhteishinta: {price.toFixed(2)} €</p></strong>
       <strong><p>Yhteensä kcal: {kcal}</p></strong>
       {alert &&
         <Alert variant='danger'>{alert}</Alert>
       }
-      <Form onSubmit={submit}>
+      <Form onSubmit={food ? updateFood : addFood}>
         <Form.Group>
           <Button variant="primary" type="submit">
-            Lisää ruoka
+            {food ? 'päivitä' : 'lisää ruoka'}
           </Button>
           <br />
           <br />

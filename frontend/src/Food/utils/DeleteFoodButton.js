@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
-import { DELETE_FOOD } from './queries'
+import { DELETE_FOOD } from '../queries'
 import { useMutation } from '@apollo/client'
 
 const DeleteFoodButton = ({ food }) => {
@@ -20,13 +20,11 @@ const DeleteFoodButton = ({ food }) => {
       }
     }
   }
-  
+
   return (
-    <div>
-      <Button variant='outline-danger' onClick={handleClick}>
-        poista ruoka
-      </Button>
-    </div>
+    <Button variant='outline-danger' onClick={handleClick}>
+      poista ruoka
+    </Button>
   )
 }
 
