@@ -14,4 +14,5 @@
 | 2.4   | 6    | delete ja update mutaatioita backendissä |
 | 4.4   | 3    | delete ja update mutaatioita backendissä ja resolverien refaktorointia  |
 | 6.4.  | 2.5  | delete frontendissä ja redirecting olemattomat urlit etusivulle |
-| yht   | 42.5 | |
+| 9.4.  | 4    | update fronttiin ja refaktorointia |
+| yht   | 46.5 | |
