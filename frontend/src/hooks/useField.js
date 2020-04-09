@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-const useField = (type) => {
-  const [value, setValue] = useState('')
+const useField = (type, state) => {
+  const setState = state ? state : ''
+  const [value, setValue] = useState(setState)
 
   const onChange = (e) => {
     setValue(e.target.value)
@@ -11,7 +12,7 @@ const useField = (type) => {
     setValue('')
   }
 
-  return [{ value, type, onChange }, reset]
+  return [{ value, type, onChange }, reset, setValue]
 }
 
 export default useField

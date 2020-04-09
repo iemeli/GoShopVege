@@ -49,3 +49,22 @@ export const DELETE_INGREDIENT = gql`
     deleteIngredient(id: $id)
   }
 `
+
+export const UPDATE_INGREDIENT = gql`
+mutation updateIngredient(
+  $id: String!
+  $name: String
+  $price: Float
+  $kcal: Int
+) {
+  updateIngredient(
+    id: $id
+    name: $name
+    price: $price
+    kcal: $kcal
+  ) {
+    ...IngredientDetails
+  }
+}
+${INGREDIENT_DETAILS}
+`

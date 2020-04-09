@@ -13,4 +13,5 @@
 | 31.3. | 5    | Foodin ja Foodpackin lisääminen frontissa |
 | 2.4   | 6    | delete ja update mutaatioita backendissä |
 | 4.4   | 3    | delete ja update mutaatioita backendissä ja resolverien refaktorointia  |
-| yht   | 40   | |
+| 6.4.  | 2.5  | delete frontendissä ja redirecting olemattomat urlit etusivulle |
+| yht   | 42.5 | |
