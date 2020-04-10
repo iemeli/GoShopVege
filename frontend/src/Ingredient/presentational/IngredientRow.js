@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import DeleteIngredientButton from '../DeleteIngredientButton'
 import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-import useField from '../../hooks/useField'
 import { useMutation } from '@apollo/client'
+import DeleteIngredientButton from '../DeleteIngredientButton'
+import useField from '../../hooks/useField'
 import { UPDATE_INGREDIENT } from '../queries'
 
 const IngredientRow = ({ ingredient, hideButtons }) => {
@@ -27,11 +27,11 @@ const IngredientRow = ({ ingredient, hideButtons }) => {
           id: ingredient.id,
           name: name.value,
           price: price.value,
-          kcal: kcal.value
-        }
+          kcal: kcal.value,
+        },
       })
-    } catch (e) {
-      console.log('Error updating ingredient in IngredientRow: ', e.message)
+    } catch (error) {
+      console.log('Error updating ingredient in IngredientRow: ', error.message)
     }
 
     toggleUpdateMode()
@@ -50,16 +50,12 @@ const IngredientRow = ({ ingredient, hideButtons }) => {
           <input {...kcal} />
         </td>
         <td>
-          <Button
-            onClick={toggleUpdateMode}
-            variant='outline-danger'>
+          <Button onClick={toggleUpdateMode} variant="outline-danger">
             peruuta
           </Button>
         </td>
         <td>
-          <Button
-            onClick={updateIngredient}
-            variant='outline-warning'>
+          <Button onClick={updateIngredient} variant="outline-warning">
             päivitä
           </Button>
         </td>
@@ -75,22 +71,17 @@ const IngredientRow = ({ ingredient, hideButtons }) => {
       <td>{ingredient.price} €</td>
       <td>{ingredient.kcal}</td>
       <td>
-        {!hideButtons &&
-          <Button
-            onClick={toggleUpdateMode}
-            variant='outline-warning'>
+        {!hideButtons && (
+          <Button onClick={toggleUpdateMode} variant="outline-warning">
             päivitä
           </Button>
-        }
+        )}
       </td>
       <td>
-        {!hideButtons &&
-          <DeleteIngredientButton ingredient={ingredient} />
-        }
+        {!hideButtons && <DeleteIngredientButton ingredient={ingredient} />}
       </td>
     </tr>
   )
 }
-
 
 export default IngredientRow

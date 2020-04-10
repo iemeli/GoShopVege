@@ -1,9 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import DeleteFoodButton from '../utils/DeleteFoodButton'
 import UpdateFoodButton from '../utils/UpdateFoodButton'
-import { Link } from 'react-router-dom'
 
-const FoodRow = ({ food }) => {
+const FoodRow = ({ food, hideButtons }) => {
   return (
     <tr>
       <td>
@@ -11,12 +11,8 @@ const FoodRow = ({ food }) => {
       </td>
       <td>{food.price} €</td>
       <td>{food.kcal}</td>
-      <td>
-        <UpdateFoodButton food={food} />
-      </td>
-      <td>
-        <DeleteFoodButton food={food} />
-      </td>
+      <td>{!hideButtons && <UpdateFoodButton food={food} />}</td>
+      <td>{!hideButtons && <DeleteFoodButton food={food} />}</td>
     </tr>
   )
 }

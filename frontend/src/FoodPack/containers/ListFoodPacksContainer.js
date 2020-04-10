@@ -1,21 +1,15 @@
 import React from 'react'
-import { useQuery } from '@apollo/client'
+import { useQuery, useApolloClient } from '@apollo/client'
+import { Link } from 'react-router-dom'
 import { ALL_FOODPACKS } from '../queries'
 import ListFoodPacks from '../presentational/ListFoodPacks'
-import { Link } from 'react-router-dom'
-import {
-  useApolloClient
-} from '@apollo/client'
 
 const ListFoodPacksContainer = () => {
   const foodPacksResult = useQuery(ALL_FOODPACKS)
   const client = useApolloClient()
-  
-  
+
   if (foodPacksResult.loading) {
-    return (
-      <div>...loading</div>
-    )
+    return <div>...loading</div>
   }
 
   const dataInStore = client.readQuery({ query: ALL_FOODPACKS })
@@ -25,7 +19,7 @@ const ListFoodPacksContainer = () => {
     <div>
       <h3>
         Ruokapaketit
-        <small style={{paddingLeft: 10}}>
+        <small style={{ paddingLeft: 10 }}>
           <Link to="/ruokapaketit/uusi">luo uusi ruokapaketti</Link>
         </small>
       </h3>

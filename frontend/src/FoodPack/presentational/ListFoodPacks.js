@@ -6,25 +6,14 @@ const ListFoodPacks = ({ foodPacks }) => (
     <table>
       <tbody>
         <tr>
-          <th>
-            Nimi
-            </th>
-          <th>
-            Hinta
-            </th>
-          <th>
-            Kilokalorit
-            </th>
-          <th>
-            Ruoat
-          </th>
-          <th>
-            
-          </th>
+          <th>Nimi</th>
+          <th>Hinta</th>
+          <th>Kilokalorit</th>
+          <th>Ruoat</th>
         </tr>
-        {foodPacks.map(fp =>
+        {foodPacks.map((fp) => (
           <FoodPackRow foodPack={fp} key={fp.id} />
-        )}
+        ))}
       </tbody>
     </table>
   </div>
