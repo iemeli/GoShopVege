@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid'
 import FoodForm from '../presentational/FoodForm'
 
 const FoodFormContainer = ({ food, updateFood, addFood }) => {
-  const [name, resetName] = useField('text', food ? food.name : null)
+  const [name] = useField('text', food ? food.name : null)
   const [step, resetStep] = useField('text')
   const [recipe, setRecipe] = useState([])
   const [foodIngredients, setFoodIngredients] = useState(food ? food.ingredients : [])
@@ -77,6 +77,20 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
   }
 
   const addStep = () => {
+    if (step.value.length < 3) {
+      setAlert('Yhden reseptin rivin pituuden täytyy olla vähintään 3!')
+      setTimeout(() => {
+        setAlert(null)
+      }, 5000)
+      return
+    }
+    if (recipe.map(r => r.value).includes(step.value)) {
+      setAlert('Reseptissä ei voi olla samoja rivejä!')
+      setTimeout(() => {
+        setAlert(null)
+      }, 5000)
+      return
+    }
     setRecipe(recipe.concat({ value: step.value, id: uuid() }))
     resetStep()
   }
@@ -107,13 +121,6 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
     } else {
       addFood(foodForParent)
     }
-
-    // resetName()
-    // resetStep()
-    // setFoodIngredients([])
-    // setRecipe([])
-    // setPrice(0)
-    // setKcal(0)
   }
 
   return (
