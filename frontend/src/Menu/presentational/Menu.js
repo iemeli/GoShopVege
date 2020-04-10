@@ -9,10 +9,11 @@ import IngredientContainer from '../../Ingredient/containers/IngredientContainer
 import FoodContainer from '../../Food/containers/FoodContainer'
 import ListFoodPacksContainer from '../../FoodPack/containers/ListFoodPacksContainer'
 import FoodPackContainer from '../../FoodPack/containers/FoodPackContainer'
-import NewFoodPack from '../../FoodPack/forms/NewFoodPack'
 import NewIngredient from '../../Ingredient/Forms/NewIngredient'
 import UpdateFood from '../../Food/containers/UpdateFood'
 import NewFood from '../../Food/containers/NewFood'
+import NewFoodPack from '../../FoodPack/containers/NewFoodPack'
+import UpdateFoodPack from '../../FoodPack/containers/UpdateFoodPack'
 
 const Menu = () => {
   return (
@@ -26,6 +27,9 @@ const Menu = () => {
       <br/>
       <br/>
       <Switch>
+        <Route path='/ruokapaketit/paivita/:name'>
+          <UpdateFoodPack />
+        </Route>
         <Route path='/ruokapaketit/uusi'>
           <NewFoodPack />
         </Route>

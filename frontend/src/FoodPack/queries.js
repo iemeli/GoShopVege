@@ -44,3 +44,20 @@ export const DELETE_FOODPACK = gql`
     deleteFoodPack(id: $id)
   }
 `
+
+export const UPDATE_FOODPACK = gql`
+  mutation updateFoodPack(
+    $id: String!
+    $name: String
+    $foods: [String!]
+  ) {
+    updateFoodPack(
+      id: $id
+      name: $name
+      foods: $foods
+    ) {
+      ...FoodPackDetails
+    }
+  }
+  ${FOODPACK_DETAILS}
+`

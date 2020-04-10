@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { ADD_FOOD } from '../queries'
-import FoodFormContainer from '../containers/FoodFormContainer'
+import FoodFormContainer from './FoodFormContainer'
 import { Redirect } from 'react-router-dom'
 
 const NewFood = () => {
@@ -25,7 +25,7 @@ const NewFood = () => {
       setAlreadyAdded(true)
       setFoodName(foodToAdd.name)
     } catch (e) {
-      console.log('Error adding food in NewFood.js', e.message)
+      console.log('Error adding food in NewFood.js: ', e.message)
     }
   }
 

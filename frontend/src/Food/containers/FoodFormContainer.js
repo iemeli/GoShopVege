@@ -10,7 +10,9 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
   const [name] = useField('text', food ? food.name : null)
   const [step, resetStep] = useField('text')
   const [recipe, setRecipe] = useState([])
-  const [foodIngredients, setFoodIngredients] = useState(food ? food.ingredients : [])
+  const [foodIngredients, setFoodIngredients] = useState(
+    food ? food.ingredients : []
+  )
   const [price, setPrice] = useState(food ? food.price : 0)
   const [kcal, setKcal] = useState(food ? food.kcal : 0)
   const [alert, setAlert] = useState(null)
