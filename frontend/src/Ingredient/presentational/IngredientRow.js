@@ -6,7 +6,7 @@ import useField from '../../hooks/useField'
 import { useMutation } from '@apollo/client'
 import { UPDATE_INGREDIENT } from '../queries'
 
-const IngredientRow = ({ ingredient }) => {
+const IngredientRow = ({ ingredient, hideButtons }) => {
   const [updateMode, setUpdateMode] = useState(false)
   const [name] = useField('text', ingredient.name)
   const [price] = useField('number', ingredient.price)
@@ -75,14 +75,18 @@ const IngredientRow = ({ ingredient }) => {
       <td>{ingredient.price} €</td>
       <td>{ingredient.kcal}</td>
       <td>
-        <Button
-          onClick={toggleUpdateMode}
-          variant='outline-warning'>
-          päivitä
-        </Button>
+        {!hideButtons &&
+          <Button
+            onClick={toggleUpdateMode}
+            variant='outline-warning'>
+            päivitä
+          </Button>
+        }
       </td>
       <td>
-        <DeleteIngredientButton ingredient={ingredient} />
+        {!hideButtons &&
+          <DeleteIngredientButton ingredient={ingredient} />
+        }
       </td>
     </tr>
   )

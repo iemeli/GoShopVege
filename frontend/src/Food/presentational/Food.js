@@ -33,6 +33,7 @@ const Food = ({ food }) => (
     <br />
     <ListIngredients
       ingredients={food.ingredients.map(i => i.item)}
+      hideButtons={true}
     />
     <br />
     <strong>resepti</strong>
