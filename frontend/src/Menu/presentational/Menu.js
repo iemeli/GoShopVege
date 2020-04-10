@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-  Switch, Route, Link, Redirect
-} from 'react-router-dom'
+import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import Description from './Description'
 import ListFoodsContainer from '../../Food/containers/ListFoodsContainer'
 import ListIngredientsContainer from '../../Ingredient/containers/ListIngredientsContainer'
@@ -19,52 +17,60 @@ const Menu = () => {
   return (
     <div>
       <div>
-        <Link style={{ padding: 5 }} to='/'>Etusivu</Link>
-        <Link style={{ padding: 5 }} to='/ruokapaketit'>Ruokapaketit</Link>
-        <Link style={{ padding: 5 }} to='/ruoat'>Ruoat</Link>
-        <Link style={{ padding: 5 }} to='/ainesosat'>Ainesosat</Link>
+        <Link style={{ padding: 5 }} to="/">
+          Etusivu
+        </Link>
+        <Link style={{ padding: 5 }} to="/ruokapaketit">
+          Ruokapaketit
+        </Link>
+        <Link style={{ padding: 5 }} to="/ruoat">
+          Ruoat
+        </Link>
+        <Link style={{ padding: 5 }} to="/ainesosat">
+          Ainesosat
+        </Link>
       </div>
-      <br/>
-      <br/>
+      <br />
+      <br />
       <Switch>
-        <Route path='/ruokapaketit/paivita/:name'>
+        <Route path="/ruokapaketit/paivita/:name">
           <UpdateFoodPack />
         </Route>
-        <Route path='/ruokapaketit/uusi'>
+        <Route path="/ruokapaketit/uusi">
           <NewFoodPack />
         </Route>
-        <Route path='/ruokapaketit/:name'>
+        <Route path="/ruokapaketit/:name">
           <FoodPackContainer />
         </Route>
-        <Route path='/ruokapaketit'>
+        <Route path="/ruokapaketit">
           <ListFoodPacksContainer />
         </Route>
-        <Route path='/ruoat/paivita/:name'>
+        <Route path="/ruoat/paivita/:name">
           <UpdateFood />
         </Route>
-        <Route path='/ruoat/uusi'>
+        <Route path="/ruoat/uusi">
           <NewFood />
         </Route>
-        <Route path='/ruoat/:name'>
+        <Route path="/ruoat/:name">
           <FoodContainer />
         </Route>
-        <Route path='/ruoat'>
+        <Route path="/ruoat">
           <ListFoodsContainer />
         </Route>
-        <Route path='/ainesosat/uusi'>
+        <Route path="/ainesosat/uusi">
           <NewIngredient />
         </Route>
-        <Route path='/ainesosat/:name'>
+        <Route path="/ainesosat/:name">
           <IngredientContainer />
         </Route>
-        <Route path='/ainesosat'>
+        <Route path="/ainesosat">
           <ListIngredientsContainer />
         </Route>
-        <Route exact path='/'>
+        <Route exact path="/">
           <Description />
         </Route>
-        <Route path='*'>
-          <Redirect to='/'/>
+        <Route path="*">
+          <Redirect to="/" />
         </Route>
       </Switch>
     </div>
