@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
-import { useQuery } from '@apollo/client'
-import { ALL_FOODS, UPDATE_FOOD } from '../queries'
+import React, { useState } from 'react'
+import { useQuery, useMutation } from '@apollo/client'
 import { useRouteMatch, Redirect } from 'react-router-dom'
+import { ALL_FOODS, UPDATE_FOOD } from '../queries'
 import FoodFormContainer from './FoodFormContainer'
-import { useMutation } from '@apollo/client'
 
 const UpdateFood = () => {
   const [alreadyUpdated, setAlreadyUpdated] = useState(false)
@@ -11,7 +10,7 @@ const UpdateFood = () => {
   const [launchUpdateFood] = useMutation(UPDATE_FOOD)
 
   const foodsResult = useQuery(ALL_FOODS, {
-    variables: { name: foodName }
+    variables: { name: foodName },
   })
 
   if (foodsResult.loading) {
@@ -26,18 +25,18 @@ const UpdateFood = () => {
 
   const updateFood = async (foodToUpdate) => {
     try {
+      setAlreadyUpdated(true)
       await launchUpdateFood({
         variables: {
           id: food.id,
           name: foodToUpdate.name,
           ingredients: foodToUpdate.ingredients,
-          recipe: foodToUpdate.recipe
-        }
+          recipe: foodToUpdate.recipe,
+        },
       })
     } catch (e) {
       console.log('Error updating food in UpdateFood.js', e.message)
     }
-    setAlreadyUpdated(true)
   }
 
   return (

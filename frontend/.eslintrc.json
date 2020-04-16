@@ -11,6 +11,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/jsx-one-expression-per-line": "off",
     "no-console": "off",
-    "react/jsx-boolean-value": "off"
+    "react/jsx-boolean-value": "off",
+    "no-alert": "off"
   }
 }
