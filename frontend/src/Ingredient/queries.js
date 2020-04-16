@@ -6,12 +6,16 @@ export const INGREDIENT_DETAILS = gql`
     name
     price
     kcal
+    usedInFoods {
+      id
+      name
+    }
   }
 `
 
 export const ALL_INGREDIENTS = gql`
-  query allIngredients ($name: String){
-    allIngredients (name: $name) {
+  query allIngredients($name: String) {
+    allIngredients(name: $name) {
       ...IngredientDetails
     }
   }
@@ -19,16 +23,8 @@ export const ALL_INGREDIENTS = gql`
 `
 
 export const ADD_INGREDIENT = gql`
-  mutation addIngredient(
-    $name: String!
-    $price: Float!
-    $kcal: Int
-  ) {
-    addIngredient(
-      name: $name
-      price: $price
-      kcal: $kcal
-    ) {
+  mutation addIngredient($name: String!, $price: Float!, $kcal: Int) {
+    addIngredient(name: $name, price: $price, kcal: $kcal) {
       ...IngredientDetails
     }
   }
@@ -57,12 +53,7 @@ export const UPDATE_INGREDIENT = gql`
     $price: Float
     $kcal: Int
   ) {
-    updateIngredient(
-      id: $id
-      name: $name
-      price: $price
-      kcal: $kcal
-    ) {
+    updateIngredient(id: $id, name: $name, price: $price, kcal: $kcal) {
       ...IngredientDetails
     }
   }

@@ -21,7 +21,7 @@ export const FOOD_DETAILS = gql`
 `
 
 export const ALL_FOODS = gql`
-  query allFoods ($name: String) {
+  query allFoods($name: String) {
     allFoods(name: $name) {
       ...FoodDetails
     }
@@ -35,11 +35,7 @@ export const ADD_FOOD = gql`
     $ingredients: [String!]!
     $recipe: [String!]!
   ) {
-    addFood(
-      name: $name
-      ingredients: $ingredients
-      recipe: $recipe
-    ) {
+    addFood(name: $name, ingredients: $ingredients, recipe: $recipe) {
       ...FoodDetails
     }
   }

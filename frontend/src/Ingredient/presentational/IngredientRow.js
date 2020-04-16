@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { useMutation } from '@apollo/client'
-import DeleteIngredientButton from '../DeleteIngredientButton'
+import DeleteIngredientButton from '../utils/DeleteIngredientButton'
 import useField from '../../hooks/useField'
 import { UPDATE_INGREDIENT } from '../queries'
 

@@ -12,6 +12,7 @@
     "react/jsx-one-expression-per-line": "off",
     "no-console": "off",
     "react/jsx-boolean-value": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "react/destructuring-assignment": "off"
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import DeleteIngredientButton from '../DeleteIngredientButton'
+import DeleteIngredientButton from '../utils/DeleteIngredientButton'
 
 const Ingredient = ({ ingredient }) => (
   <div>
@@ -10,20 +10,12 @@ const Ingredient = ({ ingredient }) => (
     <table>
       <tbody>
         <tr>
-          <th>
-            Hinta:
-            </th>
-          <td>
-            {ingredient.price} €
-            </td>
+          <th>Hinta:</th>
+          <td>{ingredient.price} €</td>
         </tr>
         <tr>
-          <th>
-            Kilokalorit:
-            </th>
-          <td>
-            {ingredient.kcal}
-          </td>
+          <th>Kilokalorit:</th>
+          <td>{ingredient.kcal}</td>
         </tr>
       </tbody>
     </table>
