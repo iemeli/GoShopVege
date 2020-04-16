@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { FOOD_DETAILS } from '../Food/queries'
 
 const FOODPACK_DETAILS = gql`
   fragment FoodPackDetails on FoodPack {
@@ -9,14 +8,28 @@ const FOODPACK_DETAILS = gql`
     kcal
     foodsCount
     foods {
-      ...FoodDetails
+      id
+      name
+      price
+      kcal
+      recipe
+      ingredientsCount
+      ingredients {
+        id
+        usedAtOnce
+        item {
+          id
+          name
+          price
+          kcal
+        }
+      }
     }
   }
-  ${FOOD_DETAILS}
 `
 
 export const ALL_FOODPACKS = gql`
-  query allFoodPacks ($name: String) {
+  query allFoodPacks($name: String) {
     allFoodPacks(name: $name) {
       ...FoodPackDetails
     }
@@ -25,14 +38,8 @@ export const ALL_FOODPACKS = gql`
 `
 
 export const ADD_FOODPACK = gql`
-  mutation addFoodPack(
-    $name: String!
-    $foods: [String!]!
-  ) {
-    addFoodPack(
-      name: $name
-      foods: $foods
-    ) {
+  mutation addFoodPack($name: String!, $foods: [String!]!) {
+    addFoodPack(name: $name, foods: $foods) {
       ...FoodPackDetails
     }
   }
@@ -46,16 +53,8 @@ export const DELETE_FOODPACK = gql`
 `
 
 export const UPDATE_FOODPACK = gql`
-  mutation updateFoodPack(
-    $id: String!
-    $name: String
-    $foods: [String!]
-  ) {
-    updateFoodPack(
-      id: $id
-      name: $name
-      foods: $foods
-    ) {
+  mutation updateFoodPack($id: String!, $name: String, $foods: [String!]) {
+    updateFoodPack(id: $id, name: $name, foods: $foods) {
       ...FoodPackDetails
     }
   }
