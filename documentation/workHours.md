@@ -17,4 +17,5 @@
 |  6.4.  | 2.5      | delete frontendissä ja redirecting olemattomat urlit etusivulle        |
 |  9.4.  | 4        | update fronttiin ja refaktorointia                                     |
 | 10.4.  | 2.5      | eslint configurointia ja FoodPackFormin refaktorointia                 |
-|  yht   | 46.5     |                                                                        |
+| 16.4.  | 4        | debuggaamista ja hieno DeleteModal komponentti                         |
+|  yht   | 50.5     |                                                                        |
