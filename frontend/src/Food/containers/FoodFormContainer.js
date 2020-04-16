@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import useField from '../../hooks/useField'
 import { useQuery } from '@apollo/client'
-import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import { Alert } from 'react-bootstrap'
 import { v4 as uuid } from 'uuid'
+import useField from '../../general/useField'
+import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import FoodForm from '../presentational/FoodForm'
 
 const FoodFormContainer = ({ food, updateFood, addFood }) => {
@@ -21,7 +21,7 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
 
   useEffect(() => {
     if (food) {
-      const recipeRows = food.recipe.map(r => ({ value: r, id: uuid() }))
+      const recipeRows = food.recipe.map((r) => ({ value: r, id: uuid() }))
       setRecipe(recipeRows)
     }
   }, [food])
@@ -30,35 +30,32 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
     return <div>...loading</div>
   }
 
-  const ingredients = ingredientsResult.data.allIngredients
-    .filter(i =>
-      !foodIngredients
-        .map(fi => fi.item.id)
-        .includes(i.id)
-    )
+  const ingredients = ingredientsResult.data.allIngredients.filter(
+    (i) => !foodIngredients.map((fi) => fi.item.id).includes(i.id)
+  )
 
   const parseIngredients = () => {
-    return foodIngredients.map(i => `${i.item.id};${i.usedAtOnce ? 1 : 0}`)
+    return foodIngredients.map((i) => `${i.item.id};${i.usedAtOnce ? 1 : 0}`)
   }
 
   const parseRecipe = () => {
-    return recipe.map(row => row.value)
+    return recipe.map((row) => row.value)
   }
 
   const toggleUsedAtOnce = (event) => {
-    setFoodIngredients(foodIngredients.map(fi =>
-      fi.id === event.target.id
-        ? { ...fi, usedAtOnce: !fi.usedAtOnce }
-        : fi
-    ))
+    setFoodIngredients(
+      foodIngredients.map((fi) =>
+        fi.id === event.target.id ? { ...fi, usedAtOnce: !fi.usedAtOnce } : fi
+      )
+    )
   }
 
   const handleSelect = (ingredientID) => {
     const newFoodIngredient = {
       usedAtOnce: true,
-      id: uuid()
+      id: uuid(),
     }
-    const ingredient = ingredients.find(i => i.id === ingredientID)
+    const ingredient = ingredients.find((i) => i.id === ingredientID)
     newFoodIngredient.item = ingredient
     setFoodIngredients(foodIngredients.concat(newFoodIngredient))
 
@@ -67,12 +64,11 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
   }
 
   const removeIngredient = (event) => {
-    const ingredient = foodIngredients
-      .find(fi => fi.id === event.target.id)
+    const ingredient = foodIngredients.find((fi) => fi.id === event.target.id)
       .item
-    setFoodIngredients(foodIngredients.filter(fi =>
-      fi.id !== event.target.id
-    ))
+    setFoodIngredients(
+      foodIngredients.filter((fi) => fi.id !== event.target.id)
+    )
 
     setPrice(price - ingredient.price)
     setKcal(kcal - ingredient.kcal)
@@ -86,7 +82,7 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
       }, 5000)
       return
     }
-    if (recipe.map(r => r.value).includes(step.value)) {
+    if (recipe.map((r) => r.value).includes(step.value)) {
       setAlert('Reseptissä ei voi olla samoja rivejä!')
       setTimeout(() => {
         setAlert(null)
@@ -98,7 +94,7 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
   }
 
   const removeStep = (event) => {
-    setRecipe(recipe.filter(row => row.id !== event.target.id))
+    setRecipe(recipe.filter((row) => row.id !== event.target.id))
   }
 
   const submit = async (e) => {
@@ -115,7 +111,7 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
     const foodForParent = {
       name: name.value,
       ingredients: parseIngredients(),
-      recipe: parseRecipe()
+      recipe: parseRecipe(),
     }
 
     if (food) {
@@ -127,21 +123,21 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
 
   return (
     <div>
-      <h2>
-        {food ? `Päivitä ${food.name}` : 'Luo uusi ruoka'}
-      </h2>
-      <strong><p>Yhteishinta: {price.toFixed(2)} €</p></strong>
-      <strong><p>Yhteensä kcal: {kcal}</p></strong>
-      {alert &&
-        <Alert variant='danger'>{alert}</Alert>
-      }
+      <h2>{food ? `Päivitä ${food.name}` : 'Luo uusi ruoka'}</h2>
+      <strong>
+        <p>Yhteishinta: {price.toFixed(2)} €</p>
+      </strong>
+      <strong>
+        <p>Yhteensä kcal: {kcal}</p>
+      </strong>
+      {alert && <Alert variant="danger">{alert}</Alert>}
       <FoodForm
         toggleUsedAtOnce={toggleUsedAtOnce}
         foodIngredients={foodIngredients}
         ingredients={ingredients}
         recipe={recipe}
         handleSelect={handleSelect}
-        removeIngredient={ removeIngredient}
+        removeIngredient={removeIngredient}
         addStep={addStep}
         removeStep={removeStep}
         submit={submit}

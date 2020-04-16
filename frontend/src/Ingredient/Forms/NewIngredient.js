@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import useField from '../../hooks/useField'
-import { useMutation } from '@apollo/client'
-import { ADD_INGREDIENT } from '../queries'
 import { Alert, Form, Button } from 'react-bootstrap'
+import { useMutation } from '@apollo/client'
+import useField from '../../general/useField'
+import { ADD_INGREDIENT } from '../queries'
 
 const NewIngredient = () => {
   const [name, resetName] = useField('text')
@@ -27,11 +27,11 @@ const NewIngredient = () => {
         variables: {
           name: name.value,
           price: Number(price.value),
-          ...kcal.value && { kcal: Number(kcal.value) }
-        }
+          ...(kcal.value && { kcal: Number(kcal.value) }),
+        },
       })
-    } catch (e) {
-      console.log('Error adding ingredient in NewIngredient.js', e.message)
+    } catch (error) {
+      console.log('Error adding ingredient in NewIngredient.js', error.message)
     }
 
     resetName()
@@ -41,9 +41,7 @@ const NewIngredient = () => {
 
   return (
     <div>
-      {alert &&
-        <Alert variant='danger'>{alert}</Alert>
-      }
+      {alert && <Alert variant="danger">{alert}</Alert>}
       <Form onSubmit={submit}>
         <Form.Group>
           <Form.Label>Nimi</Form.Label>
@@ -52,12 +50,11 @@ const NewIngredient = () => {
           <Form.Control {...price} />
           <Form.Label>Kilokalorit</Form.Label>
           <Form.Control {...kcal} />
-          <Button type='submit'>Lisää ainesosa</Button>
+          <Button type="submit">Lisää ainesosa</Button>
         </Form.Group>
       </Form>
     </div>
   )
 }
-
 
 export default NewIngredient

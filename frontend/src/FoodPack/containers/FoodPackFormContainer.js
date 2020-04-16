@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
-import useField from '../../hooks/useField'
 import { useQuery } from '@apollo/client'
 import { Alert } from 'react-bootstrap'
+import useField from '../../general/useField'
 import { ALL_FOODS } from '../../Food/queries'
 import FoodPackForm from '../presentational/FoodPackForm'
 
-const FoodPackFormContainer = ({
-  foodPack, addFoodPack, updateFoodPack 
-}) => {
-  const [name] = useField('text',
-    foodPack ? foodPack.name : null
-  )
+const FoodPackFormContainer = ({ foodPack, addFoodPack, updateFoodPack }) => {
+  const [name] = useField('text', foodPack ? foodPack.name : null)
   const [foods, setFoods] = useState(foodPack ? foodPack.foods : [])
   const [price, setPrice] = useState(foodPack ? foodPack.price : 0)
   const [kcal, setKcal] = useState(foodPack ? foodPack.kcal : 0)
@@ -18,20 +14,16 @@ const FoodPackFormContainer = ({
 
   const foodsResult = useQuery(ALL_FOODS)
 
-
   if (foodsResult.loading) {
     return <div>...loading</div>
   }
 
-  const foodsForDropdown = foodsResult.data.allFoods
-    .filter(ffd =>
-      !foods
-        .map(f => f.id)
-        .includes(ffd.id)
-    )
+  const foodsForDropdown = foodsResult.data.allFoods.filter(
+    (ffd) => !foods.map((f) => f.id).includes(ffd.id)
+  )
 
   const handleSelect = (foodId) => {
-    const food = foodsForDropdown.find(f => f.id === foodId)
+    const food = foodsForDropdown.find((f) => f.id === foodId)
 
     setFoods(foods.concat(food))
 
@@ -52,7 +44,7 @@ const FoodPackFormContainer = ({
 
     const foodPackForParent = {
       name: name.value,
-      foods: foods.map(f => f.id)
+      foods: foods.map((f) => f.id),
     }
 
     if (foodPack) {
@@ -63,8 +55,8 @@ const FoodPackFormContainer = ({
   }
 
   const removeFood = (event) => {
-    const food = foods.find(f => f.id === event.target.id)
-    setFoods(foods.filter(f => f.id !== event.target.id))
+    const food = foods.find((f) => f.id === event.target.id)
+    setFoods(foods.filter((f) => f.id !== event.target.id))
 
     setPrice(price - food.price)
     setKcal(kcal - food.kcal)
@@ -72,14 +64,14 @@ const FoodPackFormContainer = ({
 
   return (
     <div>
-      <h2>
-        {foodPack ? `Päivitä ${foodPack.name}` : 'Luo uusi ruokapaketti'}
-      </h2>
-      <strong><p>Yhteishinta: {price.toFixed(2)} €</p></strong>
-      <strong><p>Yhteensä kcal: {kcal}</p></strong>
-      {alert &&
-        <Alert variant='danger'>{alert}</Alert>
-      }
+      <h2>{foodPack ? `Päivitä ${foodPack.name}` : 'Luo uusi ruokapaketti'}</h2>
+      <strong>
+        <p>Yhteishinta: {price.toFixed(2)} €</p>
+      </strong>
+      <strong>
+        <p>Yhteensä kcal: {kcal}</p>
+      </strong>
+      {alert && <Alert variant="danger">{alert}</Alert>}
       <FoodPackForm
         submit={submit}
         name={name}
