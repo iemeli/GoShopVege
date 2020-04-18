@@ -1,4 +1,6 @@
 {
   "singleQuote": true,
-  "semi": false
+  "semi": false,
+  "markdown": false,
+  "arrowParens": "avoid"
 }

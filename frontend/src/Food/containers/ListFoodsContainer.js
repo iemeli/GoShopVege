@@ -11,8 +11,6 @@ const ListFoodsContainer = () => {
     console.log('hi!')
     return <div>...loading</div>
   }
-  console.log('nyt täs')
-  console.log('foodsResult.data.allFoods', foodsResult)
 
   const foods = foodsResult.data.allFoods
   return (
