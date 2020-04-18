@@ -5,9 +5,8 @@ const useUpdateCache = (collection, query) => {
 
   const includedIn = (set, object) => set.map(i => i.id).includes(object.id)
 
-  const update = addedObject => {
+  const updateCacheWith = addedObject => {
     const dataInStore = client.readQuery({ query })
-    console.log('täs dataInStore', dataInStore)
 
     if (!includedIn(dataInStore[collection], addedObject)) {
       client.writeQuery({
@@ -19,7 +18,7 @@ const useUpdateCache = (collection, query) => {
     }
   }
 
-  return update
+  return updateCacheWith
 }
 
 export default useUpdateCache

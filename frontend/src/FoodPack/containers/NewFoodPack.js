@@ -1,33 +1,39 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { ADD_FOODPACK } from '../queries'
-import FoodPackFormContainer from './FoodPackFormContainer'
 import { Redirect } from 'react-router-dom'
+import { ADD_FOODPACK, ALL_FOODPACKS } from '../queries'
+import FoodPackFormContainer from './FoodPackFormContainer'
+import useUpdateCache from '../../general/useUpdateCache'
 
 const NewFoodPack = () => {
   const [alreadyAdded, setAlreadyAdded] = useState(false)
-  const [launchAddFoodPack] = useMutation(ADD_FOODPACK)
   const [foodPackName, setFoodPackName] = useState('')
+  const updateCacheWith = useUpdateCache('allFoodPacks', ALL_FOODPACKS)
+  const [launchAddFoodPack] = useMutation(ADD_FOODPACK, {
+    update: (store, response) => {
+      updateCacheWith(response.data.addFoodPack)
+    },
+  })
 
   if (alreadyAdded) {
     return <Redirect to={`/ruokapaketit/${foodPackName}`} />
   }
 
-  const addFoodPack = async (foodPackToAdd) => {
+  const addFoodPack = async foodPackToAdd => {
     try {
+      setAlreadyAdded(true)
+      setFoodPackName(foodPackToAdd.name)
       await launchAddFoodPack({
         variables: {
           name: foodPackToAdd.name,
-          foods: foodPackToAdd.foods
-        }
+          foods: foodPackToAdd.foods,
+        },
       })
-      setAlreadyAdded(true)
-      setFoodPackName(foodPackToAdd.name)
     } catch (e) {
       console.log('Error adding foodpack in NewFoodPack.js: ', e.message)
     }
   }
-  
+
   return (
     <div>
       <FoodPackFormContainer addFoodPack={addFoodPack} />

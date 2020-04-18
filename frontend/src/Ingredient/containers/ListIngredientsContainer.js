@@ -13,7 +13,6 @@ const ListIngredientsContainer = () => {
   useSubscription(INGREDIENT_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedIngredient = subscriptionData.data.ingredientAdded
-      window.alert(`Uusi ainesosa lisätty: ${addedIngredient.name}`)
       updateCacheWith(addedIngredient)
     },
   })

@@ -1,27 +1,14 @@
 import React, { useState } from 'react'
-import { useMutation, useSubscription, useApolloClient } from '@apollo/client'
+import { useMutation, useSubscription } from '@apollo/client'
 import { Redirect } from 'react-router-dom'
 import { ADD_FOOD, FOOD_ADDED, ALL_FOODS } from '../queries'
 import FoodFormContainer from './FoodFormContainer'
+import useUpdateCache from '../../general/useUpdateCache'
 
 const NewFood = () => {
   const [alreadyAdded, setAlreadyAdded] = useState(false)
   const [foodName, setFoodName] = useState('')
-  const client = useApolloClient()
-
-  const updateCacheWith = (addedFood) => {
-    const includedIn = (set, object) => set.map((f) => f.id).includes(object.id)
-
-    const dataInStore = client.readQuery({ query: ALL_FOODS })
-    if (!includedIn(dataInStore.allFoods, addedFood)) {
-      client.writeQuery({
-        query: ALL_FOODS,
-        data: {
-          allFoods: dataInStore.allFoods.concat(addedFood),
-        },
-      })
-    }
-  }
+  const updateCacheWith = useUpdateCache('allFoods', ALL_FOODS)
 
   const [launchAddFood] = useMutation(ADD_FOOD, {
     update: (store, response) => {
@@ -41,7 +28,7 @@ const NewFood = () => {
     return <Redirect to={`/ruoat/${foodName}`} />
   }
 
-  const addFood = async (foodToAdd) => {
+  const addFood = async foodToAdd => {
     try {
       setAlreadyAdded(true)
       setFoodName(foodToAdd.name)
