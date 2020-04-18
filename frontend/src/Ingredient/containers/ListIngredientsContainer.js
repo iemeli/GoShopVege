@@ -3,23 +3,12 @@ import { useQuery, useSubscription, useApolloClient } from '@apollo/client'
 import { ALL_INGREDIENTS, INGREDIENT_ADDED } from '../queries'
 import ListIngredients from '../presentational/ListIngredients'
 import NewIngredient from '../Forms/NewIngredient'
+import useUpdateCache from '../../general/useUpdateCache'
 
 const ListIngredientsContainer = () => {
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
   const client = useApolloClient()
-  const updateCacheWith = (addedIngredient) => {
-    const includedIn = (set, object) => set.map((i) => i.id).includes(object.id)
-
-    const dataInStore = client.readQuery({ query: ALL_INGREDIENTS })
-    if (!includedIn(dataInStore.allIngredients, addedIngredient)) {
-      client.writeQuery({
-        query: ALL_INGREDIENTS,
-        data: {
-          allIngredients: dataInStore.allIngredients.concat(addedIngredient),
-        },
-      })
-    }
-  }
+  const updateCacheWith = useUpdateCache('allIngredients', ALL_INGREDIENTS)
 
   useSubscription(INGREDIENT_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
