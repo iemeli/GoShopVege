@@ -19,4 +19,5 @@
 | 10.4.  | 2.5      | eslint configurointia ja FoodPackFormin refaktorointia                 |
 | 16.4.  | 4        | debuggaamista ja hieno DeleteModal komponentti                         |
 | 18.4.  | 4        | debuggaamista sekä hieno useUpdateCache custom hook                    |
-|  yht   | 54.5     |                                                                        |
+| 20.4.  | 5        | debuggaamista backendin resolvereissa                                  |
+|  yht   | 59.5     |                                                                        |
