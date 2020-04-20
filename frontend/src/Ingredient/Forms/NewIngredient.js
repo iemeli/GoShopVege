@@ -11,7 +11,11 @@ const NewIngredient = () => {
   const [kcal, resetKcal] = useField('number')
   const [alert, setAlert] = useState(null)
   const [success, setSuccess] = useState(null)
-  const updateCacheWith = useUpdateCache('allIngredients', ALL_INGREDIENTS)
+  const updateCacheWith = useUpdateCache(
+    'allIngredients',
+    ALL_INGREDIENTS,
+    'ADD'
+  )
   const [addIngredient] = useMutation(ADD_INGREDIENT, {
     update: (store, response) => {
       updateCacheWith(response.data.addIngredient)

@@ -2,13 +2,12 @@ const Food = require('../models/Food')
 const FoodPack = require('../models/FoodPack')
 
 const allFoodPacks = (root, args) => {
-  return FoodPack
-    .find({ ...args.name && { name: args.name } })
+  return FoodPack.find({ ...(args.name && { name: args.name }) })
     .populate({
       path: 'foods',
       populate: {
-        path: 'ingredients.item'
-      }
+        path: 'ingredients.item',
+      },
     })
     .catch(e => {
       console.log(
@@ -24,14 +23,12 @@ const addFoodPack = async (root, args) => {
     foods: args.foods,
   }).save()
 
-  const foodPack = await FoodPack
-    .findOne({ name: args.name })
-    .populate({
-      path: 'foods',
-      populate: {
-        path: 'ingredients.item'
-      }
-    })
+  const foodPack = await FoodPack.findOne({ name: args.name }).populate({
+    path: 'foods',
+    populate: {
+      path: 'ingredients.item',
+    },
+  })
 
   foodPack.foods
     .map(f => f.id)
@@ -53,19 +50,17 @@ const addFoodPack = async (root, args) => {
 const deleteFoodPack = async (root, args) => {
   try {
     const foodPack = await FoodPack.findOneAndDelete({ _id: args.id })
-    foodPack.foods
-      .map(async foodID => {
-        const food = await Food.findOne({ _id: foodID })
-        food.usedInFoodPacks = food.usedInFoodPacks
-          .filter(
-            fp => fp._id.toString() !== foodPack._id.toString()
-          )
-        await food.save()
-      })
+    foodPack.foods.map(async foodID => {
+      const food = await Food.findOne({ _id: foodID })
+      food.usedInFoodPacks = food.usedInFoodPacks.filter(
+        fp => fp._id.toString() !== foodPack._id.toString()
+      )
+      await food.save()
+    })
+    return foodPack
   } catch (e) {
-    console.log('Error deleting FoodPack')
+    return console.log('Error deleting FoodPack')
   }
-  return 'FoodPack deleted succesfully'
 }
 
 const updateFoodPack = async (root, args) => {
@@ -93,8 +88,9 @@ const updateFoodPack = async (root, args) => {
       }
       try {
         const food = await Food.findOne({ _id: previousFoods[i] })
-        food.usedInFoodPacks = food.usedInFoodPacks
-          .filter(fp => fp._id.toString() !== foodPack._id.toString())
+        food.usedInFoodPacks = food.usedInFoodPacks.filter(
+          fp => fp._id.toString() !== foodPack._id.toString()
+        )
         await food.save()
       } catch (e) {
         console.log('Error finding Food in updateFoodPack: ', e.message)
@@ -109,24 +105,25 @@ const updateFoodPack = async (root, args) => {
           await food.save()
         }
       } catch (e) {
-        console.log('Error updating food\'s usedInFoodPacks in updateFoodPack', e.message)
+        console.log(
+          "Error updating food's usedInFoodPacks in updateFoodPack",
+          e.message
+        )
       }
     }
   }
 
-  return FoodPack
-    .findOne({ _id: foodPack._id })
-    .populate({
-      path: 'foods',
-      populate: {
-        path: 'ingredients.item'
-      }
-    })
+  return FoodPack.findOne({ _id: foodPack._id }).populate({
+    path: 'foods',
+    populate: {
+      path: 'ingredients.item',
+    },
+  })
 }
 
 module.exports = {
   allFoodPacks,
   addFoodPack,
   deleteFoodPack,
-  updateFoodPack
+  updateFoodPack,
 }

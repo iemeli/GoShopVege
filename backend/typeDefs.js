@@ -45,16 +45,10 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addIngredient(
-      name: String!
-      price: Float!
-      kcal: Int
-    ): Ingredient!
+    addIngredient(name: String!, price: Float!, kcal: Int): Ingredient!
 
-    deleteIngredient(
-      id: String!
-    ): String!
-    
+    deleteIngredient(id: String!): Ingredient!
+
     updateIngredient(
       id: String!
       name: String
@@ -62,16 +56,10 @@ const typeDefs = gql`
       kcal: Int
     ): Ingredient!
 
-    addFood(
-      name: String!
-      ingredients: [String!]!
-      recipe: [String!]!
-    ): Food!
-    
-    deleteFood(
-      id: String!
-    ): String!
-    
+    addFood(name: String!, ingredients: [String!]!, recipe: [String!]!): Food!
+
+    deleteFood(id: String!): Ingredient!
+
     updateFood(
       id: String!
       name: String
@@ -79,20 +67,11 @@ const typeDefs = gql`
       recipe: [String!]
     ): Food!
 
-    addFoodPack(
-      name: String!
-      foods: [String!]!
-    ): FoodPack!
+    addFoodPack(name: String!, foods: [String!]!): FoodPack!
 
-    deleteFoodPack(
-      id: String!
-    ): String!
+    deleteFoodPack(id: String!): Ingredient!
 
-    updateFoodPack(
-      id: String!
-      name: String
-      foods: [String!]
-    ): FoodPack!
+    updateFoodPack(id: String!, name: String, foods: [String!]): FoodPack!
   }
 
   type Subscription {

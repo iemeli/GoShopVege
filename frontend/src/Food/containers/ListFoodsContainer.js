@@ -8,11 +8,17 @@ const ListFoodsContainer = () => {
   const foodsResult = useQuery(ALL_FOODS)
 
   if (foodsResult.loading) {
-    console.log('hi!')
     return <div>...loading</div>
   }
 
-  const foods = foodsResult.data.allFoods
+  let foods
+  try {
+    foods = foodsResult.data.allFoods
+  } catch (error) {
+    console.log('Error finding allFoods in Apollo-client cache:', error.message)
+    return <div>dataa ei löydetty cachesta!</div>
+  }
+
   return (
     <div>
       <h3>

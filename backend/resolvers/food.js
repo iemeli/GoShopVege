@@ -4,18 +4,17 @@ const FoodPack = require('../models/FoodPack')
 const { PubSub } = require('apollo-server')
 const pubsub = new PubSub()
 
-const getFoodIngredients = (ingr) => {
-  return foodIngredients = ingr
+const getFoodIngredients = ingr => {
+  return (foodIngredients = ingr
     .map(i => i.split(';'))
     .map(i => ({
       usedAtOnce: Number(i[1]) === 0 ? false : true,
-      item: i[0]
-    }))
+      item: i[0],
+    })))
 }
 
 const allFoods = (root, args) => {
-  return Food
-    .find({ ...args.name && { name: args.name } })
+  return Food.find({ ...(args.name && { name: args.name }) })
     .populate('ingredients.item')
     .populate('usedInFoodPacks')
     .catch(e => {
@@ -30,12 +29,12 @@ const addFood = async (root, args) => {
   await new Food({
     name: args.name,
     ingredients: getFoodIngredients(args.ingredients),
-    recipe: args.recipe
+    recipe: args.recipe,
   }).save()
 
-  const food = await Food
-    .findOne({ name: args.name })
-    .populate('ingredients.item')
+  const food = await Food.findOne({ name: args.name }).populate(
+    'ingredients.item'
+  )
 
   food.ingredients
     .map(i => i.item.id)
@@ -56,30 +55,28 @@ const deleteFood = async (root, args) => {
   try {
     const food = await Food.findOneAndDelete({ _id: args.id })
 
-    food.usedInFoodPacks
-      .forEach(async foodPackID => {
-        const foodPack = await FoodPack.findOne({ _id: foodPackID })
-        foodPack.foods = foodPack.foods
-          .filter(f =>
-            f._id.toString() !== food._id.toString()
-          )
-        await foodPack.save()
-      })
+    food.usedInFoodPacks.forEach(async foodPackID => {
+      const foodPack = await FoodPack.findOne({ _id: foodPackID })
+      foodPack.foods = foodPack.foods.filter(
+        f => f._id.toString() !== food._id.toString()
+      )
+      await foodPack.save()
+    })
 
     food.ingredients
       .map(i => i.item._id)
       .forEach(async i => {
         const ingredient = await Ingredient.findOne({ _id: i })
-        ingredient.usedInFoods = ingredient.usedInFoods
-          .filter(f =>
-            f._id.toString() !== food._id.toString()
-          )
+        ingredient.usedInFoods = ingredient.usedInFoods.filter(
+          f => f._id.toString() !== food._id.toString()
+        )
         await ingredient.save()
       })
+
+    return food
   } catch (e) {
-    console.log('Error deleting Food', e.message)
+    return console.log('Error deleting Food', e.message)
   }
-  return 'Food deleted succesfully'
 }
 
 const updateFood = async (root, args) => {
@@ -109,13 +106,12 @@ const updateFood = async (root, args) => {
         continue
       }
       try {
-        const ingr = await Ingredient.
-          findOne({ _id: previousIngredients[i] })
-        ingr.usedInFoods = ingr.usedInFoods
-          .filter(f => f.toString() !== food._id.toString())
+        const ingr = await Ingredient.findOne({ _id: previousIngredients[i] })
+        ingr.usedInFoods = ingr.usedInFoods.filter(
+          f => f.toString() !== food._id.toString()
+        )
         await ingr.save()
-      }
-      catch (e) {
+      } catch (e) {
         console.log('Error finding Ingredient in updateFood: ', e.message)
       }
     }
@@ -138,7 +134,7 @@ const updateFood = async (root, args) => {
 }
 
 const foodAdded = {
-  subscribe: () => pubsub.asyncIterator(['FOOD_ADDED'])
+  subscribe: () => pubsub.asyncIterator(['FOOD_ADDED']),
 }
 
 module.exports = {
@@ -146,5 +142,5 @@ module.exports = {
   addFood,
   deleteFood,
   updateFood,
-  foodAdded
+  foodAdded,
 }

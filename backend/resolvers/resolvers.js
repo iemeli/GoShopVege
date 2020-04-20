@@ -1,27 +1,37 @@
 const {
-  allIngredients, addIngredient, deleteIngredient,
-  updateIngredient, ingredientAdded
+  allIngredients,
+  addIngredient,
+  deleteIngredient,
+  updateIngredient,
+  ingredientAdded,
 } = require('./ingredient')
 const {
-  allFoods, addFood, deleteFood, updateFood, foodAdded
+  allFoods,
+  addFood,
+  deleteFood,
+  updateFood,
+  foodAdded,
 } = require('./food')
 const {
-  allFoodPacks, addFoodPack, deleteFoodPack, updateFoodPack
+  allFoodPacks,
+  addFoodPack,
+  deleteFoodPack,
+  updateFoodPack,
 } = require('./foodPack')
 
 const getField = (root, field, obj) => {
   if (obj === 'Food') {
-    return root.ingredients
-      .reduce((sum, nextIng) => {
-        if (nextIng.item[field]) {
-          return sum + nextIng.item[field]
-        }
-        return sum
-      }, 0)
+    return root.ingredients.reduce((sum, nextIng) => {
+      if (nextIng.item[field]) {
+        return sum + nextIng.item[field]
+      }
+      return sum
+    }, 0)
   }
-  return root.foods
-    .reduce((sum, nextFood) =>
-      sum + getField(nextFood, field, 'Food'), 0)
+  return root.foods.reduce(
+    (sum, nextFood) => sum + getField(nextFood, field, 'Food'),
+    0
+  )
 }
 
 const resolvers = {
@@ -31,7 +41,7 @@ const resolvers = {
     foodsCount: () => Food.countDocuments(),
     allFoods,
     foodPacksCount: () => FoodPack.countDocuments(),
-    allFoodPacks
+    allFoodPacks,
   },
   Mutation: {
     addIngredient,
@@ -42,22 +52,22 @@ const resolvers = {
     updateFood,
     addFoodPack,
     deleteFoodPack,
-    updateFoodPack
+    updateFoodPack,
   },
   Subscription: {
     ingredientAdded,
-    foodAdded
+    foodAdded,
   },
   Food: {
-    price: (root) => getField(root, 'price', 'Food'),
-    kcal: (root) => getField(root, 'kcal', 'Food'),
-    ingredientsCount: (root) => root.ingredients.length
+    price: root => getField(root, 'price', 'Food'),
+    kcal: root => getField(root, 'kcal', 'Food'),
+    ingredientsCount: root => root.ingredients.length,
   },
   FoodPack: {
-    price: (root) => getField(root, 'price', 'FoodPack'),
-    kcal: (root) => getField(root, 'kcal', 'FoodPack'),
-    foodsCount: (root) => root.foods.length
-  }
+    price: root => getField(root, 'price', 'FoodPack'),
+    kcal: root => getField(root, 'kcal', 'FoodPack'),
+    foodsCount: root => root.foods.length,
+  },
 }
 
 module.exports = resolvers

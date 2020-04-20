@@ -8,7 +8,11 @@ import useUpdateCache from '../../general/useUpdateCache'
 const ListIngredientsContainer = () => {
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
   const client = useApolloClient()
-  const updateCacheWith = useUpdateCache('allIngredients', ALL_INGREDIENTS)
+  const updateCacheWith = useUpdateCache(
+    'allIngredients',
+    ALL_INGREDIENTS,
+    'ADD'
+  )
 
   useSubscription(INGREDIENT_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {

@@ -18,4 +18,5 @@
 |  9.4.  | 4        | update fronttiin ja refaktorointia                                     |
 | 10.4.  | 2.5      | eslint configurointia ja FoodPackFormin refaktorointia                 |
 | 16.4.  | 4        | debuggaamista ja hieno DeleteModal komponentti                         |
-|  yht   | 50.5     |                                                                        |
+| 18.4.  | 4        | debuggaamista sekä hieno useUpdateCache custom hook                    |
+|  yht   | 54.5     |                                                                        |

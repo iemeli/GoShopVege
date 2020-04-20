@@ -5,26 +5,30 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 4,
-    unique: true
+    unique: true,
   },
   recipe: {
     type: [String],
-    required: true
+    required: true,
   },
-  ingredients: [{
-    usedAtOnce: {
-      type: Boolean,
-      default: true
+  ingredients: [
+    {
+      usedAtOnce: {
+        type: Boolean,
+        default: true,
+      },
+      item: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Ingredient',
+      },
     },
-    item: {
+  ],
+  usedInFoodPacks: [
+    {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Ingredient'
-    }
-  }],
-  usedInFoodPacks: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'FoodPack'
-  }]
+      ref: 'FoodPack',
+    },
+  ],
 })
 
 schema.set('toJSON', {
@@ -32,7 +36,15 @@ schema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
-  }
+  },
+})
+
+schema.set('toObject', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v
+  },
 })
 
 module.exports = mongoose.model('Food', schema)

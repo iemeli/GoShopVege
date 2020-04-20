@@ -8,7 +8,7 @@ import useUpdateCache from '../../general/useUpdateCache'
 const NewFood = () => {
   const [alreadyAdded, setAlreadyAdded] = useState(false)
   const [foodName, setFoodName] = useState('')
-  const updateCacheWith = useUpdateCache('allFoods', ALL_FOODS)
+  const updateCacheWith = useUpdateCache('allFoods', ALL_FOODS, 'ADD')
 
   const [launchAddFood] = useMutation(ADD_FOOD, {
     update: (store, response) => {

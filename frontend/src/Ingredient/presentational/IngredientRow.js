@@ -18,7 +18,7 @@ const IngredientRow = ({ ingredient, hideButtons }) => {
     setUpdateMode(!updateMode)
   }
 
-  const updateIngredient = async (e) => {
+  const updateIngredient = async e => {
     e.preventDefault()
 
     try {
@@ -26,8 +26,8 @@ const IngredientRow = ({ ingredient, hideButtons }) => {
         variables: {
           id: ingredient.id,
           name: name.value,
-          price: price.value,
-          kcal: kcal.value,
+          price: Number(price.value),
+          kcal: kcal.value ? Number(kcal.value) : null,
         },
       })
     } catch (error) {
