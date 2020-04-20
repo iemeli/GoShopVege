@@ -1,8 +1,13 @@
 const Ingredient = require('../models/Ingredient')
 const Food = require('../models/Food')
 const FoodPack = require('../models/FoodPack')
-const { PubSub } = require('apollo-server')
+const { PubSub, UserInputError } = require('apollo-server')
 const pubsub = new PubSub()
+
+const hasDuplicate = ingredients => {
+  const array = ingredients.map(i => i.split(';')).map(i => i[0])
+  return new Set(array).size !== array.length
+}
 
 const getFoodIngredients = ingr => {
   return (foodIngredients = ingr
@@ -26,6 +31,12 @@ const allFoods = (root, args) => {
 }
 
 const addFood = async (root, args) => {
+  if (hasDuplicate(args.ingredients)) {
+    throw new UserInputError('No duplicate ingredients for food allowed', {
+      invalidArgs: args,
+    })
+  }
+
   await new Food({
     name: args.name,
     ingredients: getFoodIngredients(args.ingredients),
@@ -80,6 +91,12 @@ const deleteFood = async (root, args) => {
 }
 
 const updateFood = async (root, args) => {
+  if (hasDuplicate(args.ingredients)) {
+    throw new UserInputError('No duplicate ingredients for food allowed', {
+      invalidArgs: args,
+    })
+  }
+
   const food = await Food.findOne({ _id: args.id })
   food.name = args.name ? args.name : food.name
   food.recipe = args.recipe ? args.recipe : food.recipe
