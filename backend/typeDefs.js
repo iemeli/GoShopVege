@@ -69,7 +69,7 @@ const typeDefs = gql`
 
     addFoodPack(name: String!, foods: [String!]!): FoodPack!
 
-    deleteFoodPack(id: String!): Ingredient!
+    deleteFoodPack(id: String!): FoodPack!
 
     updateFoodPack(id: String!, name: String, foods: [String!]): FoodPack!
   }
