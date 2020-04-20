@@ -39,9 +39,8 @@ const deleteIngredient = async (root, args) => {
       _id: args.id,
     }).populate('usedInFoods')
 
-    console.log('täs ingredient', ingredient)
     const original = ingredient.toObject()
-    console.log('täs original', original)
+
     ingredient.usedInFoods.forEach(async food => {
       food.ingredients = food.ingredients.filter(
         i => i.item.toString() !== ingredient.id

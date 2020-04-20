@@ -42,6 +42,10 @@ schema.set('toJSON', {
 schema.set('toObject', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
+    returnedObject.ingredients.forEach(i => {
+      i.id = i._id.toString()
+      delete i._id
+    })
     delete returnedObject._id
     delete returnedObject.__v
   },
