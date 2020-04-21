@@ -19,7 +19,6 @@ const NewFood = ({ setAlert }) => {
   useSubscription(FOOD_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedFood = subscriptionData.data.foodAdded
-      setAlert('success', `Uusi ruoka lisätty: ${addedFood.name}`)
       updateCacheWith(addedFood)
     },
   })

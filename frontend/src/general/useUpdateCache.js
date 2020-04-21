@@ -8,14 +8,14 @@ const useUpdateCache = (collection, query, mode) => {
   const updateCacheWith = object => {
     const dataInStore = client.readQuery({ query })
 
-    if (!includedIn(dataInStore[collection], object)) {
+    if (!includedIn(dataInStore[collection], object) || mode === 'DELETE') {
       let data
       switch (mode) {
         case 'ADD':
           data = dataInStore[collection].concat(object)
           break
         case 'DELETE':
-          data = dataInStore.filter(o => o.id === object.id)
+          data = dataInStore[collection].filter(o => o.id !== object.id)
           break
         case 'UPDATE':
           data = dataInStore[collection].map(o =>

@@ -1,13 +1,21 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useMutation } from '@apollo/client'
-import { DELETE_FOOD } from '../queries'
+import { DELETE_FOOD, ALL_FOODS } from '../queries'
 import DeleteModal from '../../general/DeleteModal'
 import DeleteModalBody from './DeleteModalBody'
+import useUpdateCache from '../../general/useUpdateCache'
 
 const DeleteFoodButton = ({ food }) => {
-  const [deleteFood] = useMutation(DELETE_FOOD)
   const [modalVisible, setModalVisible] = useState(false)
+
+  const updateCacheWith = useUpdateCache('allFoods', ALL_FOODS, 'DELETE')
+
+  const [deleteFood] = useMutation(DELETE_FOOD, {
+    update: (store, response) => {
+      updateCacheWith(response.data.deleteFood)
+    },
+  })
 
   const deleteFoodRef = React.createRef()
 

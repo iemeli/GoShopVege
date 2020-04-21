@@ -3,11 +3,17 @@ import { useQuery, useMutation } from '@apollo/client'
 import { useRouteMatch, Redirect } from 'react-router-dom'
 import { ALL_FOODS, UPDATE_FOOD } from '../queries'
 import FoodFormContainer from './FoodFormContainer'
+import useUpdateCache from '../../general/useUpdateCache'
 
 const UpdateFood = ({ setAlert }) => {
   const [alreadyUpdated, setAlreadyUpdated] = useState(false)
   const foodName = useRouteMatch('/ruoat/paivita/:name').params.name
-  const [launchUpdateFood] = useMutation(UPDATE_FOOD)
+  const updateCacheWith = useUpdateCache('allFoods', ALL_FOODS, 'UPDATE')
+  const [launchUpdateFood] = useMutation(UPDATE_FOOD, {
+    update: (store, response) => {
+      updateCacheWith(response.data.updateFood)
+    },
+  })
 
   const foodsResult = useQuery(ALL_FOODS, {
     variables: { name: foodName },
