@@ -5,7 +5,7 @@ import { ADD_FOOD, FOOD_ADDED, ALL_FOODS } from '../queries'
 import FoodFormContainer from './FoodFormContainer'
 import useUpdateCache from '../../general/useUpdateCache'
 
-const NewFood = () => {
+const NewFood = ({ setAlert }) => {
   const [alreadyAdded, setAlreadyAdded] = useState(false)
   const [foodName, setFoodName] = useState('')
   const updateCacheWith = useUpdateCache('allFoods', ALL_FOODS, 'ADD')
@@ -19,7 +19,7 @@ const NewFood = () => {
   useSubscription(FOOD_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedFood = subscriptionData.data.foodAdded
-      window.alert(`Uusi ruoka lisätty: ${addedFood.name}`)
+      setAlert('success', `Uusi ruoka lisätty: ${addedFood.name}`)
       updateCacheWith(addedFood)
     },
   })
@@ -46,7 +46,7 @@ const NewFood = () => {
 
   return (
     <div>
-      <FoodFormContainer addFood={addFood} />
+      <FoodFormContainer addFood={addFood} setAlert={setAlert} />
     </div>
   )
 }

@@ -13,13 +13,8 @@ const FoodContainer = () => {
   if (foodsResult.loading) {
     return <div>...loading</div>
   }
-  let food
-  try {
-    food = foodsResult.data.allFoods[0]
-  } catch (error) {
-    console.log('Error finding allFoods in Apollo-client cache:', error.message)
-    return <div>dataa ei löydetty cachesta!</div>
-  }
+
+  const food = foodsResult.data.allFoods[0]
 
   if (!food) {
     return <Redirect to="/ruoat" />

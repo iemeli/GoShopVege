@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import { Alert } from 'react-bootstrap'
 import { v4 as uuid } from 'uuid'
 import useField from '../../general/useField'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import FoodForm from '../presentational/FoodForm'
 
-const FoodFormContainer = ({ food, updateFood, addFood }) => {
+const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   const [name] = useField('text', food ? food.name : null)
   const [step, resetStep] = useField('text')
   const [recipe, setRecipe] = useState([])
@@ -15,13 +14,12 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
   )
   const [price, setPrice] = useState(food ? food.price : 0)
   const [kcal, setKcal] = useState(food ? food.kcal : 0)
-  const [alert, setAlert] = useState(null)
 
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
 
   useEffect(() => {
     if (food) {
-      const recipeRows = food.recipe.map((r) => ({ value: r, id: uuid() }))
+      const recipeRows = food.recipe.map(r => ({ value: r, id: uuid() }))
       setRecipe(recipeRows)
     }
   }, [food])
@@ -31,31 +29,31 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
   }
 
   const ingredients = ingredientsResult.data.allIngredients.filter(
-    (i) => !foodIngredients.map((fi) => fi.item.id).includes(i.id)
+    i => !foodIngredients.map(fi => fi.item.id).includes(i.id)
   )
 
   const parseIngredients = () => {
-    return foodIngredients.map((i) => `${i.item.id};${i.usedAtOnce ? 1 : 0}`)
+    return foodIngredients.map(i => `${i.item.id};${i.usedAtOnce ? 1 : 0}`)
   }
 
   const parseRecipe = () => {
-    return recipe.map((row) => row.value)
+    return recipe.map(row => row.value)
   }
 
-  const toggleUsedAtOnce = (event) => {
+  const toggleUsedAtOnce = event => {
     setFoodIngredients(
-      foodIngredients.map((fi) =>
+      foodIngredients.map(fi =>
         fi.id === event.target.id ? { ...fi, usedAtOnce: !fi.usedAtOnce } : fi
       )
     )
   }
 
-  const handleSelect = (ingredientID) => {
+  const handleSelect = ingredientID => {
     const newFoodIngredient = {
       usedAtOnce: true,
       id: uuid(),
     }
-    const ingredient = ingredients.find((i) => i.id === ingredientID)
+    const ingredient = ingredients.find(i => i.id === ingredientID)
     newFoodIngredient.item = ingredient
     setFoodIngredients(foodIngredients.concat(newFoodIngredient))
 
@@ -63,12 +61,10 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
     setKcal(kcal + ingredient.kcal)
   }
 
-  const removeIngredient = (event) => {
-    const ingredient = foodIngredients.find((fi) => fi.id === event.target.id)
+  const removeIngredient = event => {
+    const ingredient = foodIngredients.find(fi => fi.id === event.target.id)
       .item
-    setFoodIngredients(
-      foodIngredients.filter((fi) => fi.id !== event.target.id)
-    )
+    setFoodIngredients(foodIngredients.filter(fi => fi.id !== event.target.id))
 
     setPrice(price - ingredient.price)
     setKcal(kcal - ingredient.kcal)
@@ -76,35 +72,29 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
 
   const addStep = () => {
     if (step.value.length < 3) {
-      setAlert('Yhden reseptin rivin pituuden täytyy olla vähintään 3!')
-      setTimeout(() => {
-        setAlert(null)
-      }, 5000)
+      setAlert(
+        'danger',
+        'Yhden reseptin rivin pituuden täytyy olla vähintään 3!'
+      )
       return
     }
-    if (recipe.map((r) => r.value).includes(step.value)) {
-      setAlert('Reseptissä ei voi olla samoja rivejä!')
-      setTimeout(() => {
-        setAlert(null)
-      }, 5000)
+    if (recipe.map(r => r.value).includes(step.value)) {
+      setAlert('danger', 'Reseptissä ei voi olla samoja rivejä!')
       return
     }
     setRecipe(recipe.concat({ value: step.value, id: uuid() }))
     resetStep()
   }
 
-  const removeStep = (event) => {
-    setRecipe(recipe.filter((row) => row.id !== event.target.id))
+  const removeStep = event => {
+    setRecipe(recipe.filter(row => row.id !== event.target.id))
   }
 
-  const submit = async (e) => {
+  const submit = async e => {
     e.preventDefault()
 
     if (name.value.length < 4) {
-      setAlert('Nimen pituuden täytyy olla vähintään 4 !')
-      setTimeout(() => {
-        setAlert(null)
-      }, 5000)
+      setAlert('danger', 'Nimen pituuden täytyy olla vähintään 4 !')
       return
     }
 
@@ -130,7 +120,6 @@ const FoodFormContainer = ({ food, updateFood, addFood }) => {
       <strong>
         <p>Yhteensä kcal: {kcal}</p>
       </strong>
-      {alert && <Alert variant="danger">{alert}</Alert>}
       <FoodForm
         toggleUsedAtOnce={toggleUsedAtOnce}
         foodIngredients={foodIngredients}

@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { useQuery } from '@apollo/client'
-import { Alert } from 'react-bootstrap'
 import useField from '../../general/useField'
 import { ALL_FOODS } from '../../Food/queries'
 import FoodPackForm from '../presentational/FoodPackForm'
 
-const FoodPackFormContainer = ({ foodPack, addFoodPack, updateFoodPack }) => {
+const FoodPackFormContainer = ({
+  foodPack,
+  addFoodPack,
+  updateFoodPack,
+  setAlert,
+}) => {
   const [name] = useField('text', foodPack ? foodPack.name : null)
   const [foods, setFoods] = useState(foodPack ? foodPack.foods : [])
   const [price, setPrice] = useState(foodPack ? foodPack.price : 0)
   const [kcal, setKcal] = useState(foodPack ? foodPack.kcal : 0)
-  const [alert, setAlert] = useState(null)
 
   const foodsResult = useQuery(ALL_FOODS)
 
@@ -19,11 +22,11 @@ const FoodPackFormContainer = ({ foodPack, addFoodPack, updateFoodPack }) => {
   }
 
   const foodsForDropdown = foodsResult.data.allFoods.filter(
-    (ffd) => !foods.map((f) => f.id).includes(ffd.id)
+    ffd => !foods.map(f => f.id).includes(ffd.id)
   )
 
-  const handleSelect = (foodId) => {
-    const food = foodsForDropdown.find((f) => f.id === foodId)
+  const handleSelect = foodId => {
+    const food = foodsForDropdown.find(f => f.id === foodId)
 
     setFoods(foods.concat(food))
 
@@ -31,20 +34,17 @@ const FoodPackFormContainer = ({ foodPack, addFoodPack, updateFoodPack }) => {
     setKcal(kcal + food.kcal)
   }
 
-  const submit = async (e) => {
+  const submit = async e => {
     e.preventDefault()
 
     if (name.value.length < 4) {
-      setAlert('Nimen pituuden täytyy olla vähintään 4 !')
-      setTimeout(() => {
-        setAlert(null)
-      }, 5000)
+      setAlert('danger', 'Nimen pituuden täytyy olla vähintään 4 !')
       return
     }
 
     const foodPackForParent = {
       name: name.value,
-      foods: foods.map((f) => f.id),
+      foods: foods.map(f => f.id),
     }
 
     if (foodPack) {
@@ -54,9 +54,9 @@ const FoodPackFormContainer = ({ foodPack, addFoodPack, updateFoodPack }) => {
     }
   }
 
-  const removeFood = (event) => {
-    const food = foods.find((f) => f.id === event.target.id)
-    setFoods(foods.filter((f) => f.id !== event.target.id))
+  const removeFood = event => {
+    const food = foods.find(f => f.id === event.target.id)
+    setFoods(foods.filter(f => f.id !== event.target.id))
 
     setPrice(price - food.price)
     setKcal(kcal - food.kcal)
@@ -71,7 +71,6 @@ const FoodPackFormContainer = ({ foodPack, addFoodPack, updateFoodPack }) => {
       <strong>
         <p>Yhteensä kcal: {kcal}</p>
       </strong>
-      {alert && <Alert variant="danger">{alert}</Alert>}
       <FoodPackForm
         submit={submit}
         name={name}

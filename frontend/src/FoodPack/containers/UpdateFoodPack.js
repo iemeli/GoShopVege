@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
-import { ALL_FOODPACKS, UPDATE_FOODPACK } from '../queries'
 import { useRouteMatch, Redirect } from 'react-router-dom'
+import { ALL_FOODPACKS, UPDATE_FOODPACK } from '../queries'
 import FoodPackFormContainer from './FoodPackFormContainer'
 
-const UpdateFoodPack = () => {
+const UpdateFoodPack = ({ setAlert }) => {
   const [alreadyUpdated, setAlreadyUpdated] = useState(false)
   const foodPackName = useRouteMatch('/ruokapaketit/paivita/:name').params.name
   const [launchUpdateFoodPack] = useMutation(UPDATE_FOODPACK)
 
   const foodPacksResult = useQuery(ALL_FOODPACKS, {
-    variables: { name: foodPackName }
+    variables: { name: foodPackName },
   })
 
   if (foodPacksResult.loading) {
@@ -23,26 +23,27 @@ const UpdateFoodPack = () => {
     return <Redirect to={`/ruokapaketit/${foodPack.name}`} />
   }
 
-  const updateFoodPack = async (foodPackToUpdate) => {
+  const updateFoodPack = async foodPackToUpdate => {
     try {
       await launchUpdateFoodPack({
         variables: {
           id: foodPack.id,
           name: foodPackToUpdate.name,
-          foods: foodPackToUpdate.foods
-        }
+          foods: foodPackToUpdate.foods,
+        },
       })
     } catch (e) {
       console.log('Error updating foodPack in UpdateFoodPack.js: ', e.message)
     }
     setAlreadyUpdated(true)
   }
-  
+
   return (
     <div>
       <FoodPackFormContainer
         foodPack={foodPack}
         updateFoodPack={updateFoodPack}
+        setAlert={setAlert}
       />
     </div>
   )

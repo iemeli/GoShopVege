@@ -5,7 +5,7 @@ import { ADD_FOODPACK, ALL_FOODPACKS } from '../queries'
 import FoodPackFormContainer from './FoodPackFormContainer'
 import useUpdateCache from '../../general/useUpdateCache'
 
-const NewFoodPack = () => {
+const NewFoodPack = ({ setAlert }) => {
   const [alreadyAdded, setAlreadyAdded] = useState(false)
   const [foodPackName, setFoodPackName] = useState('')
   const updateCacheWith = useUpdateCache('allFoodPacks', ALL_FOODPACKS, 'ADD')
@@ -36,7 +36,7 @@ const NewFoodPack = () => {
 
   return (
     <div>
-      <FoodPackFormContainer addFoodPack={addFoodPack} />
+      <FoodPackFormContainer addFoodPack={addFoodPack} setAlert={setAlert} />
     </div>
   )
 }

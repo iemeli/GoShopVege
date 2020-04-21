@@ -4,7 +4,7 @@ import { useRouteMatch, Redirect } from 'react-router-dom'
 import { ALL_FOODS, UPDATE_FOOD } from '../queries'
 import FoodFormContainer from './FoodFormContainer'
 
-const UpdateFood = () => {
+const UpdateFood = ({ setAlert }) => {
   const [alreadyUpdated, setAlreadyUpdated] = useState(false)
   const foodName = useRouteMatch('/ruoat/paivita/:name').params.name
   const [launchUpdateFood] = useMutation(UPDATE_FOOD)
@@ -23,7 +23,7 @@ const UpdateFood = () => {
     return <Redirect to={`/ruoat/${food.name}`} />
   }
 
-  const updateFood = async (foodToUpdate) => {
+  const updateFood = async foodToUpdate => {
     try {
       setAlreadyUpdated(true)
       await launchUpdateFood({
@@ -41,7 +41,11 @@ const UpdateFood = () => {
 
   return (
     <div>
-      <FoodFormContainer food={food} updateFood={updateFood} />
+      <FoodFormContainer
+        food={food}
+        updateFood={updateFood}
+        setAlert={setAlert}
+      />
     </div>
   )
 }

@@ -5,11 +5,10 @@ import useField from '../../general/useField'
 import { ADD_INGREDIENT, ALL_INGREDIENTS } from '../queries'
 import useUpdateCache from '../../general/useUpdateCache'
 
-const NewIngredient = () => {
+const NewIngredient = ({ setAlert }) => {
   const [name, resetName] = useField('text')
   const [price, resetPrice] = useField('number')
   const [kcal, resetKcal] = useField('number')
-  const [alert, setAlert] = useState(null)
   const [success, setSuccess] = useState(null)
   const updateCacheWith = useUpdateCache(
     'allIngredients',
@@ -26,10 +25,7 @@ const NewIngredient = () => {
     e.preventDefault()
 
     if (name.value.length < 4) {
-      setAlert('Nimen pituuden täytyy olla vähintään 4 !')
-      setTimeout(() => {
-        setAlert(null)
-      }, 5000)
+      setAlert('danger', 'Nimen pituuden täytyy olla vähintään 4 !')
       return
     }
 

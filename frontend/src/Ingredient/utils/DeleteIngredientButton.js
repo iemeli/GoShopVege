@@ -13,9 +13,9 @@ const DeleteIngredientButton = ({ ingredient }) => {
     'DELETE'
   )
   const [deleteIngredient] = useMutation(DELETE_INGREDIENT, {
-    // update: (store, response) => {
-    //   updateCacheWith(response.data.deleteIngredient)
-    // },
+    update: (store, response) => {
+      updateCacheWith(response.data.deleteIngredient)
+    },
   })
   const [modalVisible, setModalVisible] = useState(false)
 

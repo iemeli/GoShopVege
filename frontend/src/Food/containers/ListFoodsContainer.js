@@ -11,13 +11,7 @@ const ListFoodsContainer = () => {
     return <div>...loading</div>
   }
 
-  let foods
-  try {
-    foods = foodsResult.data.allFoods
-  } catch (error) {
-    console.log('Error finding allFoods in Apollo-client cache:', error.message)
-    return <div>dataa ei löydetty cachesta!</div>
-  }
+  const foods = foodsResult.data.allFoods
 
   return (
     <div>
