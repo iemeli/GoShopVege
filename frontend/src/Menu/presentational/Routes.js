@@ -16,7 +16,10 @@ import UpdateFoodPack from '../../FoodPack/containers/UpdateFoodPack'
 
 const Routes = () => {
   const alertRef = React.createRef()
-  const setAlert = alertRef.current.setAlert()
+
+  const setAlert = (variant, message) => {
+    alertRef.current.setAlert(variant, message)
+  }
 
   return (
     <div>

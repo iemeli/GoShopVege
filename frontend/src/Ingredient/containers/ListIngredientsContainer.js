@@ -5,7 +5,7 @@ import ListIngredients from '../presentational/ListIngredients'
 import NewIngredient from '../Forms/NewIngredient'
 import useUpdateCache from '../../general/useUpdateCache'
 
-const ListIngredientsContainer = () => {
+const ListIngredientsContainer = ({ setAlert }) => {
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
   const client = useApolloClient()
   const updateCacheWith = useUpdateCache(
@@ -30,7 +30,7 @@ const ListIngredientsContainer = () => {
 
   return (
     <div>
-      <NewIngredient />
+      <NewIngredient setAlert={setAlert} />
       <ListIngredients ingredients={ingredients} />
     </div>
   )

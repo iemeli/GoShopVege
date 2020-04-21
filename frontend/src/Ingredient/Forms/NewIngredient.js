@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Alert, Form, Button } from 'react-bootstrap'
+import React from 'react'
+import { Form, Button } from 'react-bootstrap'
 import { useMutation } from '@apollo/client'
 import useField from '../../general/useField'
 import { ADD_INGREDIENT, ALL_INGREDIENTS } from '../queries'
@@ -9,7 +9,6 @@ const NewIngredient = ({ setAlert }) => {
   const [name, resetName] = useField('text')
   const [price, resetPrice] = useField('number')
   const [kcal, resetKcal] = useField('number')
-  const [success, setSuccess] = useState(null)
   const updateCacheWith = useUpdateCache(
     'allIngredients',
     ALL_INGREDIENTS,
@@ -41,10 +40,7 @@ const NewIngredient = ({ setAlert }) => {
       console.log('Error adding ingredient in NewIngredient.js', error.message)
     }
 
-    setSuccess(`Uusi ainesosa ${name.value} lisätty!`)
-    setTimeout(() => {
-      setSuccess(null)
-    }, 5000)
+    setAlert('success', `Uusi ainesosa ${name.value} lisätty!`)
 
     resetName()
     resetPrice()
@@ -53,8 +49,6 @@ const NewIngredient = ({ setAlert }) => {
 
   return (
     <div>
-      {alert && <Alert variant="danger">{alert}</Alert>}
-      {success && <Alert variant="success">{success}</Alert>}
       <Form onSubmit={submit}>
         <Form.Group>
           <Form.Label>Nimi</Form.Label>

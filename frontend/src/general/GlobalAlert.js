@@ -31,6 +31,7 @@ const GlobalAlert = React.forwardRef((props, ref) => {
     <div>
       <br />
       <br />
+      <br />
     </div>
   )
 })
