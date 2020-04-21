@@ -68,7 +68,7 @@ const deleteFood = async (root, args) => {
       'ingredients.item'
     )
     const original = food.toObject()
-    console.log('täs original: ', original)
+
     food.usedInFoodPacks.forEach(async foodPackID => {
       const foodPack = await FoodPack.findOne({ _id: foodPackID })
       foodPack.foods = foodPack.foods.filter(

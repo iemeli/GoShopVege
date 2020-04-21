@@ -49,15 +49,24 @@ const addFoodPack = async (root, args) => {
 
 const deleteFoodPack = async (root, args) => {
   try {
-    const foodPack = await FoodPack.findOneAndDelete({ _id: args.id })
-    foodPack.foods.map(async foodID => {
-      const food = await Food.findOne({ _id: foodID })
+    const foodPack = await FoodPack.findOneAndDelete({ _id: args.id }).populate(
+      {
+        path: 'foods',
+        populate: {
+          path: 'ingredients.item',
+        },
+      }
+    )
+    const original = foodPack.toObject()
+
+    foodPack.foods.forEach(async food => {
       food.usedInFoodPacks = food.usedInFoodPacks.filter(
-        fp => fp._id.toString() !== foodPack._id.toString()
+        fp => fp.toString() !== foodPack.id
       )
       await food.save()
     })
-    return foodPack
+
+    return original
   } catch (e) {
     return console.log('Error deleting FoodPack')
   }
