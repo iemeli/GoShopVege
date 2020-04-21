@@ -31,7 +31,7 @@ const ListIngredientsContainer = ({ setAlert }) => {
   return (
     <div>
       <NewIngredient setAlert={setAlert} />
-      <ListIngredients ingredients={ingredients} />
+      <ListIngredients ingredients={ingredients} setAlert={setAlert} />
     </div>
   )
 }

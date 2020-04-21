@@ -17,6 +17,11 @@ const useUpdateCache = (collection, query, mode) => {
         case 'DELETE':
           data = dataInStore.filter(o => o.id === object.id)
           break
+        case 'UPDATE':
+          data = dataInStore[collection].map(o =>
+            o.id === object.id ? object : o
+          )
+          break
         default:
           break
       }

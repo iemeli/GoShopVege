@@ -3,7 +3,7 @@ import ListIngredients from '../../Ingredient/presentational/ListIngredients'
 import DeleteFoodButton from '../utils/DeleteFoodButton'
 import UpdateFoodButton from '../utils/UpdateFoodButton'
 
-const Food = ({ food }) => (
+const Food = ({ food, setAlert }) => (
   <div>
     <h3>
       {food.name}
@@ -13,20 +13,12 @@ const Food = ({ food }) => (
     <table>
       <tbody>
         <tr>
-          <th>
-            Hinta:
-            </th>
-          <td>
-            {food.price} €
-            </td>
+          <th>Hinta:</th>
+          <td>{food.price} €</td>
         </tr>
         <tr>
-          <th>
-            Kilokalorit:
-            </th>
-          <td>
-            {food.kcal}
-          </td>
+          <th>Kilokalorit:</th>
+          <td>{food.kcal}</td>
         </tr>
       </tbody>
     </table>
@@ -34,16 +26,16 @@ const Food = ({ food }) => (
     <ListIngredients
       ingredients={food.ingredients.map(i => i.item)}
       hideButtons={true}
+      setAlert={setAlert}
     />
     <br />
     <strong>resepti</strong>
-    {food.recipe.map(step =>
+    {food.recipe.map(step => (
       <ul key={step}>
         <li>{step}</li>
       </ul>
-    )}
+    ))}
   </div>
 )
-
 
 export default Food

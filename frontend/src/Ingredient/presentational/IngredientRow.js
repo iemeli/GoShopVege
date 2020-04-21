@@ -1,18 +1,30 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { useMutation } from '@apollo/client'
 import DeleteIngredientButton from '../utils/DeleteIngredientButton'
 import useField from '../../general/useField'
-import { UPDATE_INGREDIENT } from '../queries'
+import { UPDATE_INGREDIENT, ALL_INGREDIENTS } from '../queries'
+import useUpdateCache from '../../general/useUpdateCache'
 
-const IngredientRow = ({ ingredient, hideButtons }) => {
+const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
   const [updateMode, setUpdateMode] = useState(false)
   const [name] = useField('text', ingredient.name)
   const [price] = useField('number', ingredient.price)
   const [kcal] = useField('number', ingredient.kcal)
 
-  const [launchUpdateIngredient] = useMutation(UPDATE_INGREDIENT)
+  const updateCacheWith = useUpdateCache(
+    'allIngredients',
+    ALL_INGREDIENTS,
+    'UPDATE'
+  )
+
+  const [launchUpdateIngredient] = useMutation(UPDATE_INGREDIENT, {
+    update: (store, response) => {
+      updateCacheWith(response.data.updateIngredient)
+    },
+  })
 
   const toggleUpdateMode = () => {
     setUpdateMode(!updateMode)
@@ -20,7 +32,14 @@ const IngredientRow = ({ ingredient, hideButtons }) => {
 
   const updateIngredient = async e => {
     e.preventDefault()
-
+    if (name.value.length < 4) {
+      setAlert('danger', 'Nimen pituuden täytyy olla vähintään 4!')
+      return
+    }
+    if (!price) {
+      setAlert('danger', 'Hinta ei voi olla tyhjä!')
+      return
+    }
     try {
       await launchUpdateIngredient({
         variables: {
@@ -33,7 +52,7 @@ const IngredientRow = ({ ingredient, hideButtons }) => {
     } catch (error) {
       console.log('Error updating ingredient in IngredientRow: ', error.message)
     }
-
+    setAlert('success', `Ainesosa päivitetty!`)
     toggleUpdateMode()
   }
 
