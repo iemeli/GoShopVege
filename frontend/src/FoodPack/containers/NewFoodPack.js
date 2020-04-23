@@ -32,6 +32,7 @@ const NewFoodPack = ({ setAlert }) => {
     } catch (e) {
       console.log('Error adding foodpack in NewFoodPack.js: ', e.message)
     }
+    setAlert('success', `Ruokapaketti ${foodPackToAdd.name} lisätty!`)
   }
 
   return (

@@ -6,7 +6,7 @@ import DeleteModalBody from './DeleteModalBody'
 import { DELETE_INGREDIENT, ALL_INGREDIENTS } from '../queries'
 import useUpdateCache from '../../general/useUpdateCache'
 
-const DeleteIngredientButton = ({ ingredient }) => {
+const DeleteIngredientButton = ({ ingredient, setAlert }) => {
   const updateCacheWith = useUpdateCache(
     'allIngredients',
     ALL_INGREDIENTS,
@@ -35,6 +35,7 @@ const DeleteIngredientButton = ({ ingredient }) => {
         e.message
       )
     }
+    setAlert('success', `Ainesosa ${ingredient.name} poistettu`)
   }
   const fireModal = () => {
     setModalVisible(true)

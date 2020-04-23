@@ -45,6 +45,7 @@ const UpdateFoodPack = ({ setAlert }) => {
     } catch (e) {
       console.log('Error updating foodPack in UpdateFoodPack.js: ', e.message)
     }
+    setAlert('success', `Ruokapaketti ${foodPack.name} päivitetty!`)
     setAlreadyUpdated(true)
   }
 

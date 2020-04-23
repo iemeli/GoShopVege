@@ -148,8 +148,9 @@ const updateFood = async (root, args) => {
       }
     }
   }
-
-  return Food.findOne({ _id: food._id }).populate('ingredients.item')
+  return Food.findOne({ _id: food._id })
+    .populate('ingredients.item')
+    .populate('usedInFoodPacks')
 }
 
 const foodAdded = {

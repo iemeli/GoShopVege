@@ -4,27 +4,25 @@ import { useQuery } from '@apollo/client'
 import { ALL_INGREDIENTS } from '../queries'
 import Ingredient from '../presentational/Ingredient'
 
-const IngredientContainer = () => {
+const IngredientContainer = ({ setAlert }) => {
   const ingredientName = useRouteMatch('/ainesosat/:name').params.name
   const ingredientsResult = useQuery(ALL_INGREDIENTS, {
-    variables: { name: ingredientName }
+    variables: { name: ingredientName },
   })
 
   if (ingredientsResult.loading) {
-    return (
-      <div>...loading</div>
-    )
+    return <div>...loading</div>
   }
 
   const ingredient = ingredientsResult.data.allIngredients[0]
 
   if (!ingredient) {
-    return <Redirect to='/ainesosat' />
+    return <Redirect to="/ainesosat" />
   }
 
   return (
     <div>
-      <Ingredient ingredient={ingredient} />
+      <Ingredient ingredient={ingredient} setAlert={setAlert} />
     </div>
   )
 }

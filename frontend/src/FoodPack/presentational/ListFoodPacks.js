@@ -1,7 +1,7 @@
 import React from 'react'
 import FoodPackRow from './FoodPackRow'
 
-const ListFoodPacks = ({ foodPacks }) => (
+const ListFoodPacks = ({ foodPacks, setAlert }) => (
   <div>
     <table>
       <tbody>
@@ -11,8 +11,8 @@ const ListFoodPacks = ({ foodPacks }) => (
           <th>Kilokalorit</th>
           <th>Ruoat</th>
         </tr>
-        {foodPacks.map((fp) => (
-          <FoodPackRow foodPack={fp} key={fp.id} />
+        {foodPacks.map(fp => (
+          <FoodPackRow foodPack={fp} key={fp.id} setAlert={setAlert} />
         ))}
       </tbody>
     </table>

@@ -28,6 +28,11 @@ const NewIngredient = ({ setAlert }) => {
       return
     }
 
+    if (!price.value) {
+      setAlert('danger', 'Ainesosalla täytyy olla hinta!')
+      return
+    }
+
     try {
       await addIngredient({
         variables: {

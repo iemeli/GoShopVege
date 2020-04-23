@@ -43,6 +43,7 @@ const UpdateFood = ({ setAlert }) => {
     } catch (e) {
       console.log('Error updating food in UpdateFood.js', e.message)
     }
+    setAlert('success', `Ruoka ${foodName} päivitetty`)
   }
 
   return (

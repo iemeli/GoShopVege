@@ -41,6 +41,7 @@ const NewFood = ({ setAlert }) => {
     } catch (e) {
       console.log('Error adding food in NewFood.js: ', e.message)
     }
+    setAlert('success', `Uusi ruoka ${foodToAdd.name} lisätty`)
   }
 
   return (

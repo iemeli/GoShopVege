@@ -8,7 +8,7 @@ const Food = ({ food, setAlert }) => (
     <h3>
       {food.name}
       <UpdateFoodButton food={food} />
-      <DeleteFoodButton food={food} />
+      <DeleteFoodButton food={food} setAlert={setAlert} />
     </h3>
     <table>
       <tbody>

@@ -20,4 +20,5 @@
 | 16.4.  | 4        | debuggaamista ja hieno DeleteModal komponentti                         |
 | 18.4.  | 4        | debuggaamista sekä hieno useUpdateCache custom hook                    |
 | 20.4.  | 5        | debuggaamista backendin resolvereissa                                  |
-|  yht   | 59.5     |                                                                        |
+| 21.4.  | 3.5      | toiminnallisuuksien suunnittelua ja cachen päivittämistä               |
+|  yht   | 63       |                                                                        |

@@ -1,31 +1,29 @@
 import React from 'react'
 import { useRouteMatch, Redirect } from 'react-router-dom'
-import { ALL_FOODPACKS } from '../queries'
 import { useQuery } from '@apollo/client'
+import { ALL_FOODPACKS } from '../queries'
 import FoodPack from '../presentational/FoodPack'
 
-const FoodPackContainer = () => {
+const FoodPackContainer = ({ setAlert }) => {
   const foodPackName = useRouteMatch('/ruokapaketit/:name').params.name
 
   const foodPacksResult = useQuery(ALL_FOODPACKS, {
-    variables: { name: foodPackName }
+    variables: { name: foodPackName },
   })
 
   if (foodPacksResult.loading) {
-    return (
-      <div>...loading</div>
-    )
+    return <div>...loading</div>
   }
 
   const foodPack = foodPacksResult.data.allFoodPacks[0]
-  
+
   if (!foodPack) {
-    return <Redirect to='/ruokapaketit' />
+    return <Redirect to="/ruokapaketit" />
   }
-  
+
   return (
     <div>
-      <FoodPack foodPack={foodPack} />
+      <FoodPack foodPack={foodPack} setAlert={setAlert} />
     </div>
   )
 }

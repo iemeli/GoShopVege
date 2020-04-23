@@ -97,7 +97,9 @@ const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
         )}
       </td>
       <td>
-        {!hideButtons && <DeleteIngredientButton ingredient={ingredient} />}
+        {!hideButtons && (
+          <DeleteIngredientButton ingredient={ingredient} setAlert={setAlert} />
+        )}
       </td>
     </tr>
   )

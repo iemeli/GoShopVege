@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import DeleteFoodPackButton from '../utils/DeleteFoodPackButton'
 import UpdateFoodPackButton from '../utils/UpdateFoodPackButton'
 
-const FoodPackRow = ({ foodPack }) => (
+const FoodPackRow = ({ foodPack, setAlert }) => (
   <tr>
     <td>
       <Link to={`/ruokapaketit/${foodPack.name}`}>{foodPack.name}</Link>
@@ -15,7 +15,7 @@ const FoodPackRow = ({ foodPack }) => (
       <UpdateFoodPackButton foodPack={foodPack} />
     </td>
     <td>
-      <DeleteFoodPackButton foodPack={foodPack} />
+      <DeleteFoodPackButton foodPack={foodPack} setAlert={setAlert} />
     </td>
   </tr>
 )

@@ -1,12 +1,14 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-undef */
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useMutation } from '@apollo/client'
+import { Redirect } from 'react-router-dom'
 import { DELETE_FOODPACK, ALL_FOODPACKS } from '../queries'
 import useUpdateCache from '../../general/useUpdateCache'
 
-const DeleteFoodPackButton = ({ foodPack }) => {
+const DeleteFoodPackButton = ({ foodPack, setAlert }) => {
+  const [alreadyDeleted, setAlreadyDeleted] = useState(false)
   const updateCacheWith = useUpdateCache(
     'allFoodPacks',
     ALL_FOODPACKS,
@@ -27,6 +29,7 @@ const DeleteFoodPackButton = ({ foodPack }) => {
             id: foodPack.id,
           },
         })
+        setAlreadyDeleted(true)
       } catch (error) {
         console.log(
           'Error deleting foodPack in DeleteFoodPackButton: ',
@@ -34,8 +37,11 @@ const DeleteFoodPackButton = ({ foodPack }) => {
         )
       }
     }
+    setAlert('success', `Ruokapaketti ${foodPack.name} poistettu!`)
   }
-
+  if (alreadyDeleted) {
+    return <Redirect to="/ruokapaketit" />
+  }
   return (
     <Button variant="outline-danger" onClick={handleClick}>
       poista ruokapaketti

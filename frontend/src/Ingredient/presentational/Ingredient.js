@@ -1,11 +1,11 @@
 import React from 'react'
 import DeleteIngredientButton from '../utils/DeleteIngredientButton'
 
-const Ingredient = ({ ingredient }) => (
+const Ingredient = ({ ingredient, setAlert }) => (
   <div>
     <h3>
       {ingredient.name}
-      <DeleteIngredientButton ingredient={ingredient} />
+      <DeleteIngredientButton ingredient={ingredient} setAlert={setAlert} />
     </h3>
     <table>
       <tbody>

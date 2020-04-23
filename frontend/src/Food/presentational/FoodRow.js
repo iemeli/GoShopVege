@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import DeleteFoodButton from '../utils/DeleteFoodButton'
 import UpdateFoodButton from '../utils/UpdateFoodButton'
 
-const FoodRow = ({ food, hideButtons }) => {
+const FoodRow = ({ food, hideButtons, setAlert }) => {
   return (
     <tr>
       <td>
@@ -12,7 +12,9 @@ const FoodRow = ({ food, hideButtons }) => {
       <td>{food.price} €</td>
       <td>{food.kcal}</td>
       <td>{!hideButtons && <UpdateFoodButton food={food} />}</td>
-      <td>{!hideButtons && <DeleteFoodButton food={food} />}</td>
+      <td>
+        {!hideButtons && <DeleteFoodButton food={food} setAlert={setAlert} />}
+      </td>
     </tr>
   )
 }
