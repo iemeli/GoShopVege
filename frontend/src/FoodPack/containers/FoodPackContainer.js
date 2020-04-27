@@ -7,15 +7,15 @@ import FoodPack from '../presentational/FoodPack'
 const FoodPackContainer = ({ setAlert }) => {
   const foodPackName = useRouteMatch('/ruokapaketit/:name').params.name
 
-  const foodPacksResult = useQuery(ALL_FOODPACKS, {
-    variables: { name: foodPackName },
-  })
+  const foodPacksResult = useQuery(ALL_FOODPACKS)
 
   if (foodPacksResult.loading) {
     return <div>...loading</div>
   }
 
-  const foodPack = foodPacksResult.data.allFoodPacks[0]
+  const foodPack = foodPacksResult.data.allFoodPacks.find(
+    fp => fp.name === foodPackName
+  )
 
   if (!foodPack) {
     return <Redirect to="/ruokapaketit" />

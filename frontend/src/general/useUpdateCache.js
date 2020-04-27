@@ -1,4 +1,5 @@
 import { useApolloClient } from '@apollo/client'
+import { ALL_INGREDIENTS } from '../Ingredient/queries'
 
 const useUpdateCache = (collection, query, mode) => {
   const client = useApolloClient()
@@ -6,31 +7,74 @@ const useUpdateCache = (collection, query, mode) => {
   const includedIn = (set, object) => set.map(i => i.id).includes(object.id)
 
   const updateCacheWith = object => {
-    const dataInStore = client.readQuery({ query })
-
-    if (!includedIn(dataInStore[collection], object) || mode === 'DELETE') {
-      let data
-      switch (mode) {
-        case 'ADD':
-          data = dataInStore[collection].concat(object)
-          break
-        case 'DELETE':
-          data = dataInStore[collection].filter(o => o.id !== object.id)
-          break
-        case 'UPDATE':
-          data = dataInStore[collection].map(o =>
-            o.id === object.id ? object : o
-          )
-          break
-        default:
-          break
+    switch (mode) {
+      case 'ADD': {
+        const dataInStore = client.readQuery({ query })
+        console.log('täs dataInStore', dataInStore)
+        if (!includedIn(dataInStore[collection], object)) {
+          const data = dataInStore[collection].concat(object)
+          client.writeQuery({
+            query,
+            data: {
+              [collection]: data,
+            },
+          })
+        }
+        break
       }
-      client.writeQuery({
-        query,
-        data: {
-          [collection]: data,
-        },
-      })
+      case 'DELETE': {
+        const dataInStore = client.readQuery({ query })
+        if (includedIn(dataInStore[collection], object)) {
+          const data = dataInStore[collection].filter(o => o.id !== object.id)
+          client.writeQuery({
+            query,
+            data: {
+              [collection]: data,
+            },
+          })
+        }
+        break
+      }
+      case 'UPDATE': {
+        if (collection === 'allFoods') {
+          const { food, oldIngredients } = object
+          const newIngredients = food.ingredients.map(i => i.item.id)
+          if (oldIngredients !== newIngredients) {
+            const setWithUniqueValues = new Set([
+              ...oldIngredients,
+              ...newIngredients,
+            ])
+
+            const { allIngredients } = client.readQuery({
+              query: ALL_INGREDIENTS,
+            })
+
+            const ingredientsData = allIngredients.map(i => {
+              if (setWithUniqueValues.has(i.id)) {
+                if (oldIngredients.includes(i.id)) {
+                  return {
+                    ...i,
+                    usedInFoods: i.usedInFoods.filter(f => f.id !== food.id),
+                  }
+                }
+
+                return { ...i, usedInFoods: i.usedInFoods.concat(food.id) }
+              }
+              return i
+            })
+            client.writeQuery({
+              query: ALL_INGREDIENTS,
+              data: {
+                allIngredients: ingredientsData,
+              },
+            })
+          }
+        }
+
+        break
+      }
+      default:
+        break
     }
   }
 

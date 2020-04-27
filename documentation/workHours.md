@@ -21,4 +21,6 @@
 | 18.4.  | 4        | debuggaamista sekä hieno useUpdateCache custom hook                    |
 | 20.4.  | 5        | debuggaamista backendin resolvereissa                                  |
 | 21.4.  | 3.5      | toiminnallisuuksien suunnittelua ja cachen päivittämistä               |
-|  yht   | 63       |                                                                        |
+| 23.4.  | 2        | Apollon kanssa kiroilua ja alerttien väsäilyä                          |
+| 24.4.  | 3.5      | Cachen kanssa temppuilua                                               |
+|  yht   | 71       |                                                                        |

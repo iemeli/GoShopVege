@@ -6,15 +6,13 @@ import Food from '../presentational/Food'
 
 const FoodContainer = ({ setAlert }) => {
   const foodName = useRouteMatch('/ruoat/:name').params.name
-  const foodsResult = useQuery(ALL_FOODS, {
-    variables: { name: foodName },
-  })
+  const foodsResult = useQuery(ALL_FOODS)
 
   if (foodsResult.loading) {
     return <div>...loading</div>
   }
 
-  const food = foodsResult.data.allFoods[0]
+  const food = foodsResult.data.allFoods.find(f => f.name === foodName)
 
   if (!food) {
     return <Redirect to="/ruoat" />

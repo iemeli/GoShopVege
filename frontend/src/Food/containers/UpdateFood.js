@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import { useRouteMatch, Redirect } from 'react-router-dom'
 import { ALL_FOODS, UPDATE_FOOD } from '../queries'
@@ -7,17 +7,34 @@ import useUpdateCache from '../../general/useUpdateCache'
 
 const UpdateFood = ({ setAlert }) => {
   const [alreadyUpdated, setAlreadyUpdated] = useState(false)
+  const [oldIngredients, setOldIngredients] = useState([])
   const foodName = useRouteMatch('/ruoat/paivita/:name').params.name
   const updateCacheWith = useUpdateCache('allFoods', ALL_FOODS, 'UPDATE')
   const [launchUpdateFood] = useMutation(UPDATE_FOOD, {
     update: (store, response) => {
-      updateCacheWith(response.data.updateFood)
+      console.log(
+        'täs oldIngredients ennen kuin ne menee tonne cachehookkiin: ',
+        oldIngredients
+      )
+      updateCacheWith({
+        food: response.data.updateFood,
+        oldIngredients,
+      })
     },
   })
 
   const foodsResult = useQuery(ALL_FOODS, {
     variables: { name: foodName },
   })
+
+  useEffect(() => {
+    if (!foodsResult.loading) {
+      setOldIngredients(
+        foodsResult.data.allFoods[0].ingredients.map(i => i.item.id)
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [foodsResult.loading])
 
   if (foodsResult.loading) {
     return <div>...loading</div>

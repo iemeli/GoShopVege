@@ -18,7 +18,8 @@ const Routes = () => {
   const alertRef = React.createRef()
 
   const setAlert = (variant, message) => {
-    alertRef.current.setAlert(variant, message)
+    // alertRef.current.setAlert(variant, message)
+    console.log(variant, message)
   }
 
   return (
