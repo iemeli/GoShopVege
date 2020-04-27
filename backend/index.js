@@ -10,7 +10,8 @@ const MONGODB_URI = process.env.MONGODB_URI
 
 console.log('connecting to', MONGODB_URI)
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose
+  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('connected to MongoDB')
   })
@@ -20,7 +21,11 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: params => () => {
+    console.log(params.req.body.query)
+    console.log(params.req.body.variables)
+  },
 })
 
 server.listen().then(({ url, subscriptionsUrl }) => {
