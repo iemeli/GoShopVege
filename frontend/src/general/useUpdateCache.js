@@ -10,15 +10,41 @@ const useUpdateCache = (collection, query, mode) => {
     switch (mode) {
       case 'ADD': {
         const dataInStore = client.readQuery({ query })
-        console.log('täs dataInStore', dataInStore)
         if (!includedIn(dataInStore[collection], object)) {
-          const data = dataInStore[collection].concat(object)
-          client.writeQuery({
-            query,
-            data: {
-              [collection]: data,
-            },
-          })
+          if (collection === 'allIngredients') {
+            const ingredientsData = dataInStore.allIngredients.concat(object)
+            client.writeQuery({
+              query,
+              data: {
+                allIngredients: ingredientsData,
+              },
+            })
+          } else if (collection === 'allFoods') {
+            const foodsData = dataInStore.allFoods.concat(object)
+            client.writeQuery({
+              query,
+              data: {
+                allFoods: foodsData,
+              },
+            })
+
+            const { allIngredients } = client.readQuery({
+              query: ALL_INGREDIENTS,
+            })
+            const ingredientsInFood = object.ingredients.map(i => i.item.id)
+            const ingredientsData = allIngredients.map(i =>
+              ingredientsInFood.includes(i.id)
+                ? { ...i, usedInFoods: i.usedInFoods.concat(object.id) }
+                : i
+            )
+            client.writeQuery({
+              query: ALL_INGREDIENTS,
+              data: {
+                allIngredients: ingredientsData,
+              },
+            })
+          } else if (collection === 'allFoodPacks') {
+          }
         }
         break
       }
