@@ -45,5 +45,6 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <App />
   </ApolloProvider>,
+  // eslint-disable-next-line no-undef
   document.getElementById('root')
 )

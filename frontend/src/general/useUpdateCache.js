@@ -1,5 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import { ALL_INGREDIENTS } from '../Ingredient/queries'
+import { ALL_FOODS } from '../Food/queries'
 
 const useUpdateCache = (collection, query, mode) => {
   const client = useApolloClient()
@@ -44,6 +45,29 @@ const useUpdateCache = (collection, query, mode) => {
               },
             })
           } else if (collection === 'allFoodPacks') {
+            const foodPacksData = dataInStore.allFoodPacks.concat(object)
+            client.writeQuery({
+              query,
+              data: {
+                allFoodPacks: foodPacksData,
+              },
+            })
+
+            const { allFoods } = client.readQuery({
+              query: ALL_FOODS,
+            })
+            const foodsInFoodPack = object.foods.map(f => f.id)
+            const foodsData = allFoods.map(f =>
+              foodsInFoodPack.includes(f.id)
+                ? { ...f, usedInFoodPacks: f.usedInFoodPacks.concat(object.id) }
+                : f
+            )
+            client.writeQuery({
+              query: ALL_FOODS,
+              data: {
+                allFoods: foodsData,
+              },
+            })
           }
         }
         break

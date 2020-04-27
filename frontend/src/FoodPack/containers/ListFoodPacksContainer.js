@@ -1,19 +1,17 @@
 import React from 'react'
-import { useQuery, useApolloClient } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
 import { ALL_FOODPACKS } from '../queries'
 import ListFoodPacks from '../presentational/ListFoodPacks'
 
 const ListFoodPacksContainer = ({ setAlert }) => {
   const foodPacksResult = useQuery(ALL_FOODPACKS)
-  const client = useApolloClient()
 
   if (foodPacksResult.loading) {
     return <div>...loading</div>
   }
 
-  const dataInStore = client.readQuery({ query: ALL_FOODPACKS })
-  const foodPacks = dataInStore.allFoodPacks
+  const foodPacks = foodPacksResult.data.allFoodPacks
 
   return (
     <div>

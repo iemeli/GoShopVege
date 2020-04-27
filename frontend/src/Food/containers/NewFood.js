@@ -12,8 +12,6 @@ const NewFood = ({ setAlert }) => {
 
   const [launchAddFood] = useMutation(ADD_FOOD, {
     update: (store, response) => {
-      console.log('updatessa ollaan')
-      debugger
       updateCacheWith(response.data.addFood)
     },
   })
