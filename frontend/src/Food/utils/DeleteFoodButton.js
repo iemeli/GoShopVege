@@ -29,11 +29,12 @@ const DeleteFoodButton = ({ food, setAlert }) => {
           id: food.id,
         },
       })
+      setAlert('success', `Ruoka ${food.name} poistettu!`)
     } catch (e) {
-      setAlert('danger', 'Jotain meni vikaan!')
+      setAlert('danger', 'Jotain meni vikaan, kokeile uudestaan!')
+      setAlreadyDeleted(false)
       console.log('Error deleting food in DeleteFoodButton: ', e.message)
     }
-    setAlert('success', `Ruoka ${food.name} poistettu!`)
   }
 
   const fireModal = () => {

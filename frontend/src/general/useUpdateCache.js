@@ -1,6 +1,7 @@
 import { useApolloClient } from '@apollo/client'
 import { ALL_INGREDIENTS } from '../Ingredient/queries'
 import { ALL_FOODS } from '../Food/queries'
+import { ALL_FOODPACKS } from '../FoodPack/queries'
 
 const useUpdateCache = (collection, query, mode) => {
   const client = useApolloClient()
@@ -27,9 +28,10 @@ const useUpdateCache = (collection, query, mode) => {
             const ingredientsInFood = object.ingredients.map(i => i.item.id)
             const ingredientsData = allIngredients.map(i =>
               ingredientsInFood.includes(i.id)
-                ? { ...i, usedInFoods: i.usedInFoods.concat(object.id) }
+                ? { ...i, usedInFoods: i.usedInFoods.concat(object) }
                 : i
             )
+
             client.writeQuery({
               query: ALL_INGREDIENTS,
               data: {
@@ -43,7 +45,7 @@ const useUpdateCache = (collection, query, mode) => {
             const foodsInFoodPack = object.foods.map(f => f.id)
             const foodsData = allFoods.map(f =>
               foodsInFoodPack.includes(f.id)
-                ? { ...f, usedInFoodPacks: f.usedInFoodPacks.concat(object.id) }
+                ? { ...f, usedInFoodPacks: f.usedInFoodPacks.concat(object) }
                 : f
             )
             client.writeQuery({
@@ -105,6 +107,22 @@ const useUpdateCache = (collection, query, mode) => {
               query: ALL_INGREDIENTS,
               data: {
                 allIngredients: ingredientsData,
+              },
+            })
+
+            const { allFoodPacks } = client.readQuery({
+              query: ALL_FOODPACKS,
+            })
+            const usedInFoodPacks = object.usedInFoodPacks.map(fp => fp.id)
+            const foodPackData = allFoodPacks.map(fp =>
+              usedInFoodPacks.includes(fp.id)
+                ? { ...fp, foods: fp.foods.filter(f => f.id !== object.id) }
+                : fp
+            )
+            client.writeQuery({
+              query: ALL_FOODPACKS,
+              data: {
+                allFoodPacks: foodPackData,
               },
             })
           } else if (collection === 'allFoodPacks') {

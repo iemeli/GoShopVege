@@ -64,9 +64,9 @@ const addFood = async (root, args) => {
 
 const deleteFood = async (root, args) => {
   try {
-    const food = await Food.findOneAndDelete({ _id: args.id }).populate(
-      'ingredients.item'
-    )
+    const food = await Food.findOneAndDelete({ _id: args.id })
+      .populate('ingredients.item')
+      .populate('usedInFoodPacks')
     const original = food.toObject()
 
     food.usedInFoodPacks.forEach(async foodPackID => {
