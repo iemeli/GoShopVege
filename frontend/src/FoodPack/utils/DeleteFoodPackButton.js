@@ -24,13 +24,14 @@ const DeleteFoodPackButton = ({ foodPack, setAlert }) => {
     const result = window.confirm(`Poistetaanko ruokapaketti ${foodPack.name}`)
     if (result) {
       try {
+        setAlreadyDeleted(true)
         await deleteFoodPack({
           variables: {
             id: foodPack.id,
           },
         })
-        setAlreadyDeleted(true)
       } catch (error) {
+        setAlreadyDeleted(false)
         console.log(
           'Error deleting foodPack in DeleteFoodPackButton: ',
           error.message

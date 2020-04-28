@@ -12,14 +12,7 @@ const UpdateFood = ({ setAlert }) => {
   const updateCacheWith = useUpdateCache('allFoods', ALL_FOODS, 'UPDATE')
   const [launchUpdateFood] = useMutation(UPDATE_FOOD, {
     update: (store, response) => {
-      console.log(
-        'täs oldIngredients ennen kuin ne menee tonne cachehookkiin: ',
-        oldIngredients
-      )
-      updateCacheWith({
-        food: response.data.updateFood,
-        oldIngredients,
-      })
+      updateCacheWith(response.data.updateFood, oldIngredients)
     },
   })
 

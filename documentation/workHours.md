@@ -24,4 +24,5 @@
 | 23.4.  | 2        | Apollon kanssa kiroilua ja alerttien väsäilyä                          |
 | 24.4.  | 3.5      | Cachen kanssa temppuilua                                               |
 | 26.4.  | 1        | useUpdateCache hookin fiksaamista                                      |
-|  yht   | 72       |                                                                        |
+| 27.4.  | 5        | Cachen kanssa temppuilua                                               |
+|  yht   | 77       |                                                                        |

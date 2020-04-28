@@ -1,4 +1,5 @@
 import { useApolloClient } from '@apollo/client'
+import isEqual from 'lodash.isequal'
 import { ALL_INGREDIENTS } from '../Ingredient/queries'
 import { ALL_FOODS } from '../Food/queries'
 import { ALL_FOODPACKS } from '../FoodPack/queries'
@@ -8,7 +9,7 @@ const useUpdateCache = (collection, query, mode) => {
 
   const includedIn = (set, object) => set.map(i => i.id).includes(object.id)
 
-  const updateCacheWith = object => {
+  const updateCacheWith = (object, oldRefs) => {
     switch (mode) {
       case 'ADD': {
         const dataInStore = client.readQuery({ query })
@@ -152,7 +153,8 @@ const useUpdateCache = (collection, query, mode) => {
       }
       case 'UPDATE': {
         if (collection === 'allFoods') {
-          const { food, oldIngredients } = object
+          const food = object
+          const oldIngredients = oldRefs
           const newIngredients = food.ingredients.map(i => i.item.id)
           if (oldIngredients !== newIngredients) {
             const setWithUniqueValues = new Set([
@@ -164,25 +166,40 @@ const useUpdateCache = (collection, query, mode) => {
               query: ALL_INGREDIENTS,
             })
 
-            const ingredientsData = allIngredients.map(i => {
-              if (setWithUniqueValues.has(i.id)) {
-                if (oldIngredients.includes(i.id)) {
-                  return {
-                    ...i,
-                    usedInFoods: i.usedInFoods.filter(f => f.id !== food.id),
-                  }
-                }
-
-                return { ...i, usedInFoods: i.usedInFoods.concat(food.id) }
+            const uniqueIngredientFromCache = allIngredients.find(i =>
+              setWithUniqueValues.has(i.id)
+            )
+            const notUpdatedYet = i => {
+              if (oldIngredients.includes(i.id)) {
+                return i.usedInFoods.map(f => f.id).includes(food.id)
               }
-              return i
-            })
-            client.writeQuery({
-              query: ALL_INGREDIENTS,
-              data: {
-                allIngredients: ingredientsData,
-              },
-            })
+              return !i.usedInFoods.map(f => f.id).includes(food)
+            }
+
+            if (notUpdatedYet(uniqueIngredientFromCache)) {
+              const ingredientsData = allIngredients.map(i => {
+                if (setWithUniqueValues.has(i.id)) {
+                  if (!newIngredients.includes(i.id)) {
+                    return {
+                      ...i,
+                      usedInFoods: i.usedInFoods.filter(f => f.id !== food.id),
+                    }
+                  }
+                  if (oldIngredients.includes(i.id)) {
+                    return i
+                  }
+                  return { ...i, usedInFoods: i.usedInFoods.concat(food) }
+                }
+                return i
+              })
+
+              client.writeQuery({
+                query: ALL_INGREDIENTS,
+                data: {
+                  allIngredients: ingredientsData,
+                },
+              })
+            }
           }
         }
 
