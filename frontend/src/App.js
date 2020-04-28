@@ -2,6 +2,7 @@ import React from 'react'
 import './App.css'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
+import useEpicSubscription from './general/useEpicSubscription'
 import Menu from './Menu/presentational/Menu'
 import Routes from './Menu/presentational/Routes'
 import { ALL_INGREDIENTS } from './Ingredient/queries'
@@ -12,6 +13,8 @@ const App = () => {
   const ingredients = useQuery(ALL_INGREDIENTS)
   const foods = useQuery(ALL_FOODS)
   const foodPacks = useQuery(ALL_FOODPACKS)
+
+  useEpicSubscription()
 
   if (ingredients.loading || foods.loading || foodPacks.loading) {
     return <div>...loading</div>

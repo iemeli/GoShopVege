@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useMutation, useSubscription } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { Redirect } from 'react-router-dom'
-import { ADD_FOOD, FOOD_ADDED, ALL_FOODS } from '../queries'
+import { ADD_FOOD, ALL_FOODS } from '../queries'
 import FoodFormContainer from './FoodFormContainer'
 import useUpdateCache from '../../general/useUpdateCache'
 
@@ -13,13 +13,6 @@ const NewFood = ({ setAlert }) => {
   const [launchAddFood] = useMutation(ADD_FOOD, {
     update: (store, response) => {
       updateCacheWith(response.data.addFood)
-    },
-  })
-
-  useSubscription(FOOD_ADDED, {
-    onSubscriptionData: ({ subscriptionData }) => {
-      const addedFood = subscriptionData.data.foodAdded
-      updateCacheWith(addedFood)
     },
   })
 
