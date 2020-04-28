@@ -16,15 +16,12 @@ const UpdateFood = ({ setAlert }) => {
     },
   })
 
-  const foodsResult = useQuery(ALL_FOODS, {
-    variables: { name: foodName },
-  })
+  const foodsResult = useQuery(ALL_FOODS)
 
   useEffect(() => {
     if (!foodsResult.loading) {
-      setOldIngredients(
-        foodsResult.data.allFoods[0].ingredients.map(i => i.item.id)
-      )
+      const food = foodsResult.data.allFoods.find(f => f.name === foodName)
+      setOldIngredients(food.ingredients.map(i => i.item.id))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [foodsResult.loading])
@@ -33,7 +30,7 @@ const UpdateFood = ({ setAlert }) => {
     return <div>...loading</div>
   }
 
-  const food = foodsResult.data.allFoods[0]
+  const food = foodsResult.data.allFoods.find(f => f.name === foodName)
 
   if (alreadyUpdated) {
     return <Redirect to={`/ruoat/${food.name}`} />

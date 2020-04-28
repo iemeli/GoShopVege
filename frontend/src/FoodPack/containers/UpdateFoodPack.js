@@ -20,13 +20,14 @@ const UpdateFoodPack = ({ setAlert }) => {
     },
   })
 
-  const foodPacksResult = useQuery(ALL_FOODPACKS, {
-    variables: { name: foodPackName },
-  })
+  const foodPacksResult = useQuery(ALL_FOODPACKS)
 
   useEffect(() => {
+    const foodPack = foodPacksResult.data.allFoodPacks.find(
+      fp => fp.name === foodPackName
+    )
     if (!foodPacksResult.loading) {
-      setOldFoods(foodPacksResult.data.allFoodPacks[0].foods.map(f => f.id))
+      setOldFoods(foodPack.foods.map(f => f.id))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [foodPacksResult.loading])
@@ -35,7 +36,9 @@ const UpdateFoodPack = ({ setAlert }) => {
     return <div>...loading</div>
   }
 
-  const foodPack = foodPacksResult.data.allFoodPacks[0]
+  const foodPack = foodPacksResult.data.allFoodPacks.find(
+    fp => fp.name === foodPackName
+  )
 
   if (alreadyUpdated) {
     return <Redirect to={`/ruokapaketit/${foodPack.name}`} />

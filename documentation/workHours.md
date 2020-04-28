@@ -23,6 +23,7 @@
 | 21.4.  | 3.5      | toiminnallisuuksien suunnittelua ja cachen päivittämistä               |
 | 23.4.  | 2        | Apollon kanssa kiroilua ja alerttien väsäilyä                          |
 | 24.4.  | 3.5      | Cachen kanssa temppuilua                                               |
-| 26.4.  | 1        | useUpdateCache hookin fiksaamista                                      |
-| 27.4.  | 5        | Cachen kanssa temppuilua                                               |
+| 26.4.  | 1        | Cachen kanssa painimista                                               |
+| 27.4.  | 5        | Cachen kanssa vääntämistä                                              |
+| 28.4.  |          | Cachesäädön selätys                                                    |
 |  yht   | 77       |                                                                        |
