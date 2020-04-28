@@ -152,106 +152,69 @@ const useUpdateCache = (collection, query, mode) => {
         break
       }
       case 'UPDATE': {
+        let newRefs
+        let refQuery
+        let refCollection
+        let usedInObjects
         if (collection === 'allFoods') {
-          const food = object
-          const oldIngredients = oldRefs
-          const newIngredients = food.ingredients.map(i => i.item.id)
-          if (!isEqual(oldIngredients, newIngredients)) {
-            const setWithUniqueValues = new Set([
-              ...oldIngredients,
-              ...newIngredients,
-            ])
-
-            const { allIngredients } = client.readQuery({
-              query: ALL_INGREDIENTS,
-            })
-
-            const uniqueIngredientFromCache = allIngredients.find(i =>
-              setWithUniqueValues.has(i.id)
-            )
-            const notUpdatedYet = i => {
-              if (oldIngredients.includes(i.id)) {
-                return i.usedInFoods.map(f => f.id).includes(food.id)
-              }
-              return !i.usedInFoods.map(f => f.id).includes(food.id)
-            }
-
-            if (notUpdatedYet(uniqueIngredientFromCache)) {
-              const ingredientsData = allIngredients.map(i => {
-                if (setWithUniqueValues.has(i.id)) {
-                  if (!newIngredients.includes(i.id)) {
-                    return {
-                      ...i,
-                      usedInFoods: i.usedInFoods.filter(f => f.id !== food.id),
-                    }
-                  }
-                  if (oldIngredients.includes(i.id)) {
-                    return i
-                  }
-                  return { ...i, usedInFoods: i.usedInFoods.concat(food) }
-                }
-                return i
-              })
-
-              client.writeQuery({
-                query: ALL_INGREDIENTS,
-                data: {
-                  allIngredients: ingredientsData,
-                },
-              })
-            }
-          }
+          newRefs = object.ingredients.map(i => i.item.id)
+          refQuery = ALL_INGREDIENTS
+          refCollection = 'allIngredients'
+          usedInObjects = 'usedInFoods'
         }
         if (collection === 'allFoodPacks') {
-          const foodPack = object
-          const oldFoods = oldRefs
-          const newFoods = foodPack.foods.map(f => f.id)
-          if (!isEqual(oldFoods, newFoods)) {
-            const setWithUniqueValues = new Set([...oldFoods, ...newFoods])
+          newRefs = object.foods.map(f => f.id)
+          refQuery = ALL_FOODS
+          refCollection = 'allFoods'
+          usedInObjects = 'usedInFoodPacks'
+        }
 
-            const { allFoods } = client.readQuery({
-              query: ALL_FOODS,
-            })
+        if (!isEqual(oldRefs, newRefs)) {
+          const setWithUniqueValues = new Set([...oldRefs, ...newRefs])
 
-            const uniqueFoodFromCache = allFoods.find(f =>
-              setWithUniqueValues.has(f.id)
-            )
-            const notUpdatedYet = i => {
-              if (oldFoods.includes(i.id)) {
-                return i.usedInFoodPacks.map(fp => fp.id).includes(foodPack.id)
-              }
-              return !i.usedInFoodPacks.map(fp => fp.id).includes(foodPack.id)
+          const dataFromDB = client.readQuery({
+            query: refQuery,
+          })
+          const refsFromDB = dataFromDB[refCollection]
+
+          const uniqueRefObjectFromCache = refsFromDB.find(r =>
+            setWithUniqueValues.has(r.id)
+          )
+          const notUpdatedYet = refObject => {
+            if (oldRefs.includes(refObject.id)) {
+              return refObject[usedInObjects].map(o => o.id).includes(object.id)
             }
+            return !refObject[usedInObjects].map(o => o.id).includes(object.id)
+          }
 
-            if (notUpdatedYet(uniqueFoodFromCache)) {
-              const foodsData = allFoods.map(f => {
-                if (setWithUniqueValues.has(f.id)) {
-                  if (!newFoods.includes(f.id)) {
-                    return {
-                      ...f,
-                      usedInFoodPacks: f.usedInFoodPacks.filter(
-                        fp => fp.id !== foodPack.id
-                      ),
-                    }
-                  }
-                  if (oldFoods.includes(f.id)) {
-                    return f
-                  }
+          if (notUpdatedYet(uniqueRefObjectFromCache)) {
+            const data = refsFromDB.map(refObject => {
+              if (setWithUniqueValues.has(refObject.id)) {
+                if (!newRefs.includes(refObject.id)) {
                   return {
-                    ...f,
-                    usedInFoodPacks: f.usedInFoodPacks.concat(foodPack),
+                    ...refObject,
+                    [usedInObjects]: refObject[usedInObjects].filter(
+                      o => o.id !== object.id
+                    ),
                   }
                 }
-                return f
-              })
+                if (oldRefs.includes(refObject.id)) {
+                  return refObject
+                }
+                return {
+                  ...refObject,
+                  [usedInObjects]: refObject[usedInObjects].concat(object),
+                }
+              }
+              return refObject
+            })
 
-              client.writeQuery({
-                query: ALL_FOODS,
-                data: {
-                  allFoods: foodsData,
-                },
-              })
-            }
+            client.writeQuery({
+              query: refQuery,
+              data: {
+                [refCollection]: data,
+              },
+            })
           }
         }
 
