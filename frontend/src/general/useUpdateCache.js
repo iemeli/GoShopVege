@@ -156,7 +156,7 @@ const useUpdateCache = (collection, query, mode) => {
           const food = object
           const oldIngredients = oldRefs
           const newIngredients = food.ingredients.map(i => i.item.id)
-          if (oldIngredients !== newIngredients) {
+          if (!isEqual(oldIngredients, newIngredients)) {
             const setWithUniqueValues = new Set([
               ...oldIngredients,
               ...newIngredients,
@@ -173,7 +173,7 @@ const useUpdateCache = (collection, query, mode) => {
               if (oldIngredients.includes(i.id)) {
                 return i.usedInFoods.map(f => f.id).includes(food.id)
               }
-              return !i.usedInFoods.map(f => f.id).includes(food)
+              return !i.usedInFoods.map(f => f.id).includes(food.id)
             }
 
             if (notUpdatedYet(uniqueIngredientFromCache)) {
@@ -197,6 +197,58 @@ const useUpdateCache = (collection, query, mode) => {
                 query: ALL_INGREDIENTS,
                 data: {
                   allIngredients: ingredientsData,
+                },
+              })
+            }
+          }
+        }
+        if (collection === 'allFoodPacks') {
+          const foodPack = object
+          const oldFoods = oldRefs
+          const newFoods = foodPack.foods.map(f => f.id)
+          if (!isEqual(oldFoods, newFoods)) {
+            const setWithUniqueValues = new Set([...oldFoods, ...newFoods])
+
+            const { allFoods } = client.readQuery({
+              query: ALL_FOODS,
+            })
+
+            const uniqueFoodFromCache = allFoods.find(f =>
+              setWithUniqueValues.has(f.id)
+            )
+            const notUpdatedYet = i => {
+              if (oldFoods.includes(i.id)) {
+                return i.usedInFoodPacks.map(fp => fp.id).includes(foodPack.id)
+              }
+              return !i.usedInFoodPacks.map(fp => fp.id).includes(foodPack.id)
+            }
+
+            if (notUpdatedYet(uniqueFoodFromCache)) {
+              const foodsData = allFoods.map(f => {
+                if (setWithUniqueValues.has(f.id)) {
+                  if (!newFoods.includes(f.id)) {
+                    return {
+                      ...f,
+                      usedInFoodPacks: f.usedInFoodPacks.filter(
+                        fp => fp.id !== foodPack.id
+                      ),
+                    }
+                  }
+                  if (oldFoods.includes(f.id)) {
+                    return f
+                  }
+                  return {
+                    ...f,
+                    usedInFoodPacks: f.usedInFoodPacks.concat(foodPack),
+                  }
+                }
+                return f
+              })
+
+              client.writeQuery({
+                query: ALL_FOODS,
+                data: {
+                  allFoods: foodsData,
                 },
               })
             }
