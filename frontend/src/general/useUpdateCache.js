@@ -22,7 +22,7 @@ const useUpdateCache = (collection, query, mode) => {
             },
           })
 
-          if (collection === 'allFoods') {
+          if (collection === 'allFoods' && object.ingredients.length > 0) {
             const { allIngredients } = client.readQuery({
               query: ALL_INGREDIENTS,
             })
@@ -39,7 +39,7 @@ const useUpdateCache = (collection, query, mode) => {
                 allIngredients: ingredientsData,
               },
             })
-          } else if (collection === 'allFoodPacks') {
+          } else if (collection === 'allFoodPacks' && object.foods.length > 0) {
             const { allFoods } = client.readQuery({
               query: ALL_FOODS,
             })
