@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { v4 as uuid } from 'uuid'
+import { connect } from 'react-redux'
+import { setAlert } from '../../redux/alertReducer'
 import useField from '../../general/useField'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import FoodForm from '../presentational/FoodForm'
@@ -138,4 +140,4 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   )
 }
 
-export default FoodFormContainer
+export default connect(null, { setAlert })(FoodFormContainer)

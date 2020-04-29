@@ -3,12 +3,12 @@ import ListIngredients from '../../Ingredient/presentational/ListIngredients'
 import DeleteFoodButton from '../utils/DeleteFoodButton'
 import UpdateFoodButton from '../utils/UpdateFoodButton'
 
-const Food = ({ food, setAlert }) => (
+const Food = ({ food }) => (
   <div>
     <h3>
       {food.name}
       <UpdateFoodButton food={food} />
-      <DeleteFoodButton food={food} setAlert={setAlert} />
+      <DeleteFoodButton food={food} />
     </h3>
     <table>
       <tbody>
@@ -26,7 +26,6 @@ const Food = ({ food, setAlert }) => (
     <ListIngredients
       ingredients={food.ingredients.map(i => i.item)}
       hideButtons={true}
-      setAlert={setAlert}
     />
     <br />
     <strong>resepti</strong>

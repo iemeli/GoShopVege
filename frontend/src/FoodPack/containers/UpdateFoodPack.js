@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import { useRouteMatch, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setAlert } from '../../redux/alertReducer'
 import { ALL_FOODPACKS, UPDATE_FOODPACK } from '../queries'
 import FoodPackFormContainer from './FoodPackFormContainer'
 import useUpdateCache from '../../general/useUpdateCache'
 
+// eslint-disable-next-line no-shadow
 const UpdateFoodPack = ({ setAlert }) => {
   const [alreadyUpdated, setAlreadyUpdated] = useState(false)
   const [oldFoods, setOldFoods] = useState([])
@@ -57,6 +60,7 @@ const UpdateFoodPack = ({ setAlert }) => {
     } catch (e) {
       setAlreadyUpdated(false)
       console.log('Error updating foodPack in UpdateFoodPack.js: ', e.message)
+      setAlert('danger', 'Jotain meni vikaan. Yritä uudelleen!')
     }
     setAlert('success', `Ruokapaketti ${foodPack.name} päivitetty!`)
   }
@@ -66,10 +70,9 @@ const UpdateFoodPack = ({ setAlert }) => {
       <FoodPackFormContainer
         foodPack={foodPack}
         updateFoodPack={updateFoodPack}
-        setAlert={setAlert}
       />
     </div>
   )
 }
 
-export default UpdateFoodPack
+export default connect(null, { setAlert })(UpdateFoodPack)

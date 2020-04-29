@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { ALL_FOODS } from '../queries'
 import ListFoods from '../presentational/ListFoods'
 
-const ListFoodsContainer = ({ setAlert }) => {
+const ListFoodsContainer = () => {
   const foodsResult = useQuery(ALL_FOODS)
 
   if (foodsResult.loading) {
@@ -21,7 +21,7 @@ const ListFoodsContainer = ({ setAlert }) => {
           <Link to="/ruoat/uusi">luo uusi ruoka</Link>
         </small>
       </h3>
-      <ListFoods foods={foods} setAlert={setAlert} />
+      <ListFoods foods={foods} />
     </div>
   )
 }

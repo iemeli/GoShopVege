@@ -7,6 +7,7 @@ import { ADD_INGREDIENT, ALL_INGREDIENTS } from '../queries'
 import useUpdateCache from '../../general/useUpdateCache'
 import { setAlert } from '../../redux/alertReducer'
 
+// eslint-disable-next-line no-shadow
 const NewIngredient = ({ setAlert }) => {
   const [name, resetName] = useField('text')
   const [price, resetPrice] = useField('number')
@@ -45,6 +46,10 @@ const NewIngredient = ({ setAlert }) => {
       })
     } catch (error) {
       console.log('Error adding ingredient in NewIngredient.js', error.message)
+      setAlert(
+        'danger',
+        'Hmm... bitti taitaa olla poikittain. Kokeile uudestaan.'
+      )
     }
 
     setAlert('success', `Uusi ainesosa ${name.value} lisätty!`)

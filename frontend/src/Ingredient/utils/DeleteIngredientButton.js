@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useMutation } from '@apollo/client'
+import { connect } from 'react-redux'
+import { setAlert } from '../../redux/alertReducer'
 import DeleteModal from '../../general/DeleteModal'
 import DeleteModalBody from './DeleteModalBody'
 import { DELETE_INGREDIENT, ALL_INGREDIENTS } from '../queries'
 import useUpdateCache from '../../general/useUpdateCache'
 
+// eslint-disable-next-line no-shadow
 const DeleteIngredientButton = ({ ingredient, setAlert }) => {
   const updateCacheWith = useUpdateCache(
     'allIngredients',
@@ -34,6 +37,7 @@ const DeleteIngredientButton = ({ ingredient, setAlert }) => {
         'Error deleting ingredient in DeleteIngredientButton: ',
         e.message
       )
+      setAlert('danger', 'Pieleen meni. Kokeile uudemman kerran.')
     }
     setAlert('success', `Ainesosa ${ingredient.name} poistettu`)
   }
@@ -60,4 +64,4 @@ const DeleteIngredientButton = ({ ingredient, setAlert }) => {
   )
 }
 
-export default DeleteIngredientButton
+export default connect(null, { setAlert })(DeleteIngredientButton)

@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client'
 import { ALL_INGREDIENTS } from '../queries'
 import Ingredient from '../presentational/Ingredient'
 
-const IngredientContainer = ({ setAlert }) => {
+const IngredientContainer = () => {
   const ingredientName = useRouteMatch('/ainesosat/:name').params.name
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
 
@@ -22,7 +22,7 @@ const IngredientContainer = ({ setAlert }) => {
 
   return (
     <div>
-      <Ingredient ingredient={ingredient} setAlert={setAlert} />
+      <Ingredient ingredient={ingredient} />
     </div>
   )
 }

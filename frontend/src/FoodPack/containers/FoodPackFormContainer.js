@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useQuery } from '@apollo/client'
+import { connect } from 'react-redux'
+import { setAlert } from '../../redux/alertReducer'
 import useField from '../../general/useField'
 import { ALL_FOODS } from '../../Food/queries'
 import FoodPackForm from '../presentational/FoodPackForm'
@@ -8,6 +10,7 @@ const FoodPackFormContainer = ({
   foodPack,
   addFoodPack,
   updateFoodPack,
+  // eslint-disable-next-line no-shadow
   setAlert,
 }) => {
   const [name] = useField('text', foodPack ? foodPack.name : null)
@@ -84,4 +87,4 @@ const FoodPackFormContainer = ({
   )
 }
 
-export default FoodPackFormContainer
+export default connect(null, { setAlert })(FoodPackFormContainer)

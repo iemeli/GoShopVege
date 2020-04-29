@@ -1,7 +1,7 @@
 import React from 'react'
 import IngredientRow from './IngredientRow'
 
-const ListIngredients = ({ ingredients, hideButtons, setAlert }) => (
+const ListIngredients = ({ ingredients, hideButtons }) => (
   <div>
     <h3>Ainesosat</h3>
     <table>
@@ -12,12 +12,7 @@ const ListIngredients = ({ ingredients, hideButtons, setAlert }) => (
           <th>Kilokalorit</th>
         </tr>
         {ingredients.map(i => (
-          <IngredientRow
-            ingredient={i}
-            key={i.id}
-            hideButtons={hideButtons}
-            setAlert={setAlert}
-          />
+          <IngredientRow ingredient={i} key={i.id} hideButtons={hideButtons} />
         ))}
       </tbody>
     </table>

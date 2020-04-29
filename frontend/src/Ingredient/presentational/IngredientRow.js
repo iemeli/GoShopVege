@@ -3,11 +3,14 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { useMutation } from '@apollo/client'
+import { connect } from 'react-redux'
+import { setAlert } from '../../redux/alertReducer'
 import DeleteIngredientButton from '../utils/DeleteIngredientButton'
 import useField from '../../general/useField'
 import { UPDATE_INGREDIENT, ALL_INGREDIENTS } from '../queries'
 import useUpdateCache from '../../general/useUpdateCache'
 
+// eslint-disable-next-line no-shadow
 const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
   const [updateMode, setUpdateMode] = useState(false)
   const [name] = useField('text', ingredient.name)
@@ -51,6 +54,7 @@ const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
       })
     } catch (error) {
       console.log('Error updating ingredient in IngredientRow: ', error.message)
+      setAlert('danger', 'Hitsi, ei mennyt putkeen. Koita uudestaan.')
     }
     setAlert('success', `Ainesosa päivitetty!`)
     toggleUpdateMode()
@@ -97,12 +101,10 @@ const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
         )}
       </td>
       <td>
-        {!hideButtons && (
-          <DeleteIngredientButton ingredient={ingredient} setAlert={setAlert} />
-        )}
+        {!hideButtons && <DeleteIngredientButton ingredient={ingredient} />}
       </td>
     </tr>
   )
 }
 
-export default IngredientRow
+export default connect(null, { setAlert })(IngredientRow)

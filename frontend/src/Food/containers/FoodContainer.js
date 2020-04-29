@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client'
 import { ALL_FOODS } from '../queries'
 import Food from '../presentational/Food'
 
-const FoodContainer = ({ setAlert }) => {
+const FoodContainer = () => {
   const foodName = useRouteMatch('/ruoat/:name').params.name
   const foodsResult = useQuery(ALL_FOODS)
 
@@ -20,7 +20,7 @@ const FoodContainer = ({ setAlert }) => {
 
   return (
     <div>
-      <Food food={food} setAlert={setAlert} />
+      <Food food={food} />
     </div>
   )
 }

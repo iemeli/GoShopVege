@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import { useRouteMatch, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setAlert } from '../../redux/alertReducer'
 import { ALL_FOODS, UPDATE_FOOD } from '../queries'
 import FoodFormContainer from './FoodFormContainer'
 import useUpdateCache from '../../general/useUpdateCache'
@@ -49,19 +51,16 @@ const UpdateFood = ({ setAlert }) => {
       })
     } catch (e) {
       console.log('Error updating food in UpdateFood.js', e.message)
+      setAlert('danger', 'Jotain meni vikaan. Kokeileppa uudestaan!')
     }
     setAlert('success', `Ruoka ${foodName} päivitetty`)
   }
 
   return (
     <div>
-      <FoodFormContainer
-        food={food}
-        updateFood={updateFood}
-        setAlert={setAlert}
-      />
+      <FoodFormContainer food={food} updateFood={updateFood} />
     </div>
   )
 }
 
-export default UpdateFood
+export default connect(null, { setAlert })(UpdateFood)

@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useMutation } from '@apollo/client'
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setAlert } from '../../redux/alertReducer'
 import { DELETE_FOOD, ALL_FOODS } from '../queries'
 import DeleteModal from '../../general/DeleteModal'
 import DeleteModalBody from './DeleteModalBody'
 import useUpdateCache from '../../general/useUpdateCache'
 
+// eslint-disable-next-line no-shadow
 const DeleteFoodButton = ({ food, setAlert }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [alreadyDeleted, setAlreadyDeleted] = useState(false)
@@ -64,4 +67,4 @@ const DeleteFoodButton = ({ food, setAlert }) => {
   )
 }
 
-export default DeleteFoodButton
+export default connect(null, { setAlert })(DeleteFoodButton)

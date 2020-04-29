@@ -3,12 +3,12 @@ import ListFoods from '../../Food/presentational/ListFoods'
 import DeleteFoodPackButton from '../utils/DeleteFoodPackButton'
 import UpdateFoodPackButton from '../utils/UpdateFoodPackButton'
 
-const FoodPack = ({ foodPack, setAlert }) => (
+const FoodPack = ({ foodPack }) => (
   <div>
     <h2>
       {foodPack.name}
       <UpdateFoodPackButton foodPack={foodPack} />
-      <DeleteFoodPackButton foodPack={foodPack} setAlert={setAlert} />
+      <DeleteFoodPackButton foodPack={foodPack} />
     </h2>
     <p>
       <strong>Kilokalorit: </strong>
@@ -18,7 +18,7 @@ const FoodPack = ({ foodPack, setAlert }) => (
       <strong>Hinta: </strong>
       {foodPack.price} €
     </p>
-    <ListFoods foods={foodPack.foods} hideButtons={true} setAlert={setAlert} />
+    <ListFoods foods={foodPack.foods} hideButtons={true} />
   </div>
 )
 

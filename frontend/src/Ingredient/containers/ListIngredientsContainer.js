@@ -4,7 +4,7 @@ import { ALL_INGREDIENTS } from '../queries'
 import ListIngredients from '../presentational/ListIngredients'
 import NewIngredient from '../Forms/NewIngredient'
 
-const ListIngredientsContainer = ({ setAlert }) => {
+const ListIngredientsContainer = () => {
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
 
   if (ingredientsResult.loading) {
@@ -15,8 +15,8 @@ const ListIngredientsContainer = ({ setAlert }) => {
 
   return (
     <div>
-      <NewIngredient setAlert={setAlert} />
-      <ListIngredients ingredients={ingredients} setAlert={setAlert} />
+      <NewIngredient />
+      <ListIngredients ingredients={ingredients} />
     </div>
   )
 }
