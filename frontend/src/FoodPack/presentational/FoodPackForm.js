@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-  Form, Button, Dropdown, DropdownButton, Table
-} from 'react-bootstrap'
+import { Form, Button, Dropdown, DropdownButton, Table } from 'react-bootstrap'
 
 const FoodPackForm = ({
   submit,
@@ -10,12 +8,12 @@ const FoodPackForm = ({
   foods,
   handleSelect,
   removeFood,
-  foodPack
+  foodPack,
 }) => (
   <div>
     <Form onSubmit={submit}>
       <Form.Group>
-        <Button type='submit'>
+        <Button type="submit">
           {foodPack ? 'Päivitä' : 'Lisää ruokapaketti'}
         </Button>
         <br />
@@ -30,20 +28,18 @@ const FoodPackForm = ({
       flip="offset"
       preventoverflow="padding"
     >
-      {foodsForDropdown.map(f =>
-        <Dropdown.Item
-          key={f.id}
-          eventKey={f.id}
-          onSelect={handleSelect}
-        >
+      {foodsForDropdown.map(f => (
+        <Dropdown.Item key={f.id} eventKey={f.id} onSelect={handleSelect}>
           {f.name}
         </Dropdown.Item>
-      )}
+      ))}
     </DropdownButton>
     <Table>
       <thead>
         <tr>
-          <th><h6>RUOAT</h6></th>
+          <th>
+            <h6>RUOAT</h6>
+          </th>
           <th>nimi</th>
           <th>hinta</th>
           <th>kcal</th>
@@ -52,7 +48,7 @@ const FoodPackForm = ({
         </tr>
       </thead>
       <tbody>
-        {foods.map(f =>
+        {foods.map(f => (
           <tr key={f.id}>
             <td></td>
             <td>{f.name}</td>
@@ -65,24 +61,20 @@ const FoodPackForm = ({
                 flip="offset"
                 preventoverflow="padding"
               >
-                {f.ingredients.map(i => i.item).map(i =>
-                  <Dropdown.Item key={i.id}>
-                    {i.name}
-                  </Dropdown.Item>
-                )}
+                {f.ingredients
+                  .map(i => i.item)
+                  .map(i => (
+                    <Dropdown.Item key={i.id}>{i.name}</Dropdown.Item>
+                  ))}
               </DropdownButton>
             </td>
             <td>
-              <Button
-                variant='light'
-                id={f.id}
-                onClick={removeFood}
-              >
+              <Button variant="light" id={f.id} onClick={removeFood}>
                 poista
-                </Button>
+              </Button>
             </td>
           </tr>
-        )}
+        ))}
       </tbody>
     </Table>
   </div>
