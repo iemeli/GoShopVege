@@ -1,24 +1,8 @@
-import React, { useState, useImperativeHandle } from 'react'
+import React from 'react'
 import { Alert } from 'react-bootstrap'
+import { connect } from 'react-redux'
 
-const GlobalAlert = React.forwardRef((props, ref) => {
-  const [variant, setVariant] = useState(null)
-  const [message, setMessage] = useState(null)
-
-  const setAlert = (vrnt, msg) => {
-    setVariant(vrnt)
-    setMessage(msg)
-    setTimeout(() => {
-      setMessage(null)
-    }, 5000)
-  }
-
-  useImperativeHandle(ref, () => {
-    return {
-      setAlert,
-    }
-  })
-
+const GlobalAlert = ({ variant, message }) => {
   if (message) {
     return (
       <div>
@@ -34,6 +18,13 @@ const GlobalAlert = React.forwardRef((props, ref) => {
       <br />
     </div>
   )
-})
+}
 
-export default GlobalAlert
+const mapStateToProps = state => {
+  return {
+    variant: state.variant,
+    message: state.message,
+  }
+}
+
+export default connect(mapStateToProps)(GlobalAlert)

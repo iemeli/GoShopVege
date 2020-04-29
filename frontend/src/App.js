@@ -8,6 +8,7 @@ import Routes from './Menu/presentational/Routes'
 import { ALL_INGREDIENTS } from './Ingredient/queries'
 import { ALL_FOODS } from './Food/queries'
 import { ALL_FOODPACKS } from './FoodPack/queries'
+import GlobalAlert from './general/GlobalAlert'
 
 const App = () => {
   const ingredients = useQuery(ALL_INGREDIENTS)
@@ -20,13 +21,19 @@ const App = () => {
     return <div>...loading</div>
   }
 
+  const setAlert = (variant, message) => {
+    // alertRef.current.setAlert(variant, message)
+    console.log(variant, message)
+  }
+
   return (
-    <Router>
-      <div className="container">
+    <div className="container">
+      <Router>
         <Menu />
-        <Routes />
-      </div>
-    </Router>
+        <GlobalAlert />
+        <Routes setAlert={setAlert} />
+      </Router>
+    </div>
   )
 }
 

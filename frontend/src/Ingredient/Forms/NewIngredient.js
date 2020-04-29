@@ -1,9 +1,11 @@
 import React from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { useMutation } from '@apollo/client'
+import { connect } from 'react-redux'
 import useField from '../../general/useField'
 import { ADD_INGREDIENT, ALL_INGREDIENTS } from '../queries'
 import useUpdateCache from '../../general/useUpdateCache'
+import { setAlert } from '../../redux/alertReducer'
 
 const NewIngredient = ({ setAlert }) => {
   const [name, resetName] = useField('text')
@@ -69,4 +71,4 @@ const NewIngredient = ({ setAlert }) => {
   )
 }
 
-export default NewIngredient
+export default connect(null, { setAlert })(NewIngredient)

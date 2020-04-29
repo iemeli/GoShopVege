@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import GlobalAlert from '../../general/GlobalAlert'
+// import GlobalAlert from '../../general/GlobalAlert'
 import Description from './Description'
 import ListFoodsContainer from '../../Food/containers/ListFoodsContainer'
 import ListIngredientsContainer from '../../Ingredient/containers/ListIngredientsContainer'
@@ -14,17 +14,17 @@ import NewFood from '../../Food/containers/NewFood'
 import NewFoodPack from '../../FoodPack/containers/NewFoodPack'
 import UpdateFoodPack from '../../FoodPack/containers/UpdateFoodPack'
 
-const Routes = () => {
-  const alertRef = React.createRef()
+const Routes = ({ setAlert }) => {
+  // const alertRef = React.createRef()
 
-  const setAlert = (variant, message) => {
-    // alertRef.current.setAlert(variant, message)
-    console.log(variant, message)
-  }
+  // const setAlert = (variant, message) => {
+  //   // alertRef.current.setAlert(variant, message)
+  //   console.log(variant, message)
+  // }
 
   return (
     <div>
-      <GlobalAlert ref={alertRef} />
+      {/* <GlobalAlert ref={alertRef} /> */}
       <Switch>
         <Route path="/ruokapaketit/paivita/:name">
           <UpdateFoodPack setAlert={setAlert} />

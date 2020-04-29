@@ -25,5 +25,5 @@
 | 24.4.  | 3.5      | Cachen kanssa temppuilua                                               |
 | 26.4.  | 1        | Cachen kanssa painimista                                               |
 | 27.4.  | 5        | Cachen kanssa vääntämistä                                              |
-| 28.4.  |          | Cachesäädön selätys                                                    |
-|  yht   | 77       |                                                                        |
+| 28.4.  | 5        | Cachesäädön selätys ja React Contextin selvitys                        |
+|  yht   | 82       |                                                                        |

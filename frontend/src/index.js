@@ -10,6 +10,8 @@ import {
 // import { setContext } from 'apollo-link-context'
 import { getMainDefinition } from '@apollo/client/utilities'
 import { WebSocketLink } from '@apollo/link-ws'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 import App from './App'
 
 const httpLink = new HttpLink({
@@ -42,9 +44,11 @@ const client = new ApolloClient({
 })
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <Provider store={store}>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </Provider>,
   // eslint-disable-next-line no-undef
   document.getElementById('root')
 )
