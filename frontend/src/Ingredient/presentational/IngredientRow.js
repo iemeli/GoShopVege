@@ -13,9 +13,10 @@ import useUpdateCache from '../../general/useUpdateCache'
 // eslint-disable-next-line no-shadow
 const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
   const [updateMode, setUpdateMode] = useState(false)
-  const [name] = useField('text', ingredient.name)
-  const [price] = useField('number', ingredient.price)
-  const [kcal] = useField('number', ingredient.kcal)
+  const [freezeFields, setFreezeFields] = useState(null)
+  const [name, resetName, setName] = useField('text', ingredient.name)
+  const [price, resetPrice, setPrice] = useField('number', ingredient.price)
+  const [kcal, resetKcal, setKcal] = useField('number', ingredient.kcal)
 
   const updateCacheWith = useUpdateCache(
     'allIngredients',
@@ -28,8 +29,23 @@ const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
       updateCacheWith(response.data.updateIngredient)
     },
   })
-
-  const toggleUpdateMode = () => {
+  // täs yritetään ratkaista sitä ongelmaa että kun peruuttaa
+  // päivityksen niin fieldit palautuisivat ennalleen
+  // KUN taas tekee päivityksen niin palautumisesta EIKÄ
+  // oikeestaan fieldien päivittämisestä tartte välittää!!
+  const toggleUpdateMode = cancel => {
+    if (!updateMode) {
+      setFreezeFields({
+        name: name.value,
+        price: price.value,
+        kcal: kcal.value,
+      })
+    }
+    if (cancel && updateMode) {
+      setName(freezeFields.name)
+      setPrice(freezeFields.price)
+      setKcal(freezeFields.kcal)
+    }
     setUpdateMode(!updateMode)
   }
 
@@ -56,7 +72,14 @@ const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
       console.log('Error updating ingredient in IngredientRow: ', error.message)
       setAlert('danger', 'Hitsi, ei mennyt putkeen. Koita uudestaan.')
     }
-    setAlert('success', `Ainesosa päivitetty!`)
+    setAlert(
+      'success',
+      `Ainesosa ${
+        name.value !== freezeFields.name
+          ? `"${name.value}" (ennen "${freezeFields.name}")`
+          : `"${name.value}"`
+      } päivitetty!`
+    )
     toggleUpdateMode()
   }
 
@@ -73,7 +96,10 @@ const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
           <input {...kcal} />
         </td>
         <td>
-          <Button onClick={toggleUpdateMode} variant="outline-danger">
+          <Button
+            onClick={() => toggleUpdateMode('cancel')}
+            variant="outline-danger"
+          >
             peruuta
           </Button>
         </td>

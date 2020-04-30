@@ -4,7 +4,7 @@ const useField = (type, state) => {
   const setState = state ? state : ''
   const [value, setValue] = useState(setState)
 
-  const onChange = (e) => {
+  const onChange = e => {
     setValue(e.target.value)
   }
 
