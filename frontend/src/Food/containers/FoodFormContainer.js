@@ -7,6 +7,7 @@ import useField from '../../general/useField'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import FoodForm from '../presentational/FoodForm'
 
+// eslint-disable-next-line no-shadow
 const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   const [name] = useField('text', food ? food.name : null)
   const [step, resetStep] = useField('text')

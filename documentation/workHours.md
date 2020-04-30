@@ -26,4 +26,5 @@
 | 26.4.  | 1        | Cachen kanssa painimista                                               |
 | 27.4.  | 5        | Cachen kanssa vääntämistä                                              |
 | 28.4.  | 5        | Cachesäädön selätys ja React Contextin selvitys                        |
-|  yht   | 82       |                                                                        |
+| 29.4.  | 5        | Redux -> global alert, debuggaamista ja validointia                    |
+|  yht   | 87       |                                                                        |

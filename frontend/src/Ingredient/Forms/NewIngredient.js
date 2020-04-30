@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Button } from 'react-bootstrap'
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { connect } from 'react-redux'
 import useField from '../../general/useField'
 import { ADD_INGREDIENT, ALL_INGREDIENTS } from '../queries'
@@ -12,6 +12,7 @@ const NewIngredient = ({ setAlert }) => {
   const [name, resetName] = useField('text')
   const [price, resetPrice] = useField('number')
   const [kcal, resetKcal] = useField('number')
+  const { loading, data } = useQuery(ALL_INGREDIENTS)
   const updateCacheWith = useUpdateCache(
     'allIngredients',
     ALL_INGREDIENTS,
@@ -23,11 +24,25 @@ const NewIngredient = ({ setAlert }) => {
     },
   })
 
+  if (loading) {
+    return <div>...loading</div>
+  }
+
+  const ingredientNames = data.allIngredients.map(i => i.name)
+
   const submit = async e => {
     e.preventDefault()
 
     if (name.value.length < 4) {
       setAlert('danger', 'Nimen pituuden täytyy olla vähintään 4 !')
+      return
+    }
+
+    if (ingredientNames.includes(name.value)) {
+      setAlert(
+        'danger',
+        `Ainesosa "${name.value}" on jo olemassa. Valitse toinen nimi!`
+      )
       return
     }
 

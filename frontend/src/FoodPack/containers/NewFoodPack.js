@@ -42,7 +42,6 @@ const NewFoodPack = ({ setAlert }) => {
       )
       return
     }
-    let sameFoods = false
     for (let i = 0; i < foodPacks.length; i++) {
       const foods = foodPacks[i].foods.map(f => f.id)
       if (isEqual(foods, foodPackToAdd.foods)) {
@@ -50,11 +49,8 @@ const NewFoodPack = ({ setAlert }) => {
           'danger',
           `Ruokapaketissa "${foodPacks[i].name}" on jo tismalleen samat ruoat`
         )
-        sameFoods = true
+        return
       }
-    }
-    if (sameFoods) {
-      return
     }
     try {
       await launchAddFoodPack({
@@ -63,7 +59,6 @@ const NewFoodPack = ({ setAlert }) => {
           foods: foodPackToAdd.foods,
         },
       })
-
       setAlert('success', `Ruokapaketti ${foodPackToAdd.name} lisätty!`)
     } catch (e) {
       console.log('Error adding foodpack in NewFoodPack.js: ', e.message)
