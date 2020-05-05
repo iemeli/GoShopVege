@@ -1,31 +1,36 @@
+import { v4 as uuid } from 'uuid'
+
 const alertReducer = (state = [], action) => {
   switch (action.type) {
-    case 'SET':
-      return action.data
+    case 'ADD':
+      return state.concat(action.data)
     case 'CLEAR':
-      return ''
+      return state.filter(alert => alert.id !== action.id)
     default:
       return state
   }
 }
 
-export const clearAlert = () => {
+export const clearAlert = id => {
   return {
     type: 'CLEAR',
+    id,
   }
 }
 
-export const setAlert = (variant, message) => {
+export const setAlert = (header, body) => {
   return dispatch => {
+    const id = uuid()
     dispatch({
-      type: 'SET',
+      type: 'ADD',
       data: {
-        variant,
-        message,
+        header,
+        body,
+        id,
       },
     })
     setTimeout(() => {
-      dispatch(clearAlert())
+      dispatch(clearAlert(id))
     }, 5000)
   }
 }
