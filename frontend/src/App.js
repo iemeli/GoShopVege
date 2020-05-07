@@ -2,6 +2,7 @@ import React from 'react'
 import './App.css'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
+import Container from 'react-bootstrap/Container'
 import useEpicSubscription from './general/useEpicSubscription'
 import Menu from './Menu/presentational/Menu'
 import Routes from './Menu/presentational/Routes'
@@ -27,12 +28,14 @@ const App = () => {
   }
 
   return (
-    <div className="container">
-      <Router>
-        <Menu />
-        <GlobalAlert />
-        <Routes setAlert={setAlert} />
-      </Router>
+    <div>
+      <Container>
+        <Router>
+          <Menu />
+          <GlobalAlert />
+          <Routes setAlert={setAlert} />
+        </Router>
+      </Container>
     </div>
   )
 }
