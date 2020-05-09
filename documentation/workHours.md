@@ -28,5 +28,6 @@
 | 28.4.  | 5        | Cachesäädön selätys ja React Contextin selvitys                        |
 | 29.4.  | 5        | Redux -> global alert, debuggaamista ja validointia                    |
 | 30.4.  | 2        | Bugin fiksailua ja React-bootsträpistä lukemista                       |
-| 5.4.   | 2        | tyylittelyä                                                            |   
-|  yht   | 91       |                                                                        |
+| 5.4.   | 2        | tyylittelyä                                                            |
+| 7.4.   | 1.5      | Navbarin lisääminen                                                    |   
+|  yht   | 92.5     |                                                                        |

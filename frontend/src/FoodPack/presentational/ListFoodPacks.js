@@ -1,21 +1,30 @@
 import React from 'react'
-import FoodPackRow from './FoodPackRow'
+import Card from 'react-bootstrap/Card'
+import CardDeck from 'react-bootstrap/CardDeck'
+import Button from 'react-bootstrap/Button'
 
-const ListFoodPacks = ({ foodPacks }) => (
+const ListFoodPacks = ({ foodPacks, history }) => (
   <div>
-    <table>
-      <tbody>
-        <tr>
-          <th>Nimi</th>
-          <th>Hinta</th>
-          <th>Kilokalorit</th>
-          <th>Ruoat</th>
-        </tr>
-        {foodPacks.map(fp => (
-          <FoodPackRow foodPack={fp} key={fp.id} />
-        ))}
-      </tbody>
-    </table>
+    <CardDeck>
+      {foodPacks.map(fp => (
+        <Card style={{ width: '18rem' }} key={fp.id}>
+          <Card.Body>
+            <Card.Title>{fp.name}</Card.Title>
+            <Card.Body>
+              {fp.foods.map(f => (
+                <div key={f.id}>{f.name}</div>
+              ))}
+            </Card.Body>
+            <Button
+              variant="primary"
+              onClick={() => history.push(`/ruokapaketit/${fp.name}`)}
+            >
+              Näytä
+            </Button>
+          </Card.Body>
+        </Card>
+      ))}
+    </CardDeck>
   </div>
 )
 
