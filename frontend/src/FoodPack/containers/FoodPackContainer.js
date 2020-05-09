@@ -1,10 +1,11 @@
 import React from 'react'
-import { useRouteMatch, Redirect } from 'react-router-dom'
+import { useRouteMatch, Redirect, useHistory } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { ALL_FOODPACKS } from '../queries'
 import FoodPack from '../presentational/FoodPack'
 
 const FoodPackContainer = () => {
+  const history = useHistory()
   const foodPackName = useRouteMatch('/ruokapaketit/:name').params.name
 
   const foodPacksResult = useQuery(ALL_FOODPACKS)
@@ -23,7 +24,7 @@ const FoodPackContainer = () => {
 
   return (
     <div>
-      <FoodPack foodPack={foodPack} />
+      <FoodPack foodPack={foodPack} history={history} />
     </div>
   )
 }

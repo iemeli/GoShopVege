@@ -7,7 +7,12 @@ const ListFoodPacks = ({ foodPacks, history }) => (
   <div>
     <CardDeck>
       {foodPacks.map(fp => (
-        <Card style={{ width: '18rem' }} key={fp.id}>
+        <Card
+          style={{ width: '18rem', background: '#88feff' }}
+          key={fp.id}
+          border="secondary"
+        >
+          <Card.Header>Ruokapaketti</Card.Header>
           <Card.Body>
             <Card.Title>{fp.name}</Card.Title>
             <Card.Body>
