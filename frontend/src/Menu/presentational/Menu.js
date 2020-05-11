@@ -37,6 +37,9 @@ const Menu = () => {
             <Navbar.Text>
               <StyledLink to="/ainesosat">Ainesosat</StyledLink>
             </Navbar.Text>
+            <Navbar.Text>
+              <StyledLink to="/ostoslista">Ostoslista</StyledLink>
+            </Navbar.Text>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

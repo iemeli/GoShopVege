@@ -3,12 +3,14 @@ import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
+import { connect } from 'react-redux'
+import { addItem } from '../../redux/shopListReducer'
 
-const ListFoodPacks = ({ foodPacks, history }) => (
+const ListFoodPacks = props => (
   <div>
     <Container>
       <Row>
-        {foodPacks.map(fp => (
+        {props.foodPacks.map(fp => (
           <Card
             style={{ width: '18rem', background: '#88feff', margin: '1rem' }}
             key={fp.id}
@@ -24,9 +26,12 @@ const ListFoodPacks = ({ foodPacks, history }) => (
               </Card.Body>
               <Button
                 variant="primary"
-                onClick={() => history.push(`/ruokapaketit/${fp.name}`)}
+                onClick={() => props.history.push(`/ruokapaketit/${fp.name}`)}
               >
                 Näytä
+              </Button>
+              <Button variant="secondary" onClick={() => props.addItem(fp.id)}>
+                Lisää ostoslistaan
               </Button>
             </Card.Body>
           </Card>
@@ -36,4 +41,4 @@ const ListFoodPacks = ({ foodPacks, history }) => (
   </div>
 )
 
-export default ListFoodPacks
+export default connect(null, { addItem })(ListFoodPacks)

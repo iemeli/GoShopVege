@@ -52,7 +52,7 @@ const GlobalAlert = ({ toasts }) => {
 
 const mapStateToProps = state => {
   return {
-    toasts: state,
+    toasts: state.alerts,
   }
 }
 

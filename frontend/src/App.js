@@ -32,7 +32,7 @@ const App = () => {
       <Container>
         <Router>
           <Menu />
-          <GlobalAlert />
+          {/* <GlobalAlert /> */}
           <Routes setAlert={setAlert} />
         </Router>
       </Container>
