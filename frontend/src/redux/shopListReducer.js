@@ -3,7 +3,7 @@ const shopListReducer = (state = [], action) => {
     case 'ADD_ITEM':
       return state.concat(action.id)
     case 'REMOVE':
-      return state.filter(id => id !== action.data)
+      return state.filter(id => id !== action.id)
     case 'EMPTY':
       return []
     default:

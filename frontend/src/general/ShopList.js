@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { useQuery } from '@apollo/client'
-import Card from 'react-bootstrap/Card'
 import { ALL_INGREDIENTS } from '../Ingredient/queries'
 import { ALL_FOODS } from '../Food/queries'
 import { ALL_FOODPACKS } from '../FoodPack/queries'
 import { removeItem, emptyShopList } from '../redux/shopListReducer'
+import IngredientCard from '../Ingredient/presentational/ShopListCard'
+import FoodCard from '../Food/presentational/ShopListCard'
+import FoodPackCard from '../FoodPack/presentational/ShopListCard'
 
 const ShopList = props => {
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
@@ -33,27 +35,18 @@ const ShopList = props => {
   return (
     <div>
       <h2>Ostoslista</h2>
+      <h3>Valitut Ruokapaketit</h3>
       {foodPacks.map(fp => (
-        <Card style={{ background: '#88feff' }} key={fp.id} border="secondary">
-          <Card.Header>Ruokapaketti</Card.Header>
-          <Card.Body>
-            <Card.Title>{fp.name}</Card.Title>
-            {fp.foods.map(f => (
-              <Card
-                style={{ background: '#99ff99' }}
-                key={f.id}
-                border="success"
-              >
-                <Card.Header>Ruoka</Card.Header>
-                <Card.Body>
-                  {f.ingredients.map(i => (
-                    <div key={i.id}>{i.item.name}</div>
-                  ))}
-                </Card.Body>
-              </Card>
-            ))}
-          </Card.Body>
-        </Card>
+        <FoodPackCard foodPack={fp} key={fp.id} buttons />
+      ))}
+      <h3>Valitut Ruoat</h3>
+      {foods.map(f => (
+        <FoodCard food={f} key={f.id} buttons />
+      ))}
+      <h3>Valitut Ainesosat</h3>
+
+      {ingredients.map(i => (
+        <IngredientCard ingredient={i} key={i.id} buttons />
       ))}
     </div>
   )
