@@ -8,6 +8,7 @@ import { removeItem, emptyShopList } from '../redux/shopListReducer'
 import IngredientCard from '../Ingredient/presentational/ShopListCard'
 import FoodCard from '../Food/presentational/ShopListCard'
 import FoodPackCard from '../FoodPack/presentational/ShopListCard'
+import ClearShopListButton from './ClearShopListButton'
 
 const ShopList = props => {
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
@@ -34,7 +35,10 @@ const ShopList = props => {
 
   return (
     <div>
-      <h2>Ostoslista</h2>
+      <h2>
+        Ostoslista
+        <ClearShopListButton />
+      </h2>
       <h3>Valitut Ruokapaketit</h3>
       {foodPacks.map(fp => (
         <FoodPackCard foodPack={fp} key={fp.id} buttons />

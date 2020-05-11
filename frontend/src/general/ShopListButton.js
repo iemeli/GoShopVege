@@ -14,10 +14,7 @@ const ShopListButton = props => {
 
   const handleClick = () => {
     props.setAlert(header, body)
-    if (props.mode !== 'EMPTY') {
-      return shopListAction(props.id)
-    }
-    return shopListAction()
+    return shopListAction(props.id)
   }
 
   switch (props.mode) {
@@ -35,30 +32,20 @@ const ShopListButton = props => {
       text = 'Poista ostoslistasta'
       shopListAction = props.removeItem
       break
-    case 'EMPTY':
-      variant = 'danger'
-      header = 'success'
-      body = 'Ostoslista tyhjätty'
-      text = 'Tyhjennä ostoslista'
-      shopListAction = props.emptyShopList
-      break
     default:
       break
   }
 
   return (
-    <div>
-      <Button variant={variant} onClick={handleClick}>
-        {text}
-      </Button>
-    </div>
+    <Button variant={variant} onClick={handleClick}>
+      {text}
+    </Button>
   )
 }
 
 ShopListButton.propTypes = {
   mode: PropTypes.string.isRequired,
-  // eslint-disable-next-line react/require-default-props
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
 }
 
 export default connect(null, {
