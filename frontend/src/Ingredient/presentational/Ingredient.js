@@ -1,11 +1,13 @@
 import React from 'react'
 import DeleteIngredientButton from '../utils/DeleteIngredientButton'
+import ShopListButton from '../../general/ShopListButton.js'
 
 const Ingredient = ({ ingredient }) => (
   <div>
     <h3>
       {ingredient.name}
       <DeleteIngredientButton ingredient={ingredient} />
+      <ShopListButton mode="ADD" id={ingredient.id} />
     </h3>
     <table>
       <tbody>

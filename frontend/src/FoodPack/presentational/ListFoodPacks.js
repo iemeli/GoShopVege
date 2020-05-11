@@ -3,8 +3,7 @@ import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
-import { connect } from 'react-redux'
-import { addItem } from '../../redux/shopListReducer'
+import ShopListButton from '../../general/ShopListButton.js'
 
 const ListFoodPacks = props => (
   <div>
@@ -30,9 +29,7 @@ const ListFoodPacks = props => (
               >
                 Näytä
               </Button>
-              <Button variant="secondary" onClick={() => props.addItem(fp.id)}>
-                Lisää ostoslistaan
-              </Button>
+              <ShopListButton mode="ADD" id={fp.id} />
             </Card.Body>
           </Card>
         ))}
@@ -41,4 +38,4 @@ const ListFoodPacks = props => (
   </div>
 )
 
-export default connect(null, { addItem })(ListFoodPacks)
+export default ListFoodPacks

@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-// import { composeWithDevTools } from 'redux-devtools-extension'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { composeWithDevTools } from 'redux-devtools-extension'
 import alertReducer from './alertReducer'
 import shopListReducer from './shopListReducer'
 
@@ -9,6 +10,6 @@ const reducer = combineReducers({
   shopList: shopListReducer,
 })
 
-const store = createStore(reducer, applyMiddleware(thunk))
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
 
 export default store

@@ -22,18 +22,13 @@ const App = () => {
     return <div>...loading</div>
   }
 
-  const setAlert = (variant, message) => {
-    // alertRef.current.setAlert(variant, message)
-    console.log(variant, message)
-  }
-
   return (
     <div>
       <Container>
         <Router>
           <Menu />
-          {/* <GlobalAlert /> */}
-          <Routes setAlert={setAlert} />
+          <GlobalAlert />
+          <Routes />
         </Router>
       </Container>
     </div>

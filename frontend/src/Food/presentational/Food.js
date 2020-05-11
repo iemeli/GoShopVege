@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card'
 import ListIngredients from '../../Ingredient/presentational/ListIngredients'
 import DeleteFoodButton from '../utils/DeleteFoodButton'
 import UpdateFoodButton from '../utils/UpdateFoodButton'
+import ShopListButton from '../../general/ShopListButton.js'
 
 const Food = ({ food }) => (
   <div>
@@ -11,6 +12,7 @@ const Food = ({ food }) => (
         {food.name}
         <UpdateFoodButton food={food} />
         <DeleteFoodButton food={food} />
+        <ShopListButton mode="ADD" id={food.id} />
       </h3>
       <table>
         <tbody>

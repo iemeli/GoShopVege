@@ -1,6 +1,6 @@
 const shopListReducer = (state = [], action) => {
   switch (action.type) {
-    case 'ADD':
+    case 'ADD_ITEM':
       return state.concat(action.id)
     case 'REMOVE':
       return state.filter(id => id !== action.data)
@@ -13,7 +13,7 @@ const shopListReducer = (state = [], action) => {
 
 export const addItem = id => {
   return {
-    type: 'ADD',
+    type: 'ADD_ITEM',
     id,
   }
 }

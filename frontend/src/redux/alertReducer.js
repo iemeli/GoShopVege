@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid'
 
 const alertReducer = (state = [], action) => {
   switch (action.type) {
-    case 'ADD':
+    case 'ADD_ALERT':
       return state.concat(action.data)
     case 'CLEAR':
       return state.filter(alert => alert.id !== action.id)
@@ -22,7 +22,7 @@ export const setAlert = (header, body) => {
   return dispatch => {
     const id = uuid()
     dispatch({
-      type: 'ADD',
+      type: 'ADD_ALERT',
       data: {
         header,
         body,

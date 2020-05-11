@@ -5,6 +5,10 @@ import { connect } from 'react-redux'
 const GlobalAlert = ({ toasts }) => {
   const [closedToasts, setClosedToasts] = useState([])
 
+  if (toasts.length === 0) {
+    return null
+  }
+
   const closeToast = id => {
     setClosedToasts(closedToasts.concat(id))
   }

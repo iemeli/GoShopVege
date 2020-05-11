@@ -9,6 +9,7 @@ import DeleteIngredientButton from '../utils/DeleteIngredientButton'
 import useField from '../../general/useField'
 import { UPDATE_INGREDIENT, ALL_INGREDIENTS } from '../queries'
 import useUpdateCache from '../../general/useUpdateCache'
+import ShopListButton from '../../general/ShopListButton.js'
 
 // eslint-disable-next-line no-shadow
 const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
@@ -29,10 +30,7 @@ const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
       updateCacheWith(response.data.updateIngredient)
     },
   })
-  // täs yritetään ratkaista sitä ongelmaa että kun peruuttaa
-  // päivityksen niin fieldit palautuisivat ennalleen
-  // KUN taas tekee päivityksen niin palautumisesta EIKÄ
-  // oikeestaan fieldien päivittämisestä tartte välittää!!
+
   const toggleUpdateMode = cancel => {
     if (!updateMode) {
       setFreezeFields({
@@ -128,6 +126,9 @@ const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
       </td>
       <td>
         {!hideButtons && <DeleteIngredientButton ingredient={ingredient} />}
+      </td>
+      <td>
+        {!hideButtons && <ShopListButton mode="ADD" id={ingredient.id} />}
       </td>
     </tr>
   )
