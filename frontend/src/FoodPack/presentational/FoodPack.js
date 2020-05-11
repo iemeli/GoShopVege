@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 import ListFoods from '../../Food/presentational/ListFoods'
 import DeleteFoodPackButton from '../utils/DeleteFoodPackButton'
 import UpdateFoodPackButton from '../utils/UpdateFoodPackButton'
-import ShopListButton from '../../general/ShopListButton.js'
+import ShopListButton from '../../ShopList/ShopListButton.js'
 
 const FoodPack = ({ foodPack, history }) => (
   <div>

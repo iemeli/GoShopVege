@@ -12,8 +12,7 @@ import UpdateFood from '../../Food/containers/UpdateFood'
 import NewFood from '../../Food/containers/NewFood'
 import NewFoodPack from '../../FoodPack/containers/NewFoodPack'
 import UpdateFoodPack from '../../FoodPack/containers/UpdateFoodPack'
-import ShopList from '../../general/ShopList'
-
+import ShopList from '../../ShopList/ShopList'
 const Routes = () => {
   return (
     <div>

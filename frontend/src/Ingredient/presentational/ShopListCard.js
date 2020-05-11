@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import ShopListButton from '../../general/ShopListButton'
+import ShopListButton from '../../ShopList/ShopListButton'
 
 const StyledItem = styled(ListGroup.Item)`
   background: #ff99cc;

@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import { useHistory } from 'react-router-dom'
 import FoodCard from '../../Food/presentational/ShopListCard'
-import ShopListButton from '../../general/ShopListButton'
+import ShopListButton from '../../ShopList/ShopListButton'
 
 const ShopListCard = ({ foodPack, buttons }) => {
   const history = useHistory()

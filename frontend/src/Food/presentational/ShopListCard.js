@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import IngredientCard from '../../Ingredient/presentational/ShopListCard'
-import ShopListButton from '../../general/ShopListButton'
+import ShopListButton from '../../ShopList/ShopListButton'
 
 const StyledHeader = styled(Card.Header)`
   display: inline-block;

@@ -1,6 +1,6 @@
 import React from 'react'
 import DeleteIngredientButton from '../utils/DeleteIngredientButton'
-import ShopListButton from '../../general/ShopListButton.js'
+import ShopListButton from '../../ShopList/ShopListButton'
 
 const Ingredient = ({ ingredient }) => (
   <div>

@@ -9,7 +9,7 @@ import DeleteIngredientButton from '../utils/DeleteIngredientButton'
 import useField from '../../general/useField'
 import { UPDATE_INGREDIENT, ALL_INGREDIENTS } from '../queries'
 import useUpdateCache from '../../general/useUpdateCache'
-import ShopListButton from '../../general/ShopListButton.js'
+import ShopListButton from '../../ShopList/ShopListButton'
 
 // eslint-disable-next-line no-shadow
 const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {

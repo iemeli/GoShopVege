@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
-import ShopListButton from '../../general/ShopListButton.js'
+import ShopListButton from '../../ShopList/ShopListButton'
 
 const ListFoodPacks = props => (
   <div>

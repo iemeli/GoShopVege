@@ -31,4 +31,5 @@
 | 5.4.   | 2        | tyylittelyä                                                            |
 | 7.4.   | 1.5      | Navbarin lisääminen                                                    |
 | 9.4.   | 2        | Bootstrapin Cardsien kanssa kikkailua                                  |
-|  yht   | 94.5     |                                                                        |
+| 11.4.  | 5        | Ostoslistan luominen, eli the gist of the whole app                    |
+|  yht   | 99.5     |                                                                        |
