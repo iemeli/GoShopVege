@@ -12,9 +12,26 @@ const ShopListButton = props => {
   let text
   let shopListAction
 
+  const objectForStore = { shopListIds: [] }
+  objectForStore.objectId = props.object.id
+
+  if (props.set === 'foodPacks') {
+    props.object.foods.forEach(f => {
+      f.ingredients.forEach(i => {
+        objectForStore.shopListIds.push(i.item.id)
+      })
+    })
+  } else if (props.set === 'foods') {
+    props.object.ingredients.forEach(i => {
+      objectForStore.shopListIds.push(i.item.id)
+    })
+  } else if (props.set === 'ingredients') {
+    objectForStore.shopListIds.push(props.object.id)
+  }
+
   const handleClick = () => {
     props.setAlert(header, body)
-    return shopListAction(props.id, props.object)
+    return shopListAction(objectForStore, props.set)
   }
 
   switch (props.mode) {
@@ -45,8 +62,7 @@ const ShopListButton = props => {
 
 ShopListButton.propTypes = {
   mode: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  object: PropTypes.string.isRequired,
+  set: PropTypes.string.isRequired,
 }
 
 export default connect(null, {

@@ -12,7 +12,7 @@ const FoodPack = ({ foodPack, history }) => (
         {foodPack.name}
         <UpdateFoodPackButton foodPack={foodPack} />
         <DeleteFoodPackButton foodPack={foodPack} />
-        <ShopListButton mode="ADD" id={foodPack.id} object="foodPacks" />
+        <ShopListButton mode="ADD" object={foodPack} set="foodPacks" />
       </h2>
       <p>
         <strong>Kilokalorit: </strong>

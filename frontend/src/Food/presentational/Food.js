@@ -12,7 +12,7 @@ const Food = ({ food }) => (
         {food.name}
         <UpdateFoodButton food={food} />
         <DeleteFoodButton food={food} />
-        <ShopListButton mode="ADD" id={food.id} object="foods" />
+        <ShopListButton mode="ADD" object={food} set="foods" />
       </h3>
       <table>
         <tbody>

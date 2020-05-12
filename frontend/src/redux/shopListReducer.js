@@ -1,13 +1,28 @@
 const shopListReducer = (
-  state = { foodPacks: [], foods: [], ingredients: [] },
+  state = { foodPacks: [], foods: [], ingredients: [], shopListIds: [] },
   action
 ) => {
   switch (action.type) {
     case 'ADD_ITEM': {
+      const shopListIdsClone = [...state.shopListIds]
+      action.data.shopListIds.forEach(id => {
+        if (shopListIdsClone.map(slid => slid.id).includes(id)) {
+          shopListIdsClone.some(slid => {
+            if (slid.id === id) {
+              // eslint-disable-next-line no-param-reassign
+              slid.count++
+              return true
+            }
+            return false
+          })
+        } else {
+          shopListIdsClone.push({ id, count: 1 })
+        }
+      })
       const object = state[action.data.set].find(o => o.id === action.data.id)
       if (object) {
-        const clone = [...state[action.data.set]]
-        clone.forEach(o => {
+        const setClone = [...state[action.data.set]]
+        setClone.forEach(o => {
           if (o.id === action.data.id) {
             // eslint-disable-next-line no-param-reassign
             o.count++
@@ -15,7 +30,8 @@ const shopListReducer = (
         })
         return {
           ...state,
-          [action.data.set]: clone,
+          [action.data.set]: setClone,
+          shopListIds: shopListIdsClone,
         }
       }
       return {
@@ -24,9 +40,24 @@ const shopListReducer = (
           id: action.data.id,
           count: 1,
         }),
+        shopListIds: shopListIdsClone,
       }
     }
     case 'REMOVE': {
+      const shopListIdsClone = [...state.shopListIds]
+      action.data.shopListIds.forEach(id => {
+        shopListIdsClone.filter(slid => {
+          if (slid.id === id) {
+            if (slid.count > 1) {
+              // eslint-disable-next-line no-param-reassign
+              slid.count--
+              return true
+            }
+            return false
+          }
+          return true
+        })
+      })
       const object = state[action.data.set].find(o => o.id === action.data.id)
       if (object.count === 1) {
         return {
@@ -34,6 +65,7 @@ const shopListReducer = (
           [action.data.set]: state[action.data.set].filter(
             o => o.id !== action.data.id
           ),
+          shopListIds: shopListIdsClone,
         }
       }
       const clone = [...state[action.data.set]]
@@ -46,30 +78,33 @@ const shopListReducer = (
       return {
         ...state,
         [action.data.set]: clone,
+        shopListIds: shopListIdsClone,
       }
     }
     case 'EMPTY':
-      return { foodPacks: [], foods: [], ingredients: [] }
+      return { foodPacks: [], foods: [], ingredients: [], shopListIds: [] }
     default:
       return state
   }
 }
 
-export const addItem = (id, set) => {
+export const addItem = (objectForStore, set) => {
   return {
     type: 'ADD_ITEM',
     data: {
-      id,
+      shopListIds: objectForStore.shopListIds,
+      object: objectForStore.object,
       set,
     },
   }
 }
 
-export const removeItem = (id, set) => {
+export const removeItem = (objectForStore, set) => {
   return {
     type: 'REMOVE',
     data: {
-      id,
+      shopListIds: objectForStore.shopListIds,
+      object: objectForStore.object,
       set,
     },
   }

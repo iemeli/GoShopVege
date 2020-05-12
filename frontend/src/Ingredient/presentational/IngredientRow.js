@@ -129,7 +129,7 @@ const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
       </td>
       <td>
         {!hideButtons && (
-          <ShopListButton mode="ADD" id={ingredient.id} object="ingredients" />
+          <ShopListButton mode="ADD" object={ingredient} set="ingredients" />
         )}
       </td>
     </tr>

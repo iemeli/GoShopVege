@@ -1,13 +1,14 @@
 import React from 'react'
-import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 
-const ShopList = () => {
-  return (
-    <Card>
-      <ListGroup variant="flush"></ListGroup>
-    </Card>
-  )
-}
+const ShopList = ({ shopList }) => (
+  <ListGroup variant="flush">
+    {shopList.map(i => (
+      <ListGroup.Item key={i.id}>
+        {i.name} / x{i.multiplier}
+      </ListGroup.Item>
+    ))}
+  </ListGroup>
+)
 
 export default ShopList

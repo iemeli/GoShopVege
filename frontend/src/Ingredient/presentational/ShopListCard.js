@@ -39,9 +39,9 @@ const ShopListCard = ({ ingredient, buttons }) => {
           <StyledItem>
             <ShopListButton
               mode="REMOVE"
-              id={ingredient.id}
+              object={ingredient}
+              set="ingredients"
               key={`${ingredient.id}_button`}
-              object="ingredients"
             />
           </StyledItem>
         )}

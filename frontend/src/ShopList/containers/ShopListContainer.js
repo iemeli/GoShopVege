@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { useQuery } from '@apollo/client'
+import Card from 'react-bootstrap/Card'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import { ALL_FOODS } from '../../Food/queries'
 import { ALL_FOODPACKS } from '../../FoodPack/queries'
 import ClearShopListButton from '../ClearShopListButton'
 import Overview from '../presentational/Overview'
+import ShopList from '../presentational/ShopList'
 
 const ShopListContainer = props => {
+  const [showOveriew, setShowOverview] = useState(true)
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
   const foodsResult = useQuery(ALL_FOODS)
   const foodPacksResult = useQuery(ALL_FOODPACKS)
@@ -19,11 +22,6 @@ const ShopListContainer = props => {
   ) {
     return <div>...loading</div>
   }
-
-  // tee täs niin että luo array jossa on foodPack objekteja
-  // joissa on messissä "multiplier" property, mikäli
-  // niitä löytyy enemmän kuin yksi -> tällöin saadaan
-  // rendattua oikean näköinen lista
 
   const foodPacks = props.foodPacks.map(fp => {
     const result = foodPacksResult.data.allFoodPacks.find(
@@ -43,15 +41,77 @@ const ShopListContainer = props => {
     )
     return { ...result, multiplier: i.count }
   })
+  // { objects: [ {ingr, count} ] ,ids: [array] }
+  const shopListArray = props.shopListIds.map(slid => {
+    const result = ingredientsResult.data.allIngredients.find(
+      ingr => ingr.id === slid.id
+    )
+    return { ...result, multiplier: slid.count }
+  })
+
+  // foodPacks.forEach(fp => {
+  //   fp.foods.forEach(f => {
+  //     f.ingredients.forEach(i => {
+  //       if (shopListObject.ids.includes(i.item.id)) {
+  //         shopListObject.objects.some(o => {
+  //           if (o.id === i.item.id) {
+  //             // eslint-disable-next-line no-param-reassign
+  //             o = { ...o, multiplier: o.multiplier + fp.multiplier }
+  //             return true
+  //           }
+  //           return false
+  //         })
+  //       } else {
+  //         shopListObject.objects.push({ ...i.item, multiplier: 1 })
+  //         shopListObject.ids.push(i.item.id)
+  //       }
+  //     })
+  //   })
+  // })
+
+  // foods.forEach(f => {
+  //   f.ingredients.forEach(i => {
+  //     if (shopListObject.ids.includes(i.item.id)) {
+  //       shopListObject.objects.some(o => {
+  //         if (o.id === i.item.id) {
+  //           // eslint-disable-next-line no-param-reassign
+  //           o = { ...o, multiplier: o.multiplier + f.multiplier }
+  //           return true
+  //         }
+  //         return false
+  //       })
+  //     } else {
+  //       shopListObject.objects.push({ ...i.item, multiplier: 1 })
+  //       shopListObject.ids.push(i.item.id)
+  //     }
+  //   })
+  // })
+
+  // ingredients.forEach(i => {
+  //   if (shopListObject.ids.includes(i.item.id)) {
+  //     shopListObject.objects.some(o => {
+  //       if (o.id === i.item.id) {
+  //         // eslint-disable-next-line no-param-reassign
+  //         o = { ...o, multiplier: o.multiplier + i.multiplier }
+  //         return true
+  //       }
+  //       return false
+  //     })
+  //   } else {
+  //     shopListObject.objects.push({ ...i.item, multiplier: 1 })
+  //     shopListObject.ids.push(i.item.id)
+  //   }
+  // })
 
   return (
-    <div>
+    <Card>
       <h2>
         Ostoslista
         <ClearShopListButton />
       </h2>
-      <Overview foodPacks={foodPacks} foods={foods} ingredients={ingredients} />
-    </div>
+      <ShopList shopList={shopListArray} />
+      {/* <Overview foodPacks={foodPacks} foods={foods} ingredients={ingredients} /> */}
+    </Card>
   )
 }
 
@@ -60,6 +120,7 @@ const mapStateToProps = state => {
     foodPacks: state.shopList.foodPacks,
     foods: state.shopList.foods,
     ingredients: state.shopList.ingredients,
+    shopListIds: state.shopList.shopListIds,
   }
 }
 

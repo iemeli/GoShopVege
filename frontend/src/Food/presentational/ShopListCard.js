@@ -35,9 +35,9 @@ const ShopListCard = ({ food, buttons }) => {
               </StyledButton>
               <StyledShopListButton
                 mode="REMOVE"
-                id={food.id}
+                object={food}
+                set="foods"
                 key={`${food.id}_button`}
-                object="foods"
               />
             </div>
           )}

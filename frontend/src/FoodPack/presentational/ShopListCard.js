@@ -22,9 +22,9 @@ const ShopListCard = ({ foodPack, buttons }) => {
               </Button>
               <ShopListButton
                 mode="REMOVE"
-                id={foodPack.id}
+                object={foodPack}
+                set="foodPacks"
                 key={`${foodPack.id}_button`}
-                object="foodPacks"
               />
             </div>
           )}

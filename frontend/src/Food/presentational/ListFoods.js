@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-import ShopListButton from '../../ShopList/ShopListButton.js'
+import ShopListButton from '../../ShopList/ShopListButton'
 
 const ListFoods = ({ foods, history }) => (
   <div>
@@ -29,7 +29,7 @@ const ListFoods = ({ foods, history }) => (
               >
                 Näytä
               </Button>
-              <ShopListButton mode="ADD" id={f.id} object="foods" />
+              <ShopListButton mode="ADD" object={f} set="foods" />
             </Card.Body>
           </Card>
         ))}
