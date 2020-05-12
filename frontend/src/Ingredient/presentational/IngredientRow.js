@@ -128,7 +128,9 @@ const IngredientRow = ({ ingredient, hideButtons, setAlert }) => {
         {!hideButtons && <DeleteIngredientButton ingredient={ingredient} />}
       </td>
       <td>
-        {!hideButtons && <ShopListButton mode="ADD" id={ingredient.id} />}
+        {!hideButtons && (
+          <ShopListButton mode="ADD" id={ingredient.id} object="ingredients" />
+        )}
       </td>
     </tr>
   )

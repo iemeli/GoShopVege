@@ -14,7 +14,7 @@ const ShopListButton = props => {
 
   const handleClick = () => {
     props.setAlert(header, body)
-    return shopListAction(props.id)
+    return shopListAction(props.id, props.object)
   }
 
   switch (props.mode) {
@@ -46,6 +46,7 @@ const ShopListButton = props => {
 ShopListButton.propTypes = {
   mode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  object: PropTypes.string.isRequired,
 }
 
 export default connect(null, {

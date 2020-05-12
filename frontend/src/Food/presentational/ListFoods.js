@@ -29,7 +29,7 @@ const ListFoods = ({ foods, history }) => (
               >
                 Näytä
               </Button>
-              <ShopListButton mode="ADD" id={f.id} />
+              <ShopListButton mode="ADD" id={f.id} object="foods" />
             </Card.Body>
           </Card>
         ))}

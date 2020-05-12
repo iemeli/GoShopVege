@@ -24,12 +24,20 @@ const ShopListCard = ({ foodPack, buttons }) => {
                 mode="REMOVE"
                 id={foodPack.id}
                 key={`${foodPack.id}_button`}
+                object="foodPacks"
               />
             </div>
           )}
         </Card.Header>
         <Card.Body>
-          <Card.Title>{foodPack.name}</Card.Title>
+          <Card.Title>
+            {foodPack.name}{' '}
+            {foodPack.multiplier > 1 && (
+              <h2>
+                <strong>x{foodPack.multiplier}</strong>
+              </h2>
+            )}
+          </Card.Title>
           {foodPack.foods.map(f => (
             <FoodCard food={f} key={f.id} />
           ))}

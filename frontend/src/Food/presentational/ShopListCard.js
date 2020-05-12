@@ -37,12 +37,20 @@ const ShopListCard = ({ food, buttons }) => {
                 mode="REMOVE"
                 id={food.id}
                 key={`${food.id}_button`}
+                object="foods"
               />
             </div>
           )}
         </StyledHeader>
         <Card.Body>
-          <Card.Title>{food.name}</Card.Title>
+          <Card.Title>
+            {food.name}{' '}
+            {food.multiplier > 1 && (
+              <h2>
+                <strong>x{food.multiplier}</strong>
+              </h2>
+            )}
+          </Card.Title>
           {food.ingredients.map(i => (
             <IngredientCard ingredient={i.item} key={i.id} />
           ))}

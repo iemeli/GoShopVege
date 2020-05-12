@@ -29,7 +29,7 @@ const ListFoodPacks = props => (
               >
                 Näytä
               </Button>
-              <ShopListButton mode="ADD" id={fp.id} />
+              <ShopListButton mode="ADD" id={fp.id} object="foodPacks" />
             </Card.Body>
           </Card>
         ))}

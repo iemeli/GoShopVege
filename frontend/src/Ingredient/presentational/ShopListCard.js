@@ -18,6 +18,13 @@ const ShopListCard = ({ ingredient, buttons }) => {
         {/* eslint-disable-next-line no-irregular-whitespace */}
         <StyledItem>{ingredient.price.toFixed(2)} €</StyledItem>
         <StyledItem>{ingredient.kcal} kcal</StyledItem>
+        {ingredient.multiplier > 1 && (
+          <StyledItem>
+            <h2>
+              <strong>x{ingredient.multiplier}</strong>
+            </h2>
+          </StyledItem>
+        )}
         {buttons && (
           <StyledItem>
             <Button
@@ -34,6 +41,7 @@ const ShopListCard = ({ ingredient, buttons }) => {
               mode="REMOVE"
               id={ingredient.id}
               key={`${ingredient.id}_button`}
+              object="ingredients"
             />
           </StyledItem>
         )}

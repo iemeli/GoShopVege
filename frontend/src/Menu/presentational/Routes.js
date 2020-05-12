@@ -12,13 +12,14 @@ import UpdateFood from '../../Food/containers/UpdateFood'
 import NewFood from '../../Food/containers/NewFood'
 import NewFoodPack from '../../FoodPack/containers/NewFoodPack'
 import UpdateFoodPack from '../../FoodPack/containers/UpdateFoodPack'
-import ShopList from '../../ShopList/ShopList'
+import ShopListContainer from '../../ShopList/containers/ShopListContainer'
+
 const Routes = () => {
   return (
     <div>
       <Switch>
         <Route path="/ostoslista">
-          <ShopList />
+          <ShopListContainer />
         </Route>
         <Route path="/ruokapaketit/paivita/:name">
           <UpdateFoodPack />
