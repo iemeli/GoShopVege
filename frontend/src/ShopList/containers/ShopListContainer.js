@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import { ALL_FOODS } from '../../Food/queries'
 import { ALL_FOODPACKS } from '../../FoodPack/queries'
-import ClearShopListButton from '../ClearShopListButton'
+import EmptyShopListButton from '../EmptyShopListButton'
 import Overview from '../presentational/Overview'
 import ShopList from '../presentational/ShopList'
 
@@ -67,7 +67,7 @@ const ShopListContainer = props => {
       <Card.Header>
         <h2>
           Ostoslista
-          <ClearShopListButton />
+          <EmptyShopListButton />
         </h2>
         <Nav variant="tabs" defaultActiveKey="#yleisnäkymä">
           <Nav.Item>
