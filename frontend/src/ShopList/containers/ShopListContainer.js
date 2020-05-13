@@ -28,7 +28,6 @@ const ShopListContainer = props => {
     const result = foodPacksResult.data.allFoodPacks.find(
       foodPack => foodPack.id === fp.id
     )
-    console.log('täs result: ', result)
     return { ...result, multiplier: fp.count }
   })
 
@@ -49,6 +48,18 @@ const ShopListContainer = props => {
       ingr => ingr.id === slid.id
     )
     return { ...result, multiplier: slid.count }
+  })
+
+  shopListArray.sort((a, b) => {
+    const nameA = a.name.toLowerCase()
+    const nameB = b.name.toLowerCase()
+    if (nameA < nameB) {
+      return -1
+    }
+    if (nameA > nameB) {
+      return 1
+    }
+    return 0
   })
 
   return (

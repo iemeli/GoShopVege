@@ -93,7 +93,6 @@ const shopListReducer = (
 }
 
 export const addItem = (objectForStore, set) => {
-  console.log('täs objectForStore', objectForStore)
   return {
     type: 'ADD_ITEM',
     data: {

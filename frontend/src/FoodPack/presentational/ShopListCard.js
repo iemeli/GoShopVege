@@ -6,7 +6,6 @@ import FoodCard from '../../Food/presentational/ShopListCard'
 import ShopListButton from '../../ShopList/ShopListButton'
 
 const ShopListCard = ({ foodPack, buttons }) => {
-  console.log('täs foodPack', foodPack)
   const history = useHistory()
   return (
     <div>

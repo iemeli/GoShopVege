@@ -4,7 +4,6 @@ import FoodCard from '../../Food/presentational/ShopListCard'
 import FoodPackCard from '../../FoodPack/presentational/ShopListCard'
 
 const Overview = ({ ingredients, foods, foodPacks }) => {
-  console.log('täs foodPacks', foodPacks)
   return (
     <div>
       <h3>Valitut Ruokapaketit</h3>
