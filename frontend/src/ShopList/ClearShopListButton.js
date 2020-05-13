@@ -15,7 +15,7 @@ const ClearShopListButton = props => {
   }
 
   return (
-    <div>
+    <div style={{ display: 'inline-block' }}>
       <Button variant="danger" onClick={() => setShow(true)}>
         Tyhjää ostoslista
       </Button>

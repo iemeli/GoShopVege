@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { useQuery } from '@apollo/client'
 import Card from 'react-bootstrap/Card'
+import Nav from 'react-bootstrap/Nav'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import { ALL_FOODS } from '../../Food/queries'
 import { ALL_FOODPACKS } from '../../FoodPack/queries'
@@ -10,7 +11,7 @@ import Overview from '../presentational/Overview'
 import ShopList from '../presentational/ShopList'
 
 const ShopListContainer = props => {
-  const [showOveriew, setShowOverview] = useState(true)
+  const [showView, setShowView] = useState('overview')
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
   const foodsResult = useQuery(ALL_FOODS)
   const foodPacksResult = useQuery(ALL_FOODPACKS)
@@ -27,6 +28,7 @@ const ShopListContainer = props => {
     const result = foodPacksResult.data.allFoodPacks.find(
       foodPack => foodPack.id === fp.id
     )
+    console.log('täs result: ', result)
     return { ...result, multiplier: fp.count }
   })
 
@@ -41,7 +43,7 @@ const ShopListContainer = props => {
     )
     return { ...result, multiplier: i.count }
   })
-  // { objects: [ {ingr, count} ] ,ids: [array] }
+
   const shopListArray = props.shopListIds.map(slid => {
     const result = ingredientsResult.data.allIngredients.find(
       ingr => ingr.id === slid.id
@@ -49,68 +51,39 @@ const ShopListContainer = props => {
     return { ...result, multiplier: slid.count }
   })
 
-  // foodPacks.forEach(fp => {
-  //   fp.foods.forEach(f => {
-  //     f.ingredients.forEach(i => {
-  //       if (shopListObject.ids.includes(i.item.id)) {
-  //         shopListObject.objects.some(o => {
-  //           if (o.id === i.item.id) {
-  //             // eslint-disable-next-line no-param-reassign
-  //             o = { ...o, multiplier: o.multiplier + fp.multiplier }
-  //             return true
-  //           }
-  //           return false
-  //         })
-  //       } else {
-  //         shopListObject.objects.push({ ...i.item, multiplier: 1 })
-  //         shopListObject.ids.push(i.item.id)
-  //       }
-  //     })
-  //   })
-  // })
-
-  // foods.forEach(f => {
-  //   f.ingredients.forEach(i => {
-  //     if (shopListObject.ids.includes(i.item.id)) {
-  //       shopListObject.objects.some(o => {
-  //         if (o.id === i.item.id) {
-  //           // eslint-disable-next-line no-param-reassign
-  //           o = { ...o, multiplier: o.multiplier + f.multiplier }
-  //           return true
-  //         }
-  //         return false
-  //       })
-  //     } else {
-  //       shopListObject.objects.push({ ...i.item, multiplier: 1 })
-  //       shopListObject.ids.push(i.item.id)
-  //     }
-  //   })
-  // })
-
-  // ingredients.forEach(i => {
-  //   if (shopListObject.ids.includes(i.item.id)) {
-  //     shopListObject.objects.some(o => {
-  //       if (o.id === i.item.id) {
-  //         // eslint-disable-next-line no-param-reassign
-  //         o = { ...o, multiplier: o.multiplier + i.multiplier }
-  //         return true
-  //       }
-  //       return false
-  //     })
-  //   } else {
-  //     shopListObject.objects.push({ ...i.item, multiplier: 1 })
-  //     shopListObject.ids.push(i.item.id)
-  //   }
-  // })
-
   return (
     <Card>
-      <h2>
-        Ostoslista
-        <ClearShopListButton />
-      </h2>
-      <ShopList shopList={shopListArray} />
-      {/* <Overview foodPacks={foodPacks} foods={foods} ingredients={ingredients} /> */}
+      <Card.Header>
+        <h2>
+          Ostoslista
+          <ClearShopListButton />
+        </h2>
+        <Nav variant="tabs" defaultActiveKey="#yleisnäkymä">
+          <Nav.Item>
+            <Nav.Link
+              href="#yleisnäkymä"
+              onSelect={() => setShowView('overview')}
+            >
+              Yleisnäkymä
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="#lista" onSelect={() => setShowView('shoplist')}>
+              Lista
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+      </Card.Header>
+      <Card.Body>
+        {showView === 'overview' && (
+          <Overview
+            foodPacks={foodPacks}
+            foods={foods}
+            ingredients={ingredients}
+          />
+        )}
+        {showView === 'shoplist' && <ShopList shopList={shopListArray} />}
+      </Card.Body>
     </Card>
   )
 }

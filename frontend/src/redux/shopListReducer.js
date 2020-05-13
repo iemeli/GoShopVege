@@ -19,11 +19,13 @@ const shopListReducer = (
           shopListIdsClone.push({ id, count: 1 })
         }
       })
-      const object = state[action.data.set].find(o => o.id === action.data.id)
+      const object = state[action.data.set].find(
+        o => o.id === action.data.objectId
+      )
       if (object) {
         const setClone = [...state[action.data.set]]
         setClone.forEach(o => {
-          if (o.id === action.data.id) {
+          if (o.id === action.data.objectId) {
             // eslint-disable-next-line no-param-reassign
             o.count++
           }
@@ -37,7 +39,7 @@ const shopListReducer = (
       return {
         ...state,
         [action.data.set]: state[action.data.set].concat({
-          id: action.data.id,
+          id: action.data.objectId,
           count: 1,
         }),
         shopListIds: shopListIdsClone,
@@ -58,19 +60,21 @@ const shopListReducer = (
           return true
         })
       })
-      const object = state[action.data.set].find(o => o.id === action.data.id)
+      const object = state[action.data.set].find(
+        o => o.id === action.data.objectId
+      )
       if (object.count === 1) {
         return {
           ...state,
           [action.data.set]: state[action.data.set].filter(
-            o => o.id !== action.data.id
+            o => o.id !== action.data.objectId
           ),
           shopListIds: shopListIdsClone,
         }
       }
       const clone = [...state[action.data.set]]
       clone.forEach(o => {
-        if (o.id === action.data.id) {
+        if (o.id === action.data.objectId) {
           // eslint-disable-next-line no-param-reassign
           o.count--
         }
@@ -89,11 +93,12 @@ const shopListReducer = (
 }
 
 export const addItem = (objectForStore, set) => {
+  console.log('täs objectForStore', objectForStore)
   return {
     type: 'ADD_ITEM',
     data: {
       shopListIds: objectForStore.shopListIds,
-      object: objectForStore.object,
+      objectId: objectForStore.objectId,
       set,
     },
   }
@@ -104,7 +109,7 @@ export const removeItem = (objectForStore, set) => {
     type: 'REMOVE',
     data: {
       shopListIds: objectForStore.shopListIds,
-      object: objectForStore.object,
+      objectId: objectForStore.objectId,
       set,
     },
   }
