@@ -29,7 +29,13 @@ const useUpdateStore = mode => {
 
     case 'ADD': {
       const add = objectForStore => {
-        let currentShopList = JSON.parse(Cookies.get('currentShopList'))
+        let currentShopList = Cookies.get('currentShopList')
+        if (!currentShopList) {
+          Cookies.set('currentShopList', '[]')
+          currentShopList = []
+        } else {
+          currentShopList = JSON.parse(currentShopList)
+        }
         currentShopList = currentShopList.concat(objectForStore)
         Cookies.set('currentShopList', JSON.stringify(currentShopList))
         dispatch(addItem(objectForStore))
