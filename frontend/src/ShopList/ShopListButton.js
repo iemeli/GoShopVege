@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import PropTypes from 'prop-types'
-import { setAlert } from '../redux/alertReducer'
-import { addItem, removeItem, emptyShopList } from '../redux/shopListReducer'
+import useUpdateStore from '../hooks/useUpdateStore'
 
 const ShopListButton = props => {
   const [show, setShow] = useState(false)
+  const updateStore = useUpdateStore(props.mode)
 
   const foundInShopList = props.storeSet.find(o => o.id === props.object.id)
+
   let setInFinnish
   if (props.set === 'foodPacks') {
     setInFinnish = 'ruokapaketti'
@@ -19,13 +20,7 @@ const ShopListButton = props => {
     setInFinnish = 'ainesosa'
   }
 
-  let variant
-  let header
-  let body
-  let text
-  let shopListAction
-
-  const objectForStore = { shopListIds: [] }
+  const objectForStore = { shopListIds: [], set: props.set }
   objectForStore.objectId = props.object.id
 
   if (props.set === 'foodPacks') {
@@ -44,28 +39,12 @@ const ShopListButton = props => {
 
   const handleClick = () => {
     setShow(false)
-    props.setAlert(header, body)
-    return shopListAction(objectForStore, props.set)
+    updateStore(objectForStore)
   }
 
-  switch (props.mode) {
-    case 'ADD':
-      variant = 'light'
-      header = 'success'
-      body = 'Lisätty ostoslistaan!'
-      text = 'Lisää ostoslistaan'
-      shopListAction = props.addItem
-      break
-    case 'REMOVE':
-      variant = 'warning'
-      header = 'success'
-      body = 'Poistettu ostoslistasta'
-      text = 'Poista ostoslistasta'
-      shopListAction = props.removeItem
-      break
-    default:
-      break
-  }
+  const variant = props.mode === 'ADD' ? 'light' : 'warning'
+  const text =
+    props.mode === 'ADD' ? 'Lisää ostoslistaan' : 'Poista ostoslistasta'
 
   return (
     <div style={{ display: 'inline-block' }}>
@@ -78,15 +57,21 @@ const ShopListButton = props => {
         </Modal.Header>
         <Modal.Body>
           {foundInShopList &&
+            props.mode === 'ADD' &&
             `Tämä ${setInFinnish} on jo ostoslistassa. Lisätäänkö uudestaan?`}
-          {!foundInShopList && 'Lisätäänkö ostoslistaan?'}
+          {!foundInShopList &&
+            props.mode === 'ADD' &&
+            'Lisätäänkö ostoslistaan?'}
+
+          {props.mode === 'REMOVE' &&
+            `Poistetaanko ${setInFinnish} ostoslistasta?`}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={() => setShow(false)}>
             Peruuta
           </Button>
-          <Button variant="light" onClick={handleClick}>
-            Lisää
+          <Button variant={variant} onClick={handleClick}>
+            {text}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -105,9 +90,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, {
-  setAlert,
-  addItem,
-  removeItem,
-  emptyShopList,
-})(ShopListButton)
+export default connect(mapStateToProps)(ShopListButton)

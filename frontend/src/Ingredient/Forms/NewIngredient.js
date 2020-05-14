@@ -2,9 +2,9 @@ import React from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { useMutation, useQuery } from '@apollo/client'
 import { connect } from 'react-redux'
-import useField from '../../general/useField'
+import useField from '../../hooks/useField'
 import { ADD_INGREDIENT, ALL_INGREDIENTS } from '../queries'
-import useUpdateCache from '../../general/useUpdateCache'
+import useUpdateCache from '../../hooks/useUpdateCache'
 import { setAlert } from '../../redux/alertReducer'
 
 // eslint-disable-next-line no-shadow

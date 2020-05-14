@@ -6,7 +6,7 @@ import isEqual from 'lodash.isequal'
 import { setAlert } from '../../redux/alertReducer'
 import { ADD_FOODPACK, ALL_FOODPACKS } from '../queries'
 import FoodPackFormContainer from './FoodPackFormContainer'
-import useUpdateCache from '../../general/useUpdateCache'
+import useUpdateCache from '../../hooks/useUpdateCache'
 
 // eslint-disable-next-line no-shadow
 const NewFoodPack = ({ setAlert }) => {

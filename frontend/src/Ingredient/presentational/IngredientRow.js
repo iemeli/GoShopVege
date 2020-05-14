@@ -6,9 +6,9 @@ import { useMutation } from '@apollo/client'
 import { connect } from 'react-redux'
 import { setAlert } from '../../redux/alertReducer'
 import DeleteIngredientButton from '../utils/DeleteIngredientButton'
-import useField from '../../general/useField'
+import useField from '../../hooks/useField'
 import { UPDATE_INGREDIENT, ALL_INGREDIENTS } from '../queries'
-import useUpdateCache from '../../general/useUpdateCache'
+import useUpdateCache from '../../hooks/useUpdateCache'
 import ShopListButton from '../../ShopList/ShopListButton'
 
 // eslint-disable-next-line no-shadow

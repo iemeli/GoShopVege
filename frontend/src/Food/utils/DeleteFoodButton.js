@@ -7,7 +7,7 @@ import { setAlert } from '../../redux/alertReducer'
 import { DELETE_FOOD, ALL_FOODS } from '../queries'
 import DeleteModal from '../../general/DeleteModal'
 import DeleteModalBody from './DeleteModalBody'
-import useUpdateCache from '../../general/useUpdateCache'
+import useUpdateCache from '../../hooks/useUpdateCache'
 
 // eslint-disable-next-line no-shadow
 const DeleteFoodButton = ({ food, setAlert }) => {

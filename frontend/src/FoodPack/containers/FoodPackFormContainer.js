@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { connect } from 'react-redux'
 import { setAlert } from '../../redux/alertReducer'
-import useField from '../../general/useField'
+import useField from '../../hooks/useField'
 import { ALL_FOODS } from '../../Food/queries'
 import FoodPackForm from '../presentational/FoodPackForm'
 

@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import { emptyShopList } from '../redux/shopListReducer'
-import { setAlert } from '../redux/alertReducer'
+import useUpdateStore from '../hooks/useUpdateStore'
 
-const ClearShopListButton = props => {
+const ClearShopListButton = () => {
   const [show, setShow] = useState(false)
+  const emptyStore = useUpdateStore('EMPTY')
 
   const handleClick = () => {
     setShow(false)
-    props.emptyShopList()
-    props.setAlert('success', 'Ostoslista tyhjätty!')
+    emptyStore()
   }
 
   return (
@@ -40,4 +38,4 @@ const ClearShopListButton = props => {
   )
 }
 
-export default connect(null, { emptyShopList, setAlert })(ClearShopListButton)
+export default ClearShopListButton

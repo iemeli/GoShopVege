@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setAlert } from '../../redux/alertReducer'
 import { DELETE_FOODPACK, ALL_FOODPACKS } from '../queries'
-import useUpdateCache from '../../general/useUpdateCache'
+import useUpdateCache from '../../hooks/useUpdateCache'
 
 // eslint-disable-next-line no-shadow
 const DeleteFoodPackButton = ({ foodPack, setAlert }) => {

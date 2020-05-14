@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { setAlert } from '../../redux/alertReducer'
 import { ALL_FOODPACKS, UPDATE_FOODPACK } from '../queries'
 import FoodPackFormContainer from './FoodPackFormContainer'
-import useUpdateCache from '../../general/useUpdateCache'
+import useUpdateCache from '../../hooks/useUpdateCache'
 
 // eslint-disable-next-line no-shadow
 const UpdateFoodPack = ({ setAlert }) => {

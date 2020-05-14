@@ -3,6 +3,9 @@ const shopListReducer = (
   action
 ) => {
   switch (action.type) {
+    case 'INIT': {
+      break
+    }
     case 'ADD_ITEM': {
       const shopListIdsClone = [...state.shopListIds]
       action.data.shopListIds.forEach(id => {
@@ -92,24 +95,32 @@ const shopListReducer = (
   }
 }
 
-export const addItem = (objectForStore, set) => {
+export const addItem = objectForStore => {
   return {
     type: 'ADD_ITEM',
     data: {
       shopListIds: objectForStore.shopListIds,
       objectId: objectForStore.objectId,
-      set,
+      set: objectForStore.set,
     },
   }
 }
 
-export const removeItem = (objectForStore, set) => {
+export const initShopList = objectForStore => {
+  return dispatch => {
+    objectForStore.forEach(o => {
+      dispatch(addItem(o))
+    })
+  }
+}
+
+export const removeItem = objectForStore => {
   return {
     type: 'REMOVE',
     data: {
       shopListIds: objectForStore.shopListIds,
       objectId: objectForStore.objectId,
-      set,
+      set: objectForStore.set,
     },
   }
 }

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { setAlert } from '../../redux/alertReducer'
 import { ALL_FOODS, UPDATE_FOOD } from '../queries'
 import FoodFormContainer from './FoodFormContainer'
-import useUpdateCache from '../../general/useUpdateCache'
+import useUpdateCache from '../../hooks/useUpdateCache'
 
 const UpdateFood = ({ setAlert }) => {
   const [alreadyUpdated, setAlreadyUpdated] = useState(false)
