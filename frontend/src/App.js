@@ -30,8 +30,8 @@ const App = () => {
       <Container style={{ paddingTop: '5rem' }}>
         <Router>
           <Menu />
-          <GlobalAlert />
           <Routes />
+          <GlobalAlert />
         </Router>
       </Container>
     </div>

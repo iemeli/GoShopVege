@@ -1,0 +1,31 @@
+@media (max-width: 575.9px) {
+  .toast-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    min-height: 100px;
+  }
+
+  .toast-box {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-bottom: 5px;
+  }
+}
+
+@media (min-width: 576px) {
+  .toast-container {
+    position: fixed;
+    top: 90px;
+    right: 10px;
+    min-height: 100px;
+  }
+
+  .toast-box {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-bottom: 5px;
+  }
+}

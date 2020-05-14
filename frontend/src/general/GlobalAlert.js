@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Toast from 'react-bootstrap/Toast'
 import { connect } from 'react-redux'
+import '../css/globalAlert.css'
 
 const GlobalAlert = ({ toasts }) => {
   const [closedToasts, setClosedToasts] = useState([])
@@ -18,24 +19,11 @@ const GlobalAlert = ({ toasts }) => {
   if (toastsToShow.length > 0) {
     return (
       <div>
-        <div
-          aria-live="polite"
-          aria-atomic="true"
-          style={{
-            position: 'absolute',
-            top: 10,
-            right: 10,
-            minHeight: '100px',
-          }}
-        >
+        <div aria-live="polite" aria-atomic="true" className="toast-container">
           {toastsToShow.map(t => (
             <div key={t.id}>
               <Toast
-                style={{
-                  position: 'relative',
-                  top: 0,
-                  right: 0,
-                }}
+                className="toast-box"
                 animation="false"
                 onClose={() => closeToast(t.id)}
               >
