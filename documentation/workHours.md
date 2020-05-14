@@ -28,9 +28,10 @@
 | 28.4.  | 5        | Cachesäädön selätys ja React Contextin selvitys                        |
 | 29.4.  | 5        | Redux -> global alert, debuggaamista ja validointia                    |
 | 30.4.  | 2        | Bugin fiksailua ja React-bootsträpistä lukemista                       |
-| 5.4.   | 2        | tyylittelyä                                                            |
-| 7.4.   | 1.5      | Navbarin lisääminen                                                    |
-| 9.4.   | 2        | Bootstrapin Cardsien kanssa kikkailua                                  |
-| 11.4.  | 5        | Ostoslistan luominen, eli the gist of the whole app                    |
-| 12.4.  | 4        | Useampi näkymä ostoslistaan                                            |
-|  yht   | 103.5    |                                                                        |
+| 5.5.   | 2        | tyylittelyä                                                            |
+| 7.5.   | 1.5      | Navbarin lisääminen                                                    |
+| 9.5.   | 2        | Bootstrapin Cardsien kanssa kikkailua                                  |
+| 11.5.  | 5        | Ostoslistan luominen, eli the gist of the whole app                    |
+| 12.5.  | 4        | Useampi näkymä ostoslistaan                                            |
+| 13.5.  | 5        | .svg:hen tutustumista ja Navbarin hinkkaamista                         |
+|  yht   | 108.5    |                                                                        |

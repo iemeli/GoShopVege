@@ -1,9 +1,48 @@
 .navbar-collapse .navbar-text {
-  padding-left: 3vw;
-  padding-right: 3vw;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
-.navbar-collapse {
-  padding-left: 3vw;
-  padding-right: 3vw;
+.list {
+  display: inline-block;
+  cursor: pointer;
+  filter: invert(97%) sepia(4%) saturate(592%) hue-rotate(210deg)
+    brightness(111%) contrast(80%);
 }
+
+/* // Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up) */
+
+@media (max-width: 575.9px) {
+  .navbar .row {
+    padding-left: 70vw;
+    text-align: right;
+    display: inline-block;
+    position: absolute;
+  }
+}
+
+@media (min-width: 576px) {
+  .navbar .row {
+    padding-left: 90vw;
+    text-align: right;
+    display: inline;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .list {
+    pointer-events: all;
+  }
+}
+
+/* // Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { ... }
+
+/* // Large devices (desktops, 992px and up) */
+/* @media (min-width: 992px) { ... } */
+
+/* // Extra large devices (large desktops, 1200px and up) */
+/* @media (min-width: 1200px) { ... } */

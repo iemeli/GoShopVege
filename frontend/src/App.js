@@ -24,7 +24,7 @@ const App = () => {
 
   return (
     <div>
-      <Container>
+      <Container style={{ paddingTop: '5rem' }}>
         <Router>
           <Menu />
           <GlobalAlert />
