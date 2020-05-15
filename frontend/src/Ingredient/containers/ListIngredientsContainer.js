@@ -1,10 +1,11 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
+import { Link, useHistory } from 'react-router-dom'
 import { ALL_INGREDIENTS } from '../queries'
 import ListIngredients from '../presentational/ListIngredients'
-import NewIngredient from '../Forms/NewIngredient'
 
 const ListIngredientsContainer = () => {
+  // const history = useHistory()
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
 
   if (ingredientsResult.loading) {
@@ -15,7 +16,12 @@ const ListIngredientsContainer = () => {
 
   return (
     <div>
-      <NewIngredient />
+      <h3>
+        Ainesosat
+        <small style={{ paddingLeft: 10 }}>
+          <Link to="/ainesosat/uusi">luo uusi ainesosa</Link>
+        </small>
+      </h3>
       <ListIngredients ingredients={ingredients} />
     </div>
   )

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, Button } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 import { useMutation, useQuery } from '@apollo/client'
 import { connect } from 'react-redux'
 import useField from '../../hooks/useField'
@@ -9,10 +10,11 @@ import { setAlert } from '../../redux/alertReducer'
 
 // eslint-disable-next-line no-shadow
 const NewIngredient = ({ setAlert }) => {
-  const [name, resetName] = useField('text')
-  const [price, resetPrice] = useField('number')
-  const [kcal, resetKcal] = useField('number')
+  const [name] = useField('text')
+  const [price] = useField('number')
+  const [kcal] = useField('number')
   const { loading, data } = useQuery(ALL_INGREDIENTS)
+  const history = useHistory()
   const updateCacheWith = useUpdateCache(
     'allIngredients',
     ALL_INGREDIENTS,
@@ -21,6 +23,7 @@ const NewIngredient = ({ setAlert }) => {
   const [addIngredient] = useMutation(ADD_INGREDIENT, {
     update: (store, response) => {
       updateCacheWith(response.data.addIngredient)
+      history.push('/ainesosat')
     },
   })
 
@@ -59,6 +62,7 @@ const NewIngredient = ({ setAlert }) => {
           ...(kcal.value && { kcal: Number(kcal.value) }),
         },
       })
+      setAlert('success', `Uusi ainesosa ${name.value} lisätty!`)
     } catch (error) {
       console.log('Error adding ingredient in NewIngredient.js', error.message)
       setAlert(
@@ -66,16 +70,11 @@ const NewIngredient = ({ setAlert }) => {
         'Hmm... bitti taitaa olla poikittain. Kokeile uudestaan.'
       )
     }
-
-    setAlert('success', `Uusi ainesosa ${name.value} lisätty!`)
-
-    resetName()
-    resetPrice()
-    resetKcal()
   }
 
   return (
     <div>
+      <h2>Uusi ainesosa</h2>
       <Form onSubmit={submit}>
         <Form.Group>
           <Form.Label>Nimi</Form.Label>

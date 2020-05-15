@@ -3,7 +3,6 @@ import IngredientRow from './IngredientRow'
 
 const ListIngredients = ({ ingredients, hideButtons }) => (
   <div>
-    <h3>Ainesosat</h3>
     <table>
       <tbody>
         <tr>
