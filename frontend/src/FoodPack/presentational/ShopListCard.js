@@ -4,12 +4,13 @@ import Button from 'react-bootstrap/Button'
 import { useHistory } from 'react-router-dom'
 import FoodCard from '../../Food/presentational/ShopListCard'
 import ShopListButton from '../../ShopList/ShopListButton'
+import '../../css/contentCard.css'
 
 const ShopListCard = ({ foodPack, buttons }) => {
   const history = useHistory()
   return (
     <div>
-      <Card style={{ background: '#88feff' }} border="secondary">
+      <Card className="foodPackCard">
         <Card.Header>
           Ruokapaketti
           {buttons && (

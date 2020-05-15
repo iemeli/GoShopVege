@@ -34,4 +34,5 @@
 | 11.5.  | 5        | Ostoslistan luominen, eli the gist of the whole app                    |
 | 12.5.  | 4        | Useampi näkymä ostoslistaan                                            |
 | 13.5.  | 5        | .svg:hen tutustumista ja Navbarin hinkkaamista                         |
-|  yht   | 108.5    |                                                                        |
+| 14.5.  | 5        | Navbarin hinkkaus, cookiesien implementointi sekä Toastien näperrys    |
+|  yht   | 113.5    |                                                                        |

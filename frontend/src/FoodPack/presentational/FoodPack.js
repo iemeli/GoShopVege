@@ -4,10 +4,11 @@ import ListFoods from '../../Food/presentational/ListFoods'
 import DeleteFoodPackButton from '../utils/DeleteFoodPackButton'
 import UpdateFoodPackButton from '../utils/UpdateFoodPackButton'
 import ShopListButton from '../../ShopList/ShopListButton'
+import '../../css/contentCard.css'
 
 const FoodPack = ({ foodPack, history }) => (
   <div>
-    <Card style={{ padding: 30, background: '#88feff' }}>
+    <Card className="foodPackCard" style={{ padding: 30 }}>
       <h2>
         {foodPack.name}
         <UpdateFoodPackButton foodPack={foodPack} />

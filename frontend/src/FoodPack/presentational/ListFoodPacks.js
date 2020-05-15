@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import ShopListButton from '../../ShopList/ShopListButton'
+import '../../css/contentCard.css'
 
 const ListFoodPacks = props => (
   <div>
@@ -11,9 +12,9 @@ const ListFoodPacks = props => (
       <Row>
         {props.foodPacks.map(fp => (
           <Card
-            style={{ width: '18rem', background: '#88feff', margin: '1rem' }}
+            className="foodPackCard"
+            style={{ width: '18rem', margin: '1rem' }}
             key={fp.id}
-            border="secondary"
           >
             <Card.Header>Ruokapaketti</Card.Header>
             <Card.Body>

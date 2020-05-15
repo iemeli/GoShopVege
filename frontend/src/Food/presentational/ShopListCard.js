@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import IngredientCard from '../../Ingredient/presentational/ShopListCard'
 import ShopListButton from '../../ShopList/ShopListButton'
+import '../../css/contentCard.css'
 
 const StyledHeader = styled(Card.Header)`
   display: inline-block;
@@ -22,7 +23,7 @@ const ShopListCard = ({ food, buttons }) => {
   const history = useHistory()
   return (
     <div>
-      <Card style={{ background: '#99ff99' }} border="success">
+      <Card className="foodCard">
         <StyledHeader>
           Ruoka
           {buttons && (

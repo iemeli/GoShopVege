@@ -22,11 +22,7 @@ const GlobalAlert = ({ toasts }) => {
         <div aria-live="polite" aria-atomic="true" className="toast-container">
           {toastsToShow.map(t => (
             <div key={t.id}>
-              <Toast
-                className="toast-box"
-                animation="false"
-                onClose={() => closeToast(t.id)}
-              >
+              <Toast className="toast-box" onClose={() => closeToast(t.id)}>
                 <Toast.Header>
                   <strong className="mr-auto">{t.header}</strong>
                 </Toast.Header>

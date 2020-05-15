@@ -4,10 +4,11 @@ import ListIngredients from '../../Ingredient/presentational/ListIngredients'
 import DeleteFoodButton from '../utils/DeleteFoodButton'
 import UpdateFoodButton from '../utils/UpdateFoodButton'
 import ShopListButton from '../../ShopList/ShopListButton'
+import '../../css/contentCard.css'
 
 const Food = ({ food }) => (
   <div>
-    <Card style={{ padding: 30, background: '#99ff99' }}>
+    <Card className="foodCard" style={{ padding: 30 }}>
       <h3>
         {food.name}
         <UpdateFoodButton food={food} />

@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import ShopListButton from '../../ShopList/ShopListButton'
+import '../../css/contentCard.css'
 
 const ListFoods = ({ foods, history }) => (
   <div>
@@ -11,9 +12,9 @@ const ListFoods = ({ foods, history }) => (
       <Row>
         {foods.map(f => (
           <Card
-            style={{ width: '18rem', background: '#99ff99', margin: '1rem' }}
+            className="foodCard"
+            style={{ width: '18rem', margin: '1rem' }}
             key={f.id}
-            border="success"
           >
             <Card.Header>Ruoka</Card.Header>
             <Card.Body>
