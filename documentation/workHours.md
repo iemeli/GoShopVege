@@ -35,4 +35,5 @@
 | 12.5.  | 4        | Useampi näkymä ostoslistaan                                            |
 | 13.5.  | 5        | .svg:hen tutustumista ja Navbarin hinkkaamista                         |
 | 14.5.  | 5        | Navbarin hinkkaus, cookiesien implementointi sekä Toastien näperrys    |
-|  yht   | 113.5    |                                                                        |
+| 15.5.  | 1        | Toastien näperrys ja Ingredients näkymän viilaus                       |
+|  yht   | 114.5    |                                                                        |
