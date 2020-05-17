@@ -27,16 +27,16 @@ const Toolbar = ({ drawerClickHandler }) => {
             <li>
               <Link to="/ainesosat">Ainesosat</Link>
             </li>
-            {/* <li
-              onClick={() => history.push('/ostoslista')}
-              onKeyPress={() => history.push('/ostoslista')}
-              role="button"
-              tabIndex="0"
-              className="list_icon"
-            >
-              <img src={list} alt="list icon" width="40rem" />
-            </li> */}
           </ul>
+        </div>
+        <div
+          onClick={() => history.push('/ostoslista')}
+          onKeyPress={() => history.push('/ostoslista')}
+          role="button"
+          tabIndex="0"
+          className="list_icon"
+        >
+          <img src={list} alt="list icon" width="40rem" />
         </div>
       </nav>
     </header>
