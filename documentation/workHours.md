@@ -36,4 +36,5 @@
 | 13.5.  | 5        | .svg:hen tutustumista ja Navbarin hinkkaamista                         |
 | 14.5.  | 5        | Navbarin hinkkaus, cookiesien implementointi sekä Toastien näperrys    |
 | 15.5.  | 1        | Toastien näperrys ja Ingredients näkymän viilaus                       |
-|  yht   | 114.5    |                                                                        |
+| 17.4.  | 3.5      | Oman navbarin/toolbarin tekeminen ja css:ään tutustuminen              |
+|  yht   | 118      |                                                                        |

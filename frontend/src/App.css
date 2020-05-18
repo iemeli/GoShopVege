@@ -1,1 +1,45 @@
+@font-face {
+  font-family: 'alegreyasans';
+  src: url(fonts/AlegreyaSans-Regular.ttf);
+  font-style: normal;
+  font-weight: 100;
+}
 
+@font-face {
+  font-family: 'alegreyasans';
+  src: url(fonts/AlegreyaSans-BoldItalic.ttf);
+  font-style: normal;
+  font-weight: 200;
+}
+
+p {
+  font-family: 'alegreyasans';
+  font-weight: 100;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'alegreyasans';
+  font-weight: 600;
+}
+
+.container {
+  height: 100%;
+  z-index: 0;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+div {
+  display: block;
+}
