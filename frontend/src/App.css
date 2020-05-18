@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'alegreyasans';
-  src: url(fonts/AlegreyaSans-Regular.ttf);
+  src: url(resources/fonts/AlegreyaSans-Regular.ttf);
   font-style: normal;
   font-weight: 100;
 }
 
 @font-face {
   font-family: 'alegreyasans';
-  src: url(fonts/AlegreyaSans-BoldItalic.ttf);
+  src: url(resources/fonts/AlegreyaSans-BoldItalic.ttf);
   font-style: normal;
   font-weight: 200;
 }

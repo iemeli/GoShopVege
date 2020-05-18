@@ -3,8 +3,13 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: #2ecc40;
+  background: #008c00;
   height: 56px;
+}
+
+.toolbar_logo {
+  top: 10;
+  left: 10;
 }
 
 .toolbar_navigation {
@@ -14,11 +19,11 @@
   padding: 0 1rem;
 }
 
-.toolbar_logo {
+.toolbar_brand {
   margin-left: 1rem;
 }
 
-.toolbar_logo a {
+.toolbar_brand a {
   color: white;
   text-decoration: none;
   font-size: 2rem;
@@ -47,7 +52,7 @@
 
 .toolbar_navigation_items a:hover,
 .toolbar_navigation_items a:active {
-  color: orange;
+  color: #d9006c;
 }
 
 .list_icon {

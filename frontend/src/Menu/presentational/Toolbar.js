@@ -2,17 +2,27 @@ import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import '../../css/toolbar.css'
 import DrawerToggleButton from './DrawerToggleButton'
-import list from '../../list.svg'
+import list from '../../resources/list.svg'
+import logo from '../../resources/GoShopVege_logo.png'
 
 const Toolbar = ({ drawerClickHandler }) => {
   const history = useHistory()
   return (
     <header className="toolbar">
       <nav className="toolbar_navigation">
+        <div
+          className="toolbar_logo"
+          onClick={() => history.push('/')}
+          onKeyPress={() => history.push('/')}
+          role="button"
+          tabIndex="0"
+        >
+          <img src={logo} alt="GoShopVege logo" width="100rem" />
+        </div>
         <div className="toolbar_toggle_button">
           <DrawerToggleButton drawerClickHandler={drawerClickHandler} />
         </div>
-        <div className="toolbar_logo">
+        <div className="toolbar_brand">
           <Link to="/">GoShopVege</Link>
         </div>
         <div className="spacer" />
