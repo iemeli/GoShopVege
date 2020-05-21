@@ -11,7 +11,20 @@ const schema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  brand: String,
+  weight: Number,
+  totalKcal: Number,
   kcal: Number,
+  fat: Number,
+  saturatedFat: Number,
+  carbs: Number,
+  sugars: Number,
+  protein: Number,
+  salt: Number,
+  voluntary: {
+    Number,
+    String,
+  },
   usedInFoods: [
     {
       type: mongoose.Schema.Types.ObjectId,

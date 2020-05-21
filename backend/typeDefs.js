@@ -1,10 +1,25 @@
 const { gql } = require('apollo-server')
 
 const typeDefs = gql`
+  type NutritionItem {
+    name: String
+    amount: Float
+  }
+
   type Ingredient {
     name: String!
     price: Float!
-    kcal: Int
+    brand: String!
+    weight: Float!
+    totalKcal: Float!
+    kcal: Float!
+    fat: Float!
+    saturatedFat: Float!
+    carbs: Float!
+    sugars: Float!
+    protein: Float!
+    salt: Float!
+    voluntary: NutritionItem
     usedInFoods: [Food!]!
     id: String!
   }
