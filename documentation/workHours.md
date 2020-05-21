@@ -36,5 +36,7 @@
 | 13.5.  | 5        | .svg:hen tutustumista ja Navbarin hinkkaamista                         |
 | 14.5.  | 5        | Navbarin hinkkaus, cookiesien implementointi sekä Toastien näperrys    |
 | 15.5.  | 1        | Toastien näperrys ja Ingredients näkymän viilaus                       |
-| 17.4.  | 3.5      | Oman navbarin/toolbarin tekeminen ja css:ään tutustuminen              |
-|  yht   | 118      |                                                                        |
+| 17.5.  | 3.5      | Oman navbarin/toolbarin tekeminen ja css:ään tutustuminen              |
+| 18.5.  | 5        | GoShopVege logon suunnittelu ja tekeminen                              |
+| 19.5.  | 5        | Css:än opettelua                                                       |
+|  yht   | 128      |                                                                        |

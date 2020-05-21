@@ -43,7 +43,7 @@ const App = () => {
         {sideDrawerOpen && (
           <BackDrop backDropClickHandler={backDropClickHandler} />
         )}
-        <main style={{ marginTop: '64px' }}>
+        <main>
           <Routes />
           <GlobalAlert />
         </main>

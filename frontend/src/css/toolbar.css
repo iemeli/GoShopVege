@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: #008c00;
+  background: var(--main-color);
   height: 56px;
 }
 
