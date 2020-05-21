@@ -8,7 +8,7 @@
     "start": "node index.js",
     "watch": "nodemon index.js",
     "commit": "cd .. && git add . && git commit",
-    "formatdb": "node ./formatDB/mongo.js",
+    "formatdb": "node ./formatDB/mongo.js && npm run watch",
     "restart": "kill $(lsof -t -i:4000) | npm run watch"
   },
   "author": "",

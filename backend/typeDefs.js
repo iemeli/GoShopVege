@@ -1,14 +1,19 @@
 const { gql } = require('apollo-server')
 
 const typeDefs = gql`
+  type PriceRange {
+    min: Float!
+    max: Float!
+  }
+
   type NutritionItem {
     name: String
-    amount: Float
+    value: Float
   }
 
   type Ingredient {
     name: String!
-    price: Float!
+    priceRange: PriceRange!
     brand: String!
     weight: Float!
     totalKcal: Float!

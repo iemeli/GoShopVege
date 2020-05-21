@@ -1,5 +1,49 @@
 import { gql } from '@apollo/client'
 
+export const INGREDIENT_DETAILS = gql`
+  fragment IngredientDetails on Ingredient {
+    name
+    priceRange {
+      min
+      max
+    }
+    brand
+    weight
+    totalKcal
+    kcal
+    fat
+    saturatedFat
+    carbs
+    sugars
+    protein
+    salt
+    voluntary {
+      name
+      value
+    }
+    id
+  }
+`
+
+export const FOOD_DETAILS = gql`
+  fragment FoodDetails on Food {
+    id
+    name
+    price
+    kcal
+    recipe
+    ingredientsCount
+    ingredients {
+      id
+      usedAtOnce
+      item {
+        ...IngredientDetails
+      }
+    }
+  }
+  ${INGREDIENT_DETAILS}
+`
+
 const FOODPACK_DETAILS = gql`
   fragment FoodPackDetails on FoodPack {
     id
@@ -8,24 +52,10 @@ const FOODPACK_DETAILS = gql`
     kcal
     foodsCount
     foods {
-      id
-      name
-      price
-      kcal
-      recipe
-      ingredientsCount
-      ingredients {
-        id
-        usedAtOnce
-        item {
-          id
-          name
-          price
-          kcal
-        }
-      }
+      ...FoodDetails
     }
   }
+  ${FOOD_DETAILS}
 `
 
 export const ALL_FOODPACKS = gql`

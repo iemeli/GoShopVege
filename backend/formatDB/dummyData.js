@@ -1,7 +1,7 @@
 const ingredients = [
   {
     name: 'VegeSun 500g tumma soijarouhe',
-    price: 3.05,
+    price: [3.05],
     brand: 'VegeSun',
     weight: 500,
     totalKcal: 1750,
@@ -16,7 +16,7 @@ const ingredients = [
   },
   {
     name: 'Salt Crackers suolakeksi 300 g / 3 x 100 g',
-    price: 1.25,
+    price: [1.25],
     brand: 'Rainbow',
     weight: 300,
     totalKcal: 1422,
@@ -31,7 +31,7 @@ const ingredients = [
   },
   {
     name: 'Oatly påMACKAN Tomaatti/Basilika 150g',
-    price: 2.15,
+    price: [2.15],
     brand: 'Oatly',
     weight: 150,
     totalKcal: 336,
@@ -46,7 +46,7 @@ const ingredients = [
   },
   {
     name: 'Mama kanamakuinen nuudeli 90g',
-    price: 0.69,
+    price: [0.69],
     brand: 'Mama',
     weight: 90,
     totalKcal: 64.8,
@@ -61,7 +61,7 @@ const ingredients = [
   },
   {
     name: 'Fazer Puikula 550g 9kpl Kaura kauraleipä',
-    price: 1.89,
+    price: [1.89],
     brand: 'Fazer',
     weight: 550,
     totalKcal: 1534.5,
@@ -75,8 +75,8 @@ const ingredients = [
     usedInFoods: [],
   },
   {
-    name: 'Keiju Laktoositon kasvirasvalevite 70 % 600 g',
-    price: 1.99,
+    name: 'Keiju Laktoositon kasvirasvalevite 600 g',
+    price: [1.99],
     brand: 'Keiju',
     weight: 600,
     totalKcal: 3780,
@@ -91,7 +91,7 @@ const ingredients = [
   },
   {
     name: 'Heinz Tomaattiketsuppi 570g',
-    price: 2.15,
+    price: [2.15],
     brand: 'Heinz',
     weight: 570,
     totalKcal: 581.4,

@@ -3,15 +3,20 @@ const Food = require('../models/Food')
 const { PubSub } = require('apollo-server')
 const pubsub = new PubSub()
 
-const allIngredients = (root, args) => {
-  return Ingredient.find({ ...(args.name && { name: args.name }) })
-    .populate('usedInFoods')
-    .catch(e => {
-      console.log(
-        `Error finding ingredients ${args.name ? 'with params' : ''}`,
-        e.message
-      )
+const allIngredients = async (root, args) => {
+  try {
+    let ingredients = await Ingredient.find({
+      ...(args.name && { name: args.name }),
     })
+      .populate('usedInFoods')
+      .then(i => i.map(i => i.toObject()))
+    return ingredients
+  } catch (e) {
+    console.log(
+      `Error finding ingredients ${args.name ? 'with params' : ''}`,
+      e.message
+    )
+  }
 }
 
 const addIngredient = async (root, args) => {

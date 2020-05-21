@@ -7,10 +7,7 @@ const schema = new mongoose.Schema({
     required: true,
     minlength: 4,
   },
-  price: {
-    type: Number,
-    required: true,
-  },
+  price: [Number],
   brand: String,
   weight: Number,
   totalKcal: Number,
@@ -36,6 +33,10 @@ const schema = new mongoose.Schema({
 schema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
+    returnedObject.priceRange = {
+      min: Math.min(...returnedObject.price),
+      max: Math.max(...returnedObject.price),
+    }
     delete returnedObject._id
     delete returnedObject.__v
   },
@@ -44,6 +45,10 @@ schema.set('toJSON', {
 schema.set('toObject', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
+    returnedObject.priceRange = {
+      min: Math.min(...returnedObject.price),
+      max: Math.max(...returnedObject.price),
+    }
     delete returnedObject._id
     delete returnedObject.__v
   },
