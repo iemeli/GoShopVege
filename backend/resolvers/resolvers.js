@@ -17,6 +17,7 @@ const {
   addFoodPack,
   deleteFoodPack,
   updateFoodPack,
+  foodPackAdded,
 } = require('./foodPack')
 
 const getField = (root, field, obj) => {
@@ -57,6 +58,7 @@ const resolvers = {
   Subscription: {
     ingredientAdded,
     foodAdded,
+    foodPackAdded,
   },
   Food: {
     price: root => getField(root, 'price', 'Food'),

@@ -1,5 +1,7 @@
 const Food = require('../models/Food')
 const FoodPack = require('../models/FoodPack')
+const { PubSub } = require('apollo-server')
+const pubsub = new PubSub()
 
 const allFoodPacks = (root, args) => {
   return FoodPack.find({ ...(args.name && { name: args.name }) })
@@ -43,6 +45,8 @@ const addFoodPack = async (root, args) => {
         console.log('Error finding food in addFoodPack', e.message)
       }
     })
+
+  pubsub.publish('FOODPACK_ADDED', { foodPackAdded: foodPack })
 
   return foodPack
 }
@@ -130,9 +134,14 @@ const updateFoodPack = async (root, args) => {
   })
 }
 
+const foodPackAdded = {
+  subscribe: () => pubsub.asyncIterator(['FOODPACK_ADDED']),
+}
+
 module.exports = {
   allFoodPacks,
   addFoodPack,
   deleteFoodPack,
   updateFoodPack,
+  foodPackAdded,
 }

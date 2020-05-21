@@ -77,6 +77,7 @@ const typeDefs = gql`
   type Subscription {
     ingredientAdded: Ingredient!
     foodAdded: Food!
+    foodPackAdded: FoodPack!
   }
 `
 
