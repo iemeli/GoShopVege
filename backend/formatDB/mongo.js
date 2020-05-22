@@ -52,64 +52,61 @@ const format = async () => {
   } catch (e) {
     console.log('Error inserting ingredients', e.message)
   }
-  // try {
-  //   const ingredientsFromDB = await Ingredient.find({})
+  try {
+    const ingredientsFromDB = await Ingredient.find({})
+    const soijaNuudeli = foods[0]
+    soijaNuudeli.ingredients.forEach(i => {
+      const ingredientId = ingredientsFromDB.find(ingr => ingr.name === i.item)
+        .id
+      i.item = ingredientId
+    })
 
-  //   const soijaNuudeli = foods[0]
-  //   tofuNuudeli.ingredients = ingredientsFromDB
-  //     .filter(
-  //       i => i.name === 'tofu' || i.name === 'nuudeli' || i.name === 'ketsuppi'
-  //     )
-  //     .map(i => ({
-  //       usedAtOnce: true,
-  //       item: i.id,
-  //     }))
-  //   const avokadoPasta = foods[1]
-  //   avokadoPasta.ingredients = ingredientsFromDB
-  //     .filter(i => i.name !== 'tofu' && i.name !== 'nuudeli')
-  //     .map(i => ({
-  //       usedAtOnce: true,
-  //       item: i.id,
-  //     }))
-  //   const food1 = new Food(tofuNuudeli)
-  //   const food2 = new Food(avokadoPasta)
-  //   await food1.save()
-  //   await food2.save()
+    const aamiaisLeipa = foods[1]
+    aamiaisLeipa.ingredients.forEach(i => {
+      const ingredientId = ingredientsFromDB.find(ingr => ingr.name === i.item)
+        .id
+      i.item = ingredientId
+    })
 
-  //   //tässä tallennetaan Tofunuudelin refu respective ainesosiin
-  //   tofuNuudeliFromDB = await Food.findOne({ name: tofuNuudeli.name })
+    const food1 = new Food(soijaNuudeli)
+    const food2 = new Food(aamiaisLeipa)
+    await food1.save()
+    await food2.save()
 
-  //   tofuNuudeliFromDB.ingredients
-  //     .map(i => i.item.toString())
-  //     .forEach(async ingrID => {
-  //       try {
-  //         const ingredient = await Ingredient.findOne({ _id: ingrID })
-  //         ingredient.usedInFoods.push(tofuNuudeliFromDB._id)
-  //         await ingredient.save()
-  //       } catch (e) {
-  //         console.log('Error updating ingredients usedInFoods', e.message)
-  //       }
-  //     })
+    //tässä tallennetaan soijaRouheNuudelin refu respective ainesosiin
+    const soijaNuudeliFromDB = await Food.findOne({ name: soijaNuudeli.name })
 
-  //   //täs tallennetaan Avokadopastan refu respective ainesosiin
-  //   avokadoPastaFromDB = await Food.findOne({ name: avokadoPasta.name })
+    soijaNuudeliFromDB.ingredients
+      .map(i => i.item.toString())
+      .forEach(async ingrID => {
+        try {
+          const ingredient = await Ingredient.findOne({ _id: ingrID })
+          ingredient.usedInFoods.push(soijaNuudeliFromDB.id)
+          await ingredient.save()
+        } catch (e) {
+          console.log('Error putting foodrefs in ingredients', e.message)
+        }
+      })
 
-  //   avokadoPastaFromDB.ingredients
-  //     .map(i => i.item.toString())
-  //     .forEach(async ingrID => {
-  //       try {
-  //         const ingredient = await Ingredient.findOne({ _id: ingrID })
-  //         ingredient.usedInFoods.push(avokadoPastaFromDB._id)
-  //         await ingredient.save()
-  //       } catch (e) {
-  //         console.log('Error updating ingredients usedInFoods', e.message)
-  //       }
-  //     })
+    //täs tallennetaan Avokadopastan refu respective ainesosiin
+    const aamiaisLeipaFromDB = await Food.findOne({ name: aamiaisLeipa.name })
 
-  //   console.log('Foods inserted')
-  // } catch (e) {
-  //   console.log('Error inserting foods', e.message)
-  // }
+    aamiaisLeipaFromDB.ingredients
+      .map(i => i.item.toString())
+      .forEach(async ingrID => {
+        try {
+          const ingredient = await Ingredient.findOne({ _id: ingrID })
+          ingredient.usedInFoods.push(aamiaisLeipaFromDB.id)
+          await ingredient.save()
+        } catch (e) {
+          console.log('Error putting foodrefs in ingredients', e.message)
+        }
+      })
+
+    console.log('Foods inserted')
+  } catch (e) {
+    console.log('Error inserting foods', e.message)
+  }
   // try {
   //   const foods = await Food.find({})
   //   await new FoodPack({
@@ -126,7 +123,7 @@ const format = async () => {
   // } catch (e) {
   //   console.log('Error inserting foodPacks', e.message)
   // }
-  mongoose.connection.close()
+  // mongoose.connection.close()
   // tää on kommenttina koska mahdollisesti
   // sulkee connectionin ennen kuin Foodien usedInFoodPacks
   // ehtii päivittyy

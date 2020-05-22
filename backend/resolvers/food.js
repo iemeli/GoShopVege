@@ -13,8 +13,11 @@ const getFoodIngredients = ingr => {
   return (foodIngredients = ingr
     .map(i => i.split(';'))
     .map(i => ({
-      usedAtOnce: Number(i[1]) === 0 ? false : true,
       item: i[0],
+      amount: {
+        value: i[1],
+        unit: i[2],
+      },
     })))
 }
 

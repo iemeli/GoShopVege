@@ -1,6 +1,6 @@
 # Työtuntien kirjanpito
 
-| päivä  | aika (h) | mitä tein                                                              |
+`| päivä  | aika (h) | mitä tein                                                              |
 | :----: | :------- | :--------------------------------------------------------------------- |
 | 16.3.  | 1        | projektin ideointi ja suunnittelu                                      |
 | 18.3.  | 4.5      | Apollo server ja frontend skeletonit                                   |
@@ -12,8 +12,8 @@
 | 25.3.  | 2        | Selvittämistä kuinka subscribe toimisi näppärästi frontissa            |
 | 29.3.  | 3.5      | Subscribeä, formeja ja bootstrapia                                     |
 | 31.3.  | 5        | Foodin ja Foodpackin lisääminen frontissa                              |
-|  2.4   | 6        | delete ja update mutaatioita backendissä                               |
-|  4.4   | 3        | delete ja update mutaatioita backendissä ja resolverien refaktorointia |
+|  2.4.  | 6        | delete ja update mutaatioita backendissä                               |
+|  4.4.  | 3        | delete ja update mutaatioita backendissä ja resolverien refaktorointia |
 |  6.4.  | 2.5      | delete frontendissä ja redirecting olemattomat urlit etusivulle        |
 |  9.4.  | 4        | update fronttiin ja refaktorointia                                     |
 | 10.4.  | 2.5      | eslint configurointia ja FoodPackFormin refaktorointia                 |
@@ -39,4 +39,5 @@
 | 17.5.  | 3.5      | Oman navbarin/toolbarin tekeminen ja css:ään tutustuminen              |
 | 18.5.  | 5        | GoShopVege logon suunnittelu ja tekeminen                              |
 | 19.5.  | 5        | Css:än opettelua                                                       |
-|  yht   | 128      |                                                                        |
+| 21.5.  | 3.5      | Ravintoarvotaulukon mallintamista Ingredients modeliin                 |
+|  yht   | 131.5    |                                                                        |`

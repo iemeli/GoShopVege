@@ -115,6 +115,29 @@ const foods = [
       'nauti ketsupin kanssa',
     ],
     usedInFoodPacks: [],
+    ingredients: [
+      {
+        amount: {
+          value: 1,
+          unit: 'dl',
+        },
+        item: 'VegeSun 500g tumma soijarouhe',
+      },
+      {
+        amount: {
+          value: 1,
+          unit: 'pkt',
+        },
+        item: 'Mama kanamakuinen nuudeli 90g',
+      },
+      {
+        amount: {
+          value: 0,
+          unit: 'maun mukaan',
+        },
+        item: 'Heinz Tomaattiketsuppi 570g',
+      },
+    ],
   },
   {
     name: 'Aamiaisleipä',
@@ -124,6 +147,22 @@ const foods = [
       'Nauti ketsupin kanssa',
     ],
     usedInFoodPacks: [],
+    ingredients: [
+      {
+        amount: {
+          value: 1,
+          unit: 'kpl',
+        },
+        item: 'Fazer Puikula 550g 9kpl Kaura kauraleipä',
+      },
+      {
+        amount: {
+          value: 0,
+          unit: 'maun mukaan',
+        },
+        item: 'Keiju Laktoositon kasvirasvalevite 600 g',
+      },
+    ],
   },
 ]
 

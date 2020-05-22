@@ -1,5 +1,4 @@
 const Ingredient = require('../models/Ingredient')
-const Food = require('../models/Food')
 const { PubSub } = require('apollo-server')
 const pubsub = new PubSub()
 
@@ -19,11 +18,26 @@ const allIngredients = async (root, args) => {
   }
 }
 
+const getVoluntary = input => {
+  const nutritionItem = input.split(';')
+  return { name: nutritionItem[0], value: nutritionItem[1] }
+}
+
 const addIngredient = async (root, args) => {
   const ingredient = await new Ingredient({
     name: args.name,
     price: args.price,
-    ...(args.kcal && { kcal: args.kcal }),
+    brand: args.brand,
+    weight: args.weight,
+    totalKcal: args.kcal * (args.weight / 100),
+    kcal: args.kcal,
+    fat: args.fat,
+    saturatedFat: args.saturatedFat,
+    carbs: args.carbs,
+    sugars: args.sugars,
+    protein: args.protein,
+    salt: args.salt,
+    ...(args.voluntary && { voluntary: getVoluntary(args.voluntary) }),
   })
     .save()
     .catch(e =>
@@ -60,13 +74,26 @@ const deleteIngredient = async (root, args) => {
 }
 
 const updateIngredient = async (root, args) => {
-  const ingredient = await Ingredient.findOne({ _id: args.id })
-  ingredient.name = args.name ? args.name : ingredient.name
-  ingredient.price = args.price ? args.price : ingredient.price
-  ingredient.kcal = args.kcal
-  return await ingredient.save().catch(e => {
-    console.log('Error updating ingredient', e.message)
-  })
+  try {
+    console.log('täs args', args)
+    const ingredient = await Ingredient.findOne({ _id: args.id })
+    console.log('täs ingredient fresh from db', ingredient)
+    Object.keys(args).forEach(key => {
+      if (key !== 'price') {
+        ingredient[key] = args[key]
+      }
+    })
+    ingredient.price = args.price
+      ? [...ingredient.price, ...args.price]
+      : ingredient.price
+
+    return (await ingredient.save()).toObject()
+  } catch (e) {
+    console.log(
+      'Error updating ingredient in updateIngredient resolver: ',
+      e.message
+    )
+  }
 }
 
 const ingredientAdded = {

@@ -13,9 +13,13 @@ const schema = new mongoose.Schema({
   },
   ingredients: [
     {
-      usedAtOnce: {
-        type: Boolean,
-        default: true,
+      amount: {
+        value: {
+          type: Number,
+        },
+        unit: {
+          type: String,
+        },
       },
       item: {
         type: mongoose.Schema.Types.ObjectId,

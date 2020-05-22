@@ -29,9 +29,14 @@ const typeDefs = gql`
     id: String!
   }
 
+  type ValueUnit {
+    value: Int!
+    unit: String!
+  }
+
   type FoodIngredient {
     item: Ingredient!
-    usedAtOnce: Boolean!
+    amount: ValueUnit!
     id: String!
   }
 
@@ -65,15 +70,37 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addIngredient(name: String!, price: Float!, kcal: Int): Ingredient!
+    addIngredient(
+      name: String!
+      price: [Float!]!
+      brand: String!
+      weight: Float!
+      kcal: Float!
+      fat: Float!
+      saturatedFat: Float!
+      carbs: Float!
+      sugars: Float!
+      protein: Float!
+      salt: Float!
+      voluntary: String
+    ): Ingredient!
 
     deleteIngredient(id: String!): Ingredient!
 
     updateIngredient(
-      id: String!
+      id: ID!
       name: String
-      price: Float
-      kcal: Int
+      price: [Float!]
+      brand: String
+      weight: Float
+      kcal: Float
+      fat: Float
+      saturatedFat: Float
+      carbs: Float
+      sugars: Float
+      protein: Float
+      salt: Float
+      voluntary: String
     ): Ingredient!
 
     addFood(name: String!, ingredients: [String!]!, recipe: [String!]!): Food!
