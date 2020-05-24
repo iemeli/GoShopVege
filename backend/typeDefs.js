@@ -6,49 +6,46 @@ const typeDefs = gql`
     max: Float!
   }
 
-  type NutritionItem {
-    name: String
-    value: Float
+  type Macro {
+    total: Float!
+    inOnePiece: Int
+    in100g: Float!
   }
 
   type Ingredient {
     name: String!
-    priceRange: PriceRange!
-    brand: String!
-    weight: Float!
-    totalKcal: Float!
-    kcal: Float!
-    fat: Float!
-    saturatedFat: Float!
-    carbs: Float!
-    sugars: Float!
-    protein: Float!
-    salt: Float!
-    voluntary: NutritionItem
+    priceRange: PriceRange
+    inOnePiece: Int
+    brand: String
+    weight: Float
+    kcal: Macro
+    fat: Macro
+    saturatedFat: Macro
+    carbs: Macro
+    sugars: Macro
+    protein: Macro
+    salt: Macro
     usedInFoods: [Food!]!
-    id: String!
-  }
-
-  type ValueUnit {
-    value: Int!
-    unit: String!
+    id: ID!
   }
 
   type FoodIngredient {
     item: Ingredient!
-    amount: ValueUnit!
-    id: String!
+    pieces: Int
+    grams: Float
+    id: ID!
   }
 
   type Food {
     name: String!
-    ingredients: [FoodIngredient!]!
-    price: Float!
-    kcal: Int!
     recipe: [String!]!
     ingredientsCount: Int!
     usedInFoodPacks: [FoodPack!]!
-    id: String!
+    ingredients: [FoodIngredient!]!
+    priceRange: PriceRange!
+    totalKcal: Float!
+
+    id: ID!
   }
 
   type FoodPack {
@@ -57,7 +54,7 @@ const typeDefs = gql`
     kcal: Int!
     foods: [Food!]!
     foodsCount: Int!
-    id: String!
+    id: ID!
   }
 
   type Query {
@@ -72,20 +69,20 @@ const typeDefs = gql`
   type Mutation {
     addIngredient(
       name: String!
-      price: [Float!]!
-      brand: String!
-      weight: Float!
-      kcal: Float!
-      fat: Float!
-      saturatedFat: Float!
-      carbs: Float!
-      sugars: Float!
-      protein: Float!
-      salt: Float!
-      voluntary: String
+      price: [Float!]
+      pieces: Int
+      brand: String
+      weight: Float
+      kcal: Float
+      fat: Float
+      saturatedFat: Float
+      carbs: Float
+      sugars: Float
+      protein: Float
+      salt: Float
     ): Ingredient!
 
-    deleteIngredient(id: String!): Ingredient!
+    deleteIngredient(id: ID!): Ingredient!
 
     updateIngredient(
       id: ID!
@@ -100,15 +97,14 @@ const typeDefs = gql`
       sugars: Float
       protein: Float
       salt: Float
-      voluntary: String
     ): Ingredient!
 
     addFood(name: String!, ingredients: [String!]!, recipe: [String!]!): Food!
 
-    deleteFood(id: String!): Food!
+    deleteFood(id: ID!): Food!
 
     updateFood(
-      id: String!
+      id: ID!
       name: String
       ingredients: [String!]
       recipe: [String!]
@@ -116,9 +112,9 @@ const typeDefs = gql`
 
     addFoodPack(name: String!, foods: [String!]!): FoodPack!
 
-    deleteFoodPack(id: String!): FoodPack!
+    deleteFoodPack(id: ID!): FoodPack!
 
-    updateFoodPack(id: String!, name: String, foods: [String!]): FoodPack!
+    updateFoodPack(id: ID!, name: String, foods: [String!]): FoodPack!
   }
 
   type Subscription {

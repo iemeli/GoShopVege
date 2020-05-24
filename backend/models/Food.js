@@ -13,14 +13,8 @@ const schema = new mongoose.Schema({
   },
   ingredients: [
     {
-      amount: {
-        value: {
-          type: Number,
-        },
-        unit: {
-          type: String,
-        },
-      },
+      pieces: Number,
+      grams: Number,
       item: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Ingredient',
@@ -46,7 +40,7 @@ schema.set('toJSON', {
 schema.set('toObject', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
-    returnedObject.ingredients.forEach(i => {
+    returnedObject.ingredients.forEach((i) => {
       i.id = i._id.toString()
       delete i._id
     })

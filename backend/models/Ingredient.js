@@ -10,17 +10,41 @@ const schema = new mongoose.Schema({
   price: [Number],
   brand: String,
   weight: Number,
-  totalKcal: Number,
-  kcal: Number,
-  fat: Number,
-  saturatedFat: Number,
-  carbs: Number,
-  sugars: Number,
-  protein: Number,
-  salt: Number,
-  voluntary: {
-    Number,
-    String,
+  pieces: Number,
+  kcal: {
+    total: Number,
+    inOnePiece: Number,
+    in100g: Number,
+  },
+  fat: {
+    total: Number,
+    inOnePiece: Number,
+    in100g: Number,
+  },
+  saturatedFat: {
+    total: Number,
+    inOnePiece: Number,
+    in100g: Number,
+  },
+  carbs: {
+    total: Number,
+    inOnePiece: Number,
+    in100g: Number,
+  },
+  sugars: {
+    total: Number,
+    inOnePiece: Number,
+    in100g: Number,
+  },
+  protein: {
+    total: Number,
+    inOnePiece: Number,
+    in100g: Number,
+  },
+  salt: {
+    total: Number,
+    inOnePiece: Number,
+    in100g: Number,
   },
   usedInFoods: [
     {

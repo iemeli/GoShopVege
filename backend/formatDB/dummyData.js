@@ -4,7 +4,6 @@ const ingredients = [
     price: [3.05],
     brand: 'VegeSun',
     weight: 500,
-    totalKcal: 1750,
     kcal: 350,
     fat: 0.8,
     saturatedFat: 0.1,
@@ -12,14 +11,12 @@ const ingredients = [
     sugars: 7.8,
     protein: 53,
     salt: 0,
-    usedInFoods: [],
   },
   {
     name: 'Salt Crackers suolakeksi 300 g / 3 x 100 g',
     price: [1.25],
     brand: 'Rainbow',
     weight: 300,
-    totalKcal: 1422,
     kcal: 474,
     fat: 20,
     saturatedFat: 9.6,
@@ -27,14 +24,12 @@ const ingredients = [
     sugars: 8,
     protein: 7,
     salt: 3.3,
-    usedInFoods: [],
   },
   {
     name: 'Oatly påMACKAN Tomaatti/Basilika 150g',
     price: [2.15],
     brand: 'Oatly',
     weight: 150,
-    totalKcal: 336,
     kcal: 224,
     fat: 19,
     saturatedFat: 7.1,
@@ -42,14 +37,12 @@ const ingredients = [
     sugars: 3.7,
     protein: 0.9,
     salt: 1.23,
-    usedInFoods: [],
   },
   {
     name: 'Mama kanamakuinen nuudeli 90g',
     price: [0.69],
     brand: 'Mama',
     weight: 90,
-    totalKcal: 64.8,
     kcal: 72,
     fat: 3.1,
     saturatedFat: 1.7,
@@ -57,14 +50,12 @@ const ingredients = [
     sugars: 0.6,
     protein: 1.7,
     salt: 1,
-    usedInFoods: [],
   },
   {
     name: 'Fazer Puikula 550g 9kpl Kaura kauraleipä',
     price: [1.89],
     brand: 'Fazer',
     weight: 550,
-    totalKcal: 1534.5,
     kcal: 279,
     fat: 5.9,
     saturatedFat: 0.9,
@@ -72,14 +63,12 @@ const ingredients = [
     sugars: 2.1,
     protein: 11,
     salt: 1.1,
-    usedInFoods: [],
   },
   {
     name: 'Keiju Laktoositon kasvirasvalevite 600 g',
     price: [1.99],
     brand: 'Keiju',
     weight: 600,
-    totalKcal: 3780,
     kcal: 630,
     fat: 70,
     saturatedFat: 20,
@@ -87,14 +76,12 @@ const ingredients = [
     sugars: 0,
     protein: 0,
     salt: 0.7,
-    usedInFoods: [],
   },
   {
     name: 'Heinz Tomaattiketsuppi 570g',
     price: [2.15],
     brand: 'Heinz',
     weight: 570,
-    totalKcal: 581.4,
     kcal: 102,
     fat: 0.1,
     saturatedFat: 0.1,
@@ -102,7 +89,6 @@ const ingredients = [
     sugars: 22.8,
     protein: 1.2,
     salt: 1.8,
-    usedInFoods: [],
   },
 ]
 
@@ -117,24 +103,15 @@ const foods = [
     usedInFoodPacks: [],
     ingredients: [
       {
-        amount: {
-          value: 1,
-          unit: 'dl',
-        },
+        grams: 50,
         item: 'VegeSun 500g tumma soijarouhe',
       },
       {
-        amount: {
-          value: 1,
-          unit: 'pkt',
-        },
+        grams: 90,
         item: 'Mama kanamakuinen nuudeli 90g',
       },
       {
-        amount: {
-          value: 0,
-          unit: 'maun mukaan',
-        },
+        grams: 10,
         item: 'Heinz Tomaattiketsuppi 570g',
       },
     ],
@@ -149,17 +126,11 @@ const foods = [
     usedInFoodPacks: [],
     ingredients: [
       {
-        amount: {
-          value: 1,
-          unit: 'kpl',
-        },
+        pieces: 1,
         item: 'Fazer Puikula 550g 9kpl Kaura kauraleipä',
       },
       {
-        amount: {
-          value: 0,
-          unit: 'maun mukaan',
-        },
+        grams: 10,
         item: 'Keiju Laktoositon kasvirasvalevite 600 g',
       },
     ],

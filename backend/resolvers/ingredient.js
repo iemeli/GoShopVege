@@ -18,27 +18,32 @@ const allIngredients = async (root, args) => {
   }
 }
 
-const getVoluntary = input => {
-  const nutritionItem = input.split(';')
-  return { name: nutritionItem[0], value: nutritionItem[1] }
-}
-
 const addIngredient = async (root, args) => {
-  const ingredient = await new Ingredient({
-    name: args.name,
-    price: args.price,
-    brand: args.brand,
-    weight: args.weight,
-    totalKcal: args.kcal * (args.weight / 100),
-    kcal: args.kcal,
-    fat: args.fat,
-    saturatedFat: args.saturatedFat,
-    carbs: args.carbs,
-    sugars: args.sugars,
-    protein: args.protein,
-    salt: args.salt,
-    ...(args.voluntary && { voluntary: getVoluntary(args.voluntary) }),
+  let ingredientForDB
+  Object.keys(args).forEach(key => {
+    if (
+      [
+        'kcal',
+        'fat',
+        'saturatedFat',
+        'carbs',
+        'sugars',
+        'protein',
+        'salt',
+      ].indexOf(key) > 1
+    ) {
+      ingredientForDB[key] = {
+        total: args[key] * (args.weigth / 100),
+        in100g: args[key],
+        ...(args.pieces && {
+          inOnePiece: (args[key] * (args.weight / 100)) / args.pieces,
+        }),
+      }
+    } else {
+      ingredientForDB[key] = args[key]
+    }
   })
+  const ingredient = await new Ingredient(ingredientForDB)
     .save()
     .catch(e =>
       console.log(

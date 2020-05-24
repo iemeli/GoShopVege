@@ -60,11 +60,11 @@ const resolvers = {
     foodAdded,
     foodPackAdded,
   },
-  Food: {
-    price: root => getField(root, 'price', 'Food'),
-    kcal: root => getField(root, 'kcal', 'Food'),
-    ingredientsCount: root => root.ingredients.length,
-  },
+  // Food: {
+  //   price: root => getField(root, 'price', 'Food'),
+  //   kcal: root => getField(root, 'kcal', 'Food'),
+  //   ingredientsCount: root => root.ingredients.length,
+  // },
   FoodPack: {
     price: root => getField(root, 'price', 'FoodPack'),
     kcal: root => getField(root, 'kcal', 'FoodPack'),

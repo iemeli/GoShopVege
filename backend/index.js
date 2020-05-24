@@ -6,7 +6,7 @@ require('dotenv').config()
 
 mongoose.set('useFindAndModify', false)
 
-const MONGODB_URI = process.env.MONGODB_URI
+const { MONGODB_URI } = process.env
 
 console.log('connecting to', MONGODB_URI)
 
@@ -15,7 +15,7 @@ mongoose
   .then(() => {
     console.log('connected to MongoDB')
   })
-  .catch(e => {
+  .catch((e) => {
     console.log('error connection to MongoDB', e.message)
   })
 
