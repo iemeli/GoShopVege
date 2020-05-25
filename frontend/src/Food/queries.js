@@ -1,60 +1,45 @@
 import { gql } from '@apollo/client'
-
-export const INGREDIENT_DETAILS = gql`
-  fragment IngredientDetails on Ingredient {
-    name
-    priceRange {
-      min
-      max
-    }
-    brand
-    weight
-    totalKcal
-    kcal
-    fat
-    saturatedFat
-    carbs
-    sugars
-    protein
-    salt
-    voluntary {
-      name
-      value
-    }
-    id
-  }
-`
+import { INGREDIENT_DETAILS } from '../Ingredient/queries'
 
 export const FOOD_DETAILS = gql`
   fragment FoodDetails on Food {
     id
     name
-    price
-    kcal
+    priceRange {
+      min
+      max
+    }
     recipe
-    ingredientsCount
     ingredients {
-      id
-      usedAtOnce
       item {
         ...IngredientDetails
       }
-    }
-    usedInFoodPacks {
+      pieces
+      grams
       id
-      name
     }
   }
   ${INGREDIENT_DETAILS}
 `
 
-export const ALL_FOODS = gql`
-  query allFoods($name: String) {
-    allFoods(name: $name) {
-      ...FoodDetails
+const FOOD_DETAILS_WITH_REF = gql`
+  fragment FoodDetailsWithRef on Food {
+    ...FoodDetails
+    usedInFoodPacks {
+      id
+      name
     }
   }
   ${FOOD_DETAILS}
+`
+
+export const ALL_FOODS = gql`
+  query allFoods($name: String) {
+    allFoods(name: $name) {
+      ...FoodDetailsWithRef
+    }
+  }
+  ${FOOD_DETAILS_WITH_REF}
 `
 
 export const ADD_FOOD = gql`
@@ -64,28 +49,28 @@ export const ADD_FOOD = gql`
     $recipe: [String!]!
   ) {
     addFood(name: $name, ingredients: $ingredients, recipe: $recipe) {
-      ...FoodDetails
+      ...FoodDetailsWithRef
     }
   }
-  ${FOOD_DETAILS}
+  ${FOOD_DETAILS_WITH_REF}
 `
 
 export const FOOD_ADDED = gql`
   subscription {
     foodAdded {
-      ...FoodDetails
+      ...FoodDetailsWithRef
     }
   }
-  ${FOOD_DETAILS}
+  ${FOOD_DETAILS_WITH_REF}
 `
 
 export const DELETE_FOOD = gql`
   mutation deleteFood($id: String!) {
     deleteFood(id: $id) {
-      ...FoodDetails
+      ...FoodDetailsWithRef
     }
   }
-  ${FOOD_DETAILS}
+  ${FOOD_DETAILS_WITH_REF}
 `
 
 export const UPDATE_FOOD = gql`
@@ -101,8 +86,8 @@ export const UPDATE_FOOD = gql`
       ingredients: $ingredients
       recipe: $recipe
     ) {
-      ...FoodDetails
+      ...FoodDetailsWithRef
     }
   }
-  ${FOOD_DETAILS}
+  ${FOOD_DETAILS_WITH_REF}
 `

@@ -7,62 +7,93 @@ export const INGREDIENT_DETAILS = gql`
       min
       max
     }
+    pieces
     brand
     weight
-    totalKcal
-    kcal
-    fat
-    saturatedFat
-    carbs
-    sugars
-    protein
-    salt
-    voluntary {
-      name
-      value
+    kcal {
+      total
+      inOnePiece
+      in100g
     }
-    usedInFoods {
-      id
-      name
+    fat {
+      total
+      inOnePiece
+      in100g
+    }
+    saturatedFat {
+      total
+      inOnePiece
+      in100g
+    }
+    carbs {
+      total
+      inOnePiece
+      in100g
+    }
+    sugars {
+      total
+      inOnePiece
+      in100g
+    }
+    protein {
+      total
+      inOnePiece
+      in100g
+    }
+    salt {
+      total
+      inOnePiece
+      in100g
     }
     id
   }
 `
 
-export const ALL_INGREDIENTS = gql`
-  query allIngredients($name: String) {
-    allIngredients(name: $name) {
-      ...IngredientDetails
+const INGREDIENT_DETAILS_WITH_REF = gql`
+  fragment IngredientDetailsWithRef on Ingredient {
+    ...IngredientDetails
+    usedInFoods {
+      id
+      name
     }
   }
   ${INGREDIENT_DETAILS}
+`
+
+export const ALL_INGREDIENTS = gql`
+  query allIngredients($name: String) {
+    allIngredients(name: $name) {
+      ...IngredientDetailsWithRef
+    }
+  }
+  ${INGREDIENT_DETAILS_WITH_REF}
 `
 
 export const ADD_INGREDIENT = gql`
   mutation addIngredient($name: String!, $price: Float!, $kcal: Int) {
     addIngredient(name: $name, price: $price, kcal: $kcal) {
-      ...IngredientDetails
+      ...IngredientDetailsWithRef
     }
   }
-  ${INGREDIENT_DETAILS}
+  ${INGREDIENT_DETAILS_WITH_REF}
 `
 
 export const INGREDIENT_ADDED = gql`
   subscription {
     ingredientAdded {
-      ...IngredientDetails
+      ...IngredientDetailsWithRef
     }
   }
-  ${INGREDIENT_DETAILS}
+  ${INGREDIENT_DETAILS_WITH_REF}
 `
 
 export const DELETE_INGREDIENT = gql`
   mutation deleteIngredient($id: String!) {
     deleteIngredient(id: $id) {
-      ...IngredientDetails
+      ...IngredientDetailsWithRef
     }
   }
-  ${INGREDIENT_DETAILS}
+  ${INGREDIENT_DETAILS_WITH_REF}
 `
 
 export const UPDATE_INGREDIENT = gql`
@@ -73,8 +104,8 @@ export const UPDATE_INGREDIENT = gql`
     $kcal: Int
   ) {
     updateIngredient(id: $id, name: $name, price: $price, kcal: $kcal) {
-      ...IngredientDetails
+      ...IngredientDetailsWithRef
     }
   }
-  ${INGREDIENT_DETAILS}
+  ${INGREDIENT_DETAILS_WITH_REF}
 `

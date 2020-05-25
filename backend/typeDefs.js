@@ -8,7 +8,7 @@ const typeDefs = gql`
 
   type Macro {
     total: Float!
-    inOnePiece: Float!
+    inOnePiece: Float
     in100g: Float!
   }
 
@@ -44,7 +44,6 @@ const typeDefs = gql`
     ingredients: [FoodIngredient!]!
     priceRange: PriceRange!
     totalKcal: Float!
-
     id: ID!
   }
 

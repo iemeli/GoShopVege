@@ -1,11 +1,10 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { ALL_INGREDIENTS } from '../queries'
 import ListIngredients from '../presentational/ListIngredients'
 
 const ListIngredientsContainer = () => {
-  // const history = useHistory()
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
 
   if (ingredientsResult.loading) {
