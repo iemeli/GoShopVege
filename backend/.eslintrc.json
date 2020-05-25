@@ -16,6 +16,9 @@
   "rules": {
     "prettier/prettier": "error",
     "semi": "off",
-    "arrow-parens": "off"
+    "arrow-parens": "off",
+    "spaced-comment": "off",
+    "comma-dangle": "off",
+    "no-console": "off"
   }
 }

@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
@@ -40,7 +42,7 @@ schema.set('toJSON', {
 schema.set('toObject', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
-    returnedObject.ingredients.forEach((i) => {
+    returnedObject.ingredients.forEach(i => {
       i.id = i._id.toString()
       delete i._id
     })

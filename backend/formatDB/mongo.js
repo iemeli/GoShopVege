@@ -43,11 +43,49 @@ const deleteAll = async () => {
   }
 }
 
+const getIngredientForDB = args => {
+  const ingredientForDB = {}
+  Object.keys(args).forEach(key => {
+    if (
+      [
+        'kcal',
+        'fat',
+        'saturatedFat',
+        'carbs',
+        'sugars',
+        'protein',
+        'salt',
+      ].indexOf(key) > -1
+    ) {
+      ingredientForDB[key] = {
+        total: Number((args[key] * (args.weight / 100)).toFixed(1)),
+        in100g: args[key],
+        ...(args.pieces && {
+          inOnePiece: Number(
+            ((args[key] * (args.weight / 100)) / args.pieces).toFixed(1)
+          ),
+        }),
+      }
+    } else {
+      ingredientForDB[key] = args[key]
+    }
+  })
+
+  ingredientForDB.priceRange = {
+    min: Math.min(...ingredientForDB.price),
+    max: Math.max(...ingredientForDB.price),
+  }
+
+  return ingredientForDB
+}
+
 const format = async () => {
   await deleteAll()
 
   try {
-    await Ingredient.insertMany(ingredients)
+    const ingredientsForDB = ingredients.map(i => getIngredientForDB(i))
+
+    await Ingredient.insertMany(ingredientsForDB)
     console.log('Ingredients inserted')
   } catch (e) {
     console.log('Error inserting ingredients', e.message)

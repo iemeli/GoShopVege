@@ -1,14 +1,13 @@
-const Ingredient = require('../models/Ingredient')
 const { PubSub } = require('apollo-server')
+const Ingredient = require('../models/Ingredient')
+
 const pubsub = new PubSub()
 
 const allIngredients = async (root, args) => {
   try {
-    let ingredients = await Ingredient.find({
+    const ingredients = await Ingredient.find({
       ...(args.name && { name: args.name }),
-    })
-      .populate('usedInFoods')
-      .then(i => i.map(i => i.toObject()))
+    }).populate('usedInFoods')
     return ingredients
   } catch (e) {
     console.log(
@@ -19,7 +18,7 @@ const allIngredients = async (root, args) => {
 }
 
 const addIngredient = async (root, args) => {
-  let ingredientForDB
+  const ingredientForDB = {}
   Object.keys(args).forEach(key => {
     if (
       [
@@ -30,19 +29,27 @@ const addIngredient = async (root, args) => {
         'sugars',
         'protein',
         'salt',
-      ].indexOf(key) > 1
+      ].indexOf(key) > -1
     ) {
       ingredientForDB[key] = {
-        total: args[key] * (args.weigth / 100),
+        total: Number((args[key] * (args.weight / 100)).toFixed(1)),
         in100g: args[key],
         ...(args.pieces && {
-          inOnePiece: (args[key] * (args.weight / 100)) / args.pieces,
+          inOnePiece: Number(
+            ((args[key] * (args.weight / 100)) / args.pieces).toFixed(1)
+          ),
         }),
       }
     } else {
       ingredientForDB[key] = args[key]
     }
   })
+
+  ingredientForDB.priceRange = {
+    min: Math.min(...ingredientForDB.price),
+    max: Math.max(...ingredientForDB.price),
+  }
+
   const ingredient = await new Ingredient(ingredientForDB)
     .save()
     .catch(e =>

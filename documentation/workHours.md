@@ -1,6 +1,6 @@
 # Työtuntien kirjanpito
 
-`| päivä  | aika (h) | mitä tein                                                              |
+| päivä  | aika (h) | mitä tein                                                              |
 | :----: | :------- | :--------------------------------------------------------------------- |
 | 16.3.  | 1        | projektin ideointi ja suunnittelu                                      |
 | 18.3.  | 4.5      | Apollo server ja frontend skeletonit                                   |
@@ -40,4 +40,6 @@
 | 18.5.  | 5        | GoShopVege logon suunnittelu ja tekeminen                              |
 | 19.5.  | 5        | Css:än opettelua                                                       |
 | 21.5.  | 3.5      | Ravintoarvotaulukon mallintamista Ingredients modeliin                 |
-|  yht   | 131.5    |                                                                        |`
+| 22.5.  | 3        | Ravintoarvotaulukon mallintamista modeleihin                           |
+| 24.5.  | 2        | Ravintoainetaulukkoa ja eslint/prettier backendiin                     |
+|  yht   | 136.5    |                                                                        |

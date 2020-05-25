@@ -8,14 +8,14 @@ const typeDefs = gql`
 
   type Macro {
     total: Float!
-    inOnePiece: Int
+    inOnePiece: Float!
     in100g: Float!
   }
 
   type Ingredient {
     name: String!
     priceRange: PriceRange
-    inOnePiece: Int
+    pieces: Int
     brand: String
     weight: Float
     kcal: Macro
@@ -50,7 +50,7 @@ const typeDefs = gql`
 
   type FoodPack {
     name: String!
-    price: Float!
+    priceRange: PriceRange!
     kcal: Int!
     foods: [Food!]!
     foodsCount: Int!

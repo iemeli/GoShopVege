@@ -1,3 +1,7 @@
+const Ingredient = require('../models/Ingredient')
+const Food = require('../models/Food')
+const FoodPack = require('../models/FoodPack')
+
 const {
   allIngredients,
   addIngredient,
@@ -21,13 +25,18 @@ const {
 } = require('./foodPack')
 
 const getField = (root, field, obj) => {
-  if (obj === 'Food') {
-    return root.ingredients.reduce((sum, nextIng) => {
-      if (nextIng.item[field]) {
-        return sum + nextIng.item[field]
-      }
-      return sum
-    }, 0)
+  //root = foodObject
+  //field = 'priceRange'
+  //obj = 'Food'
+
+  if (obj === 'Food' && field === 'priceRange') {
+    return root.ingredients.reduce(
+      (sum, nextIngr) => ({
+        min: sum.min + nextIngr.item.priceRange.min,
+        max: sum.max + nextIngr.item.priceRange.max,
+      }),
+      { min: 0, max: 0 }
+    )
   }
   return root.foods.reduce(
     (sum, nextFood) => sum + getField(nextFood, field, 'Food'),
@@ -60,16 +69,16 @@ const resolvers = {
     foodAdded,
     foodPackAdded,
   },
-  // Food: {
-  //   price: root => getField(root, 'price', 'Food'),
-  //   kcal: root => getField(root, 'kcal', 'Food'),
-  //   ingredientsCount: root => root.ingredients.length,
-  // },
-  FoodPack: {
-    price: root => getField(root, 'price', 'FoodPack'),
-    kcal: root => getField(root, 'kcal', 'FoodPack'),
-    foodsCount: root => root.foods.length,
+  Food: {
+    priceRange: root => getField(root, 'priceRange', 'Food'),
+    // kcal: root => getField(root, 'kcal', 'Food'),
+    ingredientsCount: root => root.ingredients.length,
   },
+  // FoodPack: {
+  //   price: root => getField(root, 'price', 'FoodPack'),
+  //   kcal: root => getField(root, 'kcal', 'FoodPack'),
+  //   foodsCount: root => root.foods.length,
+  // },
 }
 
 module.exports = resolvers

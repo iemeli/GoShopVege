@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
@@ -8,6 +10,10 @@ const schema = new mongoose.Schema({
     minlength: 4,
   },
   price: [Number],
+  priceRange: {
+    min: Number,
+    max: Number,
+  },
   brand: String,
   weight: Number,
   pieces: Number,
