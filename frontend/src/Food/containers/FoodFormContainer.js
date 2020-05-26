@@ -15,11 +15,12 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   const [foodIngredients, setFoodIngredients] = useState(
     food ? food.ingredients : []
   )
-  const [price, setPrice] = useState(food ? food.price : 0)
+  const [priceRange, setPriceRange] = useState(
+    food ? food.priceRange : { min: 0, max: 0 }
+  )
   const [kcal, setKcal] = useState(food ? food.kcal : 0)
-
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
-
+  console.log('täs foodIngredients', foodIngredients)
   useEffect(() => {
     if (food) {
       const recipeRows = food.recipe.map(r => ({ value: r, id: uuid() }))
@@ -35,6 +36,11 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
     i => !foodIngredients.map(fi => fi.item.id).includes(i.id)
   )
 
+  const unit = {
+    PIECES: 'pieces',
+    GRAMS: 'grams',
+  }
+
   const parseIngredients = () => {
     return foodIngredients.map(i => `${i.item.id};${i.usedAtOnce ? 1 : 0}`)
   }
@@ -43,34 +49,110 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
     return recipe.map(row => row.value)
   }
 
-  const toggleUsedAtOnce = event => {
+  //tän idea on saada minkä tahansa makron (kcal, fat, jne)
+  //arvo kun määrä on value
+  //halutaan siis jotenkin yleistää MINKÄ TAHANSA makron saaminen
+  //kun tiedetään
+  // A) makron {in100g, inOnePiece}
+  // B) foodIngredientin value, eli kuinka monta pieces/grams
+  const getMacroByUnit = (
+    macroName,
+    ingredient,
+    foodIngredientValue,
+    foodIngredientUnit
+  ) => {
+    if (foodIngredientUnit === unit.PIECES) {
+      return ingredient[macroName].inOnePiece * foodIngredientValue
+    }
+    return (ingredient[macroName].in100g / 100) * foodIngredientValue
+  }
+
+  const toggleUnit = event => {
+    const foodIngredient = foodIngredients.find(fi => fi.id === event.target.id)
+    const oldUnit = foodIngredient.unit
+    const newUnit =
+      foodIngredient.unit === unit.PIECES ? unit.GRAMS : unit.PIECES
+    foodIngredient.unit = newUnit
+
     setFoodIngredients(
       foodIngredients.map(fi =>
-        fi.id === event.target.id ? { ...fi, usedAtOnce: !fi.usedAtOnce } : fi
+        fi.id === event.target.id ? foodIngredient : fi
+      )
+    )
+    setKcal(
+      kcal -
+        getMacroByUnit(
+          'kcal',
+          foodIngredient.item,
+          foodIngredient.value,
+          oldUnit
+        ) +
+        getMacroByUnit(
+          'kcal',
+          foodIngredient.item,
+          foodIngredient.value,
+          newUnit
+        )
+    )
+  }
+
+  const changeFoodIngredientValue = event => {
+    const foodIngredient = foodIngredients.find(fi => fi.id === event.target.id)
+    const changeInValue = Number(event.target.value) - foodIngredient.value
+    setKcal(
+      kcal +
+        (foodIngredient.unit === 'pieces'
+          ? foodIngredient.item.kcal.inOnePiece * changeInValue
+          : (foodIngredient.item.kcal.in100g / 100) * changeInValue)
+    )
+    setFoodIngredients(
+      foodIngredients.map(fi =>
+        fi.id === event.target.id
+          ? { ...fi, value: Number(event.target.value) }
+          : fi
       )
     )
   }
 
-  const handleSelect = ingredientID => {
+  const addFoodIngredient = ingredientID => {
+    const ingredient = ingredients.find(i => i.id === ingredientID)
+    const foodIngredientUnit = ingredient.pieces ? unit.PIECES : unit.GRAMS
     const newFoodIngredient = {
-      usedAtOnce: true,
+      unit: foodIngredientUnit,
+      onlyGrams: ingredient.pieces === null,
+      value: 0,
+      item: ingredient,
       id: uuid(),
     }
-    const ingredient = ingredients.find(i => i.id === ingredientID)
     newFoodIngredient.item = ingredient
     setFoodIngredients(foodIngredients.concat(newFoodIngredient))
 
-    setPrice(price + ingredient.price)
-    setKcal(kcal + ingredient.kcal)
+    setPriceRange({
+      min: priceRange.min + ingredient.priceRange.min,
+      max: priceRange.max + ingredient.priceRange.max,
+    })
+
+    setKcal(
+      kcal +
+        getMacroByUnit(
+          'kcal',
+          ingredient,
+          newFoodIngredient.value,
+          foodIngredientUnit
+        )
+    )
   }
 
-  const removeIngredient = event => {
+  const removeFoodIngredient = event => {
     const ingredient = foodIngredients.find(fi => fi.id === event.target.id)
       .item
     setFoodIngredients(foodIngredients.filter(fi => fi.id !== event.target.id))
 
-    setPrice(price - ingredient.price)
-    setKcal(kcal - ingredient.kcal)
+    setPriceRange({
+      min: priceRange.min - ingredient.priceRange.min,
+      max: priceRange.max - ingredient.priceRange.max,
+    })
+    // setKcal(kcal - ingredient.kcal)
   }
 
   const addStep = () => {
@@ -118,18 +200,22 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
     <div>
       <h2>{food ? `Päivitä ${food.name}` : 'Luo uusi ruoka'}</h2>
       <strong>
-        <p>Yhteishinta: {price.toFixed(2)} €</p>
+        <p>
+          Hintahaarukka: {priceRange.min.toFixed(2)} € -{' '}
+          {priceRange.max.toFixed(2)} €
+        </p>
       </strong>
       <strong>
-        <p>Yhteensä kcal: {kcal}</p>
+        <p>Yhteensä energiaa: {kcal.toFixed(1)} kcal</p>
       </strong>
       <FoodForm
-        toggleUsedAtOnce={toggleUsedAtOnce}
+        changeFoodIngredientValue={changeFoodIngredientValue}
+        toggleUnit={toggleUnit}
         foodIngredients={foodIngredients}
         ingredients={ingredients}
         recipe={recipe}
-        handleSelect={handleSelect}
-        removeIngredient={removeIngredient}
+        handleSelect={addFoodIngredient}
+        removeFoodIngredient={removeFoodIngredient}
         addStep={addStep}
         removeStep={removeStep}
         submit={submit}

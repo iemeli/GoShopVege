@@ -42,4 +42,5 @@
 | 21.5.  | 3.5      | Ravintoarvotaulukon mallintamista Ingredients modeliin                 |
 | 22.5.  | 3        | Ravintoarvotaulukon mallintamista modeleihin                           |
 | 24.5.  | 2        | Ravintoainetaulukkoa ja eslint/prettier backendiin                     |
-|  yht   | 136.5    |                                                                        |
+| 25.5.  | 3.5      | Makrot kuntoon bäkissä ja räjähtäneen frontin debuggausta              |
+|  yht   | 140      |                                                                        |

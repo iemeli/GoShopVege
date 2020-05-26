@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react'
 import {
   Form,
@@ -9,94 +10,111 @@ import {
 } from 'react-bootstrap'
 
 const FoodForm = ({
-  toggleUsedAtOnce,
+  toggleUnit,
+  changeFoodIngredientValue,
   recipe,
   foodIngredients,
   ingredients,
   handleSelect,
-  removeIngredient,
+  removeFoodIngredient,
   addStep,
   removeStep,
   submit,
   step,
   food,
   name,
-}) => (
-  <div>
-    <Form onSubmit={submit}>
-      <Form.Group>
-        <Button variant="primary" type="submit">
-          {food ? 'päivitä' : 'lisää ruoka'}
-        </Button>
-        <br />
-        <br />
-        <Form.Label>Ruoan nimi</Form.Label>
-        <Form.Control {...name} />
-        <Form.Label>Resepti</Form.Label>
-        <Form.Control {...step} />
-        <Button onClick={addStep}>lisää reseptiin</Button>
-      </Form.Group>
-    </Form>
-    <ListGroup>
-      {recipe.map(row => (
-        <ListGroup.Item key={row.id}>
-          <li>
-            {row.value}
-            <Button variant="light" id={row.id} onClick={removeStep}>
-              poista
-            </Button>
-          </li>
-        </ListGroup.Item>
-      ))}
-    </ListGroup>
-    <DropdownButton id="dropdown-basic-button" title="Lisää ainesosa">
-      {ingredients.map(i => (
-        <Dropdown.Item key={i.id} eventKey={i.id} onSelect={handleSelect}>
-          {i.name}
-        </Dropdown.Item>
-      ))}
-    </DropdownButton>
-    <Table>
-      <thead>
-        <tr>
-          <th>
-            <h6>AINESOSAT</h6>
-          </th>
-          <th>nimi</th>
-          <th>hinta (€)</th>
-          <th>kcal</th>
-          <th>menee kerralla</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {foodIngredients.map(fi => (
-          <tr key={fi.id}>
-            <td></td>
-            <td>{fi.item.name}</td>
-            <td>{fi.item.price.toFixed(2)}</td>
-            <td>{fi.item.kcal}</td>
-            <td>
-              {fi.usedAtOnce ? (
-                <Button variant="success" id={fi.id} onClick={toggleUsedAtOnce}>
-                  kyllä
-                </Button>
-              ) : (
-                <Button variant="danger" id={fi.id} onClick={toggleUsedAtOnce}>
-                  ei
-                </Button>
-              )}
-            </td>
-            <td>
-              <Button variant="light" id={fi.id} onClick={removeIngredient}>
+}) => {
+  return (
+    <div>
+      <Form onSubmit={submit}>
+        <Form.Group>
+          <Button variant="success" type="submit">
+            {food ? 'päivitä' : 'lisää ruoka'}
+          </Button>
+          <br />
+          <br />
+          <Form.Label>Ruoan nimi</Form.Label>
+          <Form.Control {...name} />
+          <Form.Label>Resepti</Form.Label>
+          <Form.Control {...step} />
+          <Button onClick={addStep}>lisää reseptiin</Button>
+        </Form.Group>
+      </Form>
+      <ListGroup>
+        {recipe.map(row => (
+          <ListGroup.Item key={row.id}>
+            <li>
+              {row.value}
+              <Button variant="light" id={row.id} onClick={removeStep}>
                 poista
               </Button>
-            </td>
-          </tr>
+            </li>
+          </ListGroup.Item>
         ))}
-      </tbody>
-    </Table>
-  </div>
-)
+      </ListGroup>
+      <h6>AINESOSAT</h6>
+      <DropdownButton id="dropdown-basic-button" title="Lisää ainesosa">
+        {ingredients.map(i => (
+          <Dropdown.Item key={i.id} eventKey={i.id} onSelect={handleSelect}>
+            {i.name}
+          </Dropdown.Item>
+        ))}
+      </DropdownButton>
+      <Table>
+        <thead>
+          <tr>
+            <th>nimi</th>
+            <th>hintahaarukka (€)</th>
+            <th>määrä</th>
+            <th>yksikkö</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foodIngredients.map(fi => (
+            <tr key={fi.id}>
+              <td>{fi.item.name}</td>
+              <td>
+                {fi.item.priceRange.min}€ - {fi.item.priceRange.max}€
+              </td>
+              <td>
+                <input
+                  type="number"
+                  min="1"
+                  id={fi.id}
+                  onChange={event => changeFoodIngredientValue(event)}
+                  style={{ width: '80px' }}
+                />
+              </td>
+              <td>
+                {fi.onlyGrams === true ? (
+                  <Button disabled variant="dark">
+                    grammaa
+                  </Button>
+                ) : fi.unit === 'pieces' ? (
+                  <Button variant="info" id={fi.id} onClick={toggleUnit}>
+                    kappaletta
+                  </Button>
+                ) : (
+                  <Button variant="secondary" id={fi.id} onClick={toggleUnit}>
+                    grammaa
+                  </Button>
+                )}
+              </td>
+              <td>
+                <Button
+                  variant="light"
+                  id={fi.id}
+                  onClick={removeFoodIngredient}
+                >
+                  poista
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  )
+}
 
 export default FoodForm
