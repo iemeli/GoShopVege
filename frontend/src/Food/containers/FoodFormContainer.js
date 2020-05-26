@@ -144,15 +144,25 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   }
 
   const removeFoodIngredient = event => {
-    const ingredient = foodIngredients.find(fi => fi.id === event.target.id)
-      .item
-    setFoodIngredients(foodIngredients.filter(fi => fi.id !== event.target.id))
-
+    const foodIngredient = foodIngredients.find(fi => fi.id === event.target.id)
+    setFoodIngredients(
+      foodIngredients.filter(fi => fi.id !== foodIngredient.id)
+    )
+    const min = priceRange.min - foodIngredient.item.priceRange.min
+    const max = priceRange.max - foodIngredient.item.priceRange.max
     setPriceRange({
-      min: priceRange.min - ingredient.priceRange.min,
-      max: priceRange.max - ingredient.priceRange.max,
+      min: min < 0 ? 0 : min,
+      max: max < 0 ? 0 : max,
     })
-    // setKcal(kcal - ingredient.kcal)
+    const subtractFromKcal =
+      kcal -
+      getMacroByUnit(
+        'kcal',
+        foodIngredient.item,
+        foodIngredient.value,
+        foodIngredient.unit
+      )
+    setKcal(subtractFromKcal < 0 ? 0 : subtractFromKcal)
   }
 
   const addStep = () => {
