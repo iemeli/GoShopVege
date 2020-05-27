@@ -43,4 +43,5 @@
 | 22.5.  | 3        | Ravintoarvotaulukon mallintamista modeleihin                           |
 | 24.5.  | 2        | Ravintoainetaulukkoa ja eslint/prettier backendiin                     |
 | 25.5.  | 3.5      | Makrot kuntoon bäkissä ja räjähtäneen frontin debuggausta              |
-|  yht   | 140      |                                                                        |
+| 26.5.  | 5.5      | FoodFormin päivittämistä vastaamaan bäckendin muutoksia                |
+|  yht   | 145.5    |                                                                        |

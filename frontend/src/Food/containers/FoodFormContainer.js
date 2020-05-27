@@ -6,6 +6,7 @@ import { setAlert } from '../../redux/alertReducer'
 import useField from '../../hooks/useField'
 import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import FoodForm from '../presentational/FoodForm'
+import useMacros from '../../hooks/useMacros'
 
 // eslint-disable-next-line no-shadow
 const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
@@ -18,9 +19,12 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   const [priceRange, setPriceRange] = useState(
     food ? food.priceRange : { min: 0, max: 0 }
   )
-  const [kcal, setKcal] = useState(food ? food.kcal : 0)
+  //tähän pitää saada päivitysMode niin että useMacro ei tarvi
+  //antaa kuin food -> palauttaa tarpeelliset makrot
+  const [macros] = useMacros()
+
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
-  console.log('täs foodIngredients', foodIngredients)
+
   useEffect(() => {
     if (food) {
       const recipeRows = food.recipe.map(r => ({ value: r, id: uuid() }))
@@ -55,17 +59,6 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   //kun tiedetään
   // A) makron {in100g, inOnePiece}
   // B) foodIngredientin value, eli kuinka monta pieces/grams
-  const getMacroByUnit = (
-    macroName,
-    ingredient,
-    foodIngredientValue,
-    foodIngredientUnit
-  ) => {
-    if (foodIngredientUnit === unit.PIECES) {
-      return ingredient[macroName].inOnePiece * foodIngredientValue
-    }
-    return (ingredient[macroName].in100g / 100) * foodIngredientValue
-  }
 
   const toggleUnit = event => {
     const foodIngredient = foodIngredients.find(fi => fi.id === event.target.id)
@@ -79,32 +72,17 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
         fi.id === event.target.id ? foodIngredient : fi
       )
     )
-    setKcal(
-      kcal -
-        getMacroByUnit(
-          'kcal',
-          foodIngredient.item,
-          foodIngredient.value,
-          oldUnit
-        ) +
-        getMacroByUnit(
-          'kcal',
-          foodIngredient.item,
-          foodIngredient.value,
-          newUnit
-        )
-    )
+
+    macros.subtractAll(foodIngredient.item, foodIngredient.value, oldUnit)
+    macros.addAll(foodIngredient.item, foodIngredient.value, newUnit)
   }
 
   const changeFoodIngredientValue = event => {
     const foodIngredient = foodIngredients.find(fi => fi.id === event.target.id)
     const changeInValue = Number(event.target.value) - foodIngredient.value
-    setKcal(
-      kcal +
-        (foodIngredient.unit === 'pieces'
-          ? foodIngredient.item.kcal.inOnePiece * changeInValue
-          : (foodIngredient.item.kcal.in100g / 100) * changeInValue)
-    )
+
+    macros.addAll(foodIngredient.item, changeInValue, foodIngredient.unit)
+
     setFoodIngredients(
       foodIngredients.map(fi =>
         fi.id === event.target.id
@@ -124,23 +102,13 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
       item: ingredient,
       id: uuid(),
     }
-    newFoodIngredient.item = ingredient
+
     setFoodIngredients(foodIngredients.concat(newFoodIngredient))
 
     setPriceRange({
       min: priceRange.min + ingredient.priceRange.min,
       max: priceRange.max + ingredient.priceRange.max,
     })
-
-    setKcal(
-      kcal +
-        getMacroByUnit(
-          'kcal',
-          ingredient,
-          newFoodIngredient.value,
-          foodIngredientUnit
-        )
-    )
   }
 
   const removeFoodIngredient = event => {
@@ -154,15 +122,11 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
       min: min < 0 ? 0 : min,
       max: max < 0 ? 0 : max,
     })
-    const subtractFromKcal =
-      kcal -
-      getMacroByUnit(
-        'kcal',
-        foodIngredient.item,
-        foodIngredient.value,
-        foodIngredient.unit
-      )
-    setKcal(subtractFromKcal < 0 ? 0 : subtractFromKcal)
+    macros.subtractAll(
+      foodIngredient.item,
+      foodIngredient.value,
+      foodIngredient.unit
+    )
   }
 
   const addStep = () => {
@@ -210,14 +174,22 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
     <div>
       <h2>{food ? `Päivitä ${food.name}` : 'Luo uusi ruoka'}</h2>
       <strong>
-        <p>
+        <div>
           Hintahaarukka: {priceRange.min.toFixed(2)} € -{' '}
           {priceRange.max.toFixed(2)} €
-        </p>
+        </div>
       </strong>
-      <strong>
-        <p>Yhteensä energiaa: {kcal.toFixed(1)} kcal</p>
-      </strong>
+      <br />
+      <div>
+        <div>Yhteensä energiaa: {macros.kcal} kcal</div>
+        <div>Yhteensä rasvaa: {macros.fat} g</div>
+        <div>- josta tyydyttynyttä: {macros.saturatedFat} g</div>
+        <div>Yhteensä hiilareita: {macros.carbs} g</div>
+        <div>- josta sokereita: {macros.sugars} g</div>
+        <div>Yhteensä protskua {macros.protein} g</div>
+        <div>Yhteensä suolaa: {macros.salt} g</div>
+      </div>
+      <br />
       <FoodForm
         changeFoodIngredientValue={changeFoodIngredientValue}
         toggleUnit={toggleUnit}

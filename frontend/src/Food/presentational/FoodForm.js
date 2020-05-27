@@ -52,6 +52,7 @@ const FoodForm = ({
           </ListGroup.Item>
         ))}
       </ListGroup>
+      <br />
       <h6>AINESOSAT</h6>
       <DropdownButton id="dropdown-basic-button" title="Lisää ainesosa">
         {ingredients.map(i => (
