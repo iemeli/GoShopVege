@@ -46,8 +46,8 @@ const addIngredient = async (root, args) => {
   })
 
   ingredientForDB.priceRange = {
-    min: Math.min(...ingredientForDB.price),
-    max: Math.max(...ingredientForDB.price),
+    min: Math.min(args.price),
+    max: Math.max(args.price),
   }
 
   const ingredient = await new Ingredient(ingredientForDB)

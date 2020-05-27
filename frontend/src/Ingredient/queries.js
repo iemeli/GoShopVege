@@ -70,8 +70,34 @@ export const ALL_INGREDIENTS = gql`
 `
 
 export const ADD_INGREDIENT = gql`
-  mutation addIngredient($name: String!, $price: Float!, $kcal: Int) {
-    addIngredient(name: $name, price: $price, kcal: $kcal) {
+  mutation addIngredient(
+    $name: String!
+    $price: [Float!]
+    $brand: String
+    $pieces: Int
+    $weight: Float
+    $kcal: Float
+    $fat: Float
+    $saturatedFat: Float
+    $carbs: Float
+    $sugars: Float
+    $protein: Float
+    $salt: Float
+  ) {
+    addIngredient(
+      name: $name
+      price: $price
+      pieces: $pieces
+      brand: $brand
+      weight: $weight
+      kcal: $kcal
+      fat: $fat
+      saturatedFat: $saturatedFat
+      carbs: $carbs
+      sugars: $sugars
+      protein: $protein
+      salt: $salt
+    ) {
       ...IngredientDetailsWithRef
     }
   }
