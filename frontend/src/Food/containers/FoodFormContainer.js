@@ -8,20 +8,33 @@ import { ALL_INGREDIENTS } from '../../Ingredient/queries'
 import FoodForm from '../presentational/FoodForm'
 import useMacros from '../../hooks/useMacros'
 
+const unit = {
+  PIECES: 'pieces',
+  GRAMS: 'grams',
+}
+
+const getFoodIngredient = fi => {
+  return {
+    unit: fi.pieces ? unit.PIECES : unit.GRAMS,
+    onlyGrams: fi.pieces === null,
+    value: fi.pieces ? fi.pieces : fi.grams,
+    item: fi.item,
+    id: uuid(),
+  }
+}
+
 // eslint-disable-next-line no-shadow
 const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   const [name] = useField('text', food ? food.name : null)
   const [step, resetStep] = useField('text')
   const [recipe, setRecipe] = useState([])
   const [foodIngredients, setFoodIngredients] = useState(
-    food ? food.ingredients : []
+    food ? food.ingredients.map(fi => getFoodIngredient(fi)) : []
   )
   const [priceRange, setPriceRange] = useState(
     food ? food.priceRange : { min: 0, max: 0 }
   )
-  //tähän pitää saada päivitysMode niin että useMacro ei tarvi
-  //antaa kuin food -> palauttaa tarpeelliset makrot
-  const [macros] = useMacros()
+  const [macros] = useMacros(food)
 
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
 
@@ -39,11 +52,6 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   const ingredients = ingredientsResult.data.allIngredients.filter(
     i => !foodIngredients.map(fi => fi.item.id).includes(i.id)
   )
-
-  const unit = {
-    PIECES: 'pieces',
-    GRAMS: 'grams',
-  }
 
   const parseIngredients = () => {
     return foodIngredients.map(fi => `${fi.item.id};${fi.unit};${fi.value}`)

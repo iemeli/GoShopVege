@@ -1,31 +1,78 @@
 import { useState } from 'react'
 
-const useMacros = () => {
-  const [kcal, setKcal] = useState(0)
-  const [fat, setFat] = useState(0)
-  const [saturatedFat, setSaturatedFat] = useState(0)
-  const [carbs, setCarbs] = useState(0)
-  const [sugars, setSugars] = useState(0)
-  const [protein, setProtein] = useState(0)
-  const [salt, setSalt] = useState(0)
+const unit = {
+  PIECES: 'pieces',
+  GRAMS: 'grams',
+}
+
+const macroName = {
+  KCAL: 'kcal',
+  FAT: 'fat',
+  SATURATED_FAT: 'saturatedFat',
+  CARBS: 'carbs',
+  SUGARS: 'sugars',
+  PROTEIN: 'protein',
+  SALT: 'salt',
+}
+
+const getMacroByUnit = (
+  macro,
+  ingredient,
+  foodIngredientValue,
+  foodIngredientUnit
+) => {
+  if (foodIngredientUnit === unit.PIECES) {
+    return ingredient[macro].inOnePiece * foodIngredientValue
+  }
+  return (ingredient[macro].in100g / 100) * foodIngredientValue
+}
+
+const getMacroForFood = (food, macro) => {
+  return food.ingredients.reduce((macroSum, nextFoodIngr) => {
+    let foodIngredientUnit
+    let amount
+    if (nextFoodIngr.pieces !== null) {
+      foodIngredientUnit = unit.PIECES
+      amount = nextFoodIngr.pieces
+    } else {
+      foodIngredientUnit = unit.GRAMS
+      amount = nextFoodIngr.grams
+    }
+
+    return (
+      macroSum +
+      getMacroByUnit(macro, nextFoodIngr.item, amount, foodIngredientUnit)
+    )
+  }, 0)
+}
+
+const useMacros = props => {
+  const food = props || null
+
+  const [kcal, setKcal] = useState(
+    food ? getMacroForFood(food, macroName.KCAL) : 0
+  )
+  const [fat, setFat] = useState(
+    food ? getMacroForFood(food, macroName.FAT) : 0
+  )
+  const [saturatedFat, setSaturatedFat] = useState(
+    food ? getMacroForFood(food, macroName.SATURATED_FAT) : 0
+  )
+  const [carbs, setCarbs] = useState(
+    food ? getMacroForFood(food, macroName.CARBS) : 0
+  )
+  const [sugars, setSugars] = useState(
+    food ? getMacroForFood(food, macroName.SUGARS) : 0
+  )
+  const [protein, setProtein] = useState(
+    food ? getMacroForFood(food, macroName.PROTEIN) : 0
+  )
+  const [salt, setSalt] = useState(
+    food ? getMacroForFood(food, macroName.SALT) : 0
+  )
 
   const underZeroIsZero = num => {
     return num < 0 ? 0 : num
-  }
-
-  const unit = {
-    PIECES: 'pieces',
-    GRAMS: 'grams',
-  }
-
-  const macroName = {
-    KCAL: 'kcal',
-    FAT: 'fat',
-    SATURATEDFAT: 'saturatedFat',
-    CARBS: 'carbs',
-    SUGARS: 'sugars',
-    PROTEIN: 'protein',
-    SALT: 'salt',
   }
 
   const addTo = {
@@ -49,18 +96,6 @@ const useMacros = () => {
     salt: amount => setSalt(underZeroIsZero(salt - amount)),
   }
 
-  const getMacroByUnit = (
-    name,
-    ingredient,
-    foodIngredientValue,
-    foodIngredientUnit
-  ) => {
-    if (foodIngredientUnit === unit.PIECES) {
-      return ingredient[name].inOnePiece * foodIngredientValue
-    }
-    return (ingredient[name].in100g / 100) * foodIngredientValue
-  }
-
   const macros = {
     kcal: kcal.toFixed(1),
     fat: fat.toFixed(1),
@@ -77,7 +112,6 @@ const useMacros = () => {
           amount,
           foodIngredientUnit
         )
-        //idea saatu https://stackoverflow.com/questions/26328294/call-function-dynamically-in-javascript
         addTo[macroName[key]](amountToAdd)
       })
     },

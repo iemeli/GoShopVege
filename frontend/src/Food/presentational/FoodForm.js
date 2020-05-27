@@ -82,6 +82,7 @@ const FoodForm = ({
                   type="number"
                   min="1"
                   id={fi.id}
+                  value={fi.value}
                   onChange={event => changeFoodIngredientValue(event)}
                   style={{ width: '80px' }}
                 />
