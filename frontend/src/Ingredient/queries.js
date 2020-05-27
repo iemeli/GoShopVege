@@ -88,7 +88,7 @@ export const INGREDIENT_ADDED = gql`
 `
 
 export const DELETE_INGREDIENT = gql`
-  mutation deleteIngredient($id: String!) {
+  mutation deleteIngredient($id: ID!) {
     deleteIngredient(id: $id) {
       ...IngredientDetailsWithRef
     }
@@ -98,7 +98,7 @@ export const DELETE_INGREDIENT = gql`
 
 export const UPDATE_INGREDIENT = gql`
   mutation updateIngredient(
-    $id: String!
+    $id: ID!
     $name: String
     $price: Float
     $kcal: Int

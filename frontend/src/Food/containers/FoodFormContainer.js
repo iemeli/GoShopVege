@@ -46,19 +46,12 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   }
 
   const parseIngredients = () => {
-    return foodIngredients.map(i => `${i.item.id};${i.usedAtOnce ? 1 : 0}`)
+    return foodIngredients.map(fi => `${fi.item.id};${fi.unit};${fi.value}`)
   }
 
   const parseRecipe = () => {
     return recipe.map(row => row.value)
   }
-
-  //tän idea on saada minkä tahansa makron (kcal, fat, jne)
-  //arvo kun määrä on value
-  //halutaan siis jotenkin yleistää MINKÄ TAHANSA makron saaminen
-  //kun tiedetään
-  // A) makron {in100g, inOnePiece}
-  // B) foodIngredientin value, eli kuinka monta pieces/grams
 
   const toggleUnit = event => {
     const foodIngredient = foodIngredients.find(fi => fi.id === event.target.id)
