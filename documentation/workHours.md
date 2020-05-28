@@ -44,4 +44,6 @@
 | 24.5.  | 2        | Ravintoainetaulukkoa ja eslint/prettier backendiin                     |
 | 25.5.  | 3.5      | Makrot kuntoon bäkissä ja räjähtäneen frontin debuggausta              |
 | 26.5.  | 5.5      | FoodFormin päivittämistä vastaamaan bäckendin muutoksia                |
-|  yht   | 145.5    |                                                                        |
+| 27.5.  | 4        | useMacros hookki sekä IngredientFormin päivittämistä                   |
+| 28.5.  |          |                                                                        |
+|  yht   | 149.5    |                                                                        |

@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 
 export const INGREDIENT_DETAILS = gql`
   fragment IngredientDetails on Ingredient {
+    id
     name
     priceRange {
       min
@@ -45,17 +46,16 @@ export const INGREDIENT_DETAILS = gql`
       inOnePiece
       in100g
     }
-    id
   }
 `
 
 const INGREDIENT_DETAILS_WITH_REF = gql`
   fragment IngredientDetailsWithRef on Ingredient {
-    ...IngredientDetails
     usedInFoods {
       id
       name
     }
+    ...IngredientDetails
   }
   ${INGREDIENT_DETAILS}
 `

@@ -1,7 +1,7 @@
 import React from 'react'
-import IngredientRow from './IngredientRow'
+import { Link } from 'react-router-dom'
 
-const ListIngredients = ({ ingredients, hideButtons }) => (
+const ListIngredients = ({ ingredients }) => (
   <div>
     <table>
       <tbody>
@@ -12,9 +12,10 @@ const ListIngredients = ({ ingredients, hideButtons }) => (
           <th>kcal yhteensä</th>
         </tr>
         {ingredients.map(i => (
-          // <IngredientRow ingredient={i} key={i.id} hideButtons={hideButtons} />
           <tr key={i.id}>
-            <td>{i.name}</td>
+            <td>
+              <Link to={`/ainesosat/${i.name}`}>{i.name}</Link>
+            </td>
             <td>
               {i.priceRange.min.toFixed(2)}€-{i.priceRange.max.toFixed(2)}€
             </td>

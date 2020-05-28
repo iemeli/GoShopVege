@@ -46,7 +46,7 @@ const DeleteIngredientButton = ({ ingredient, setAlert }) => {
   }
 
   return (
-    <div>
+    <div style={{ display: 'inline-block' }}>
       {modalVisible && (
         <DeleteModal
           setModalVisible={setModalVisible}
@@ -58,7 +58,7 @@ const DeleteIngredientButton = ({ ingredient, setAlert }) => {
         </DeleteModal>
       )}
       <Button variant="outline-danger" onClick={fireModal}>
-        poista ainesosa
+        Poista ainesosa
       </Button>
     </div>
   )
