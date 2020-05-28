@@ -7,12 +7,13 @@ import IngredientContainer from '../../Ingredient/containers/IngredientContainer
 import FoodContainer from '../../Food/containers/FoodContainer'
 import ListFoodPacksContainer from '../../FoodPack/containers/ListFoodPacksContainer'
 import FoodPackContainer from '../../FoodPack/containers/FoodPackContainer'
-import NewIngredient from '../../Ingredient/Forms/NewIngredient'
+import IngredientForm from '../../Ingredient/Forms/IngredientForm'
 import UpdateFood from '../../Food/containers/UpdateFood'
 import NewFood from '../../Food/containers/NewFood'
 import NewFoodPack from '../../FoodPack/containers/NewFoodPack'
 import UpdateFoodPack from '../../FoodPack/containers/UpdateFoodPack'
 import ShopListContainer from '../../ShopList/containers/ShopListContainer'
+import UpdateIngredient from '../../Ingredient/containers/UpdateIngredient'
 
 const Routes = () => {
   return (
@@ -45,8 +46,11 @@ const Routes = () => {
         <Route path="/ruoat">
           <ListFoodsContainer />
         </Route>
+        <Route path="/ainesosat/paivita/:name">
+          <UpdateIngredient />
+        </Route>
         <Route path="/ainesosat/uusi">
-          <NewIngredient />
+          <IngredientForm />
         </Route>
         <Route path="/ainesosat/:name">
           <IngredientContainer />

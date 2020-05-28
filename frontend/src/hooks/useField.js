@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 const useField = (type, state) => {
-  const setState = state ? state : ''
+  const setState = state !== null ? state : ''
   const [value, setValue] = useState(setState)
 
   const onChange = e => {

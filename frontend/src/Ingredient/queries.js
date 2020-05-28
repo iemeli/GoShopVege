@@ -4,6 +4,7 @@ export const INGREDIENT_DETAILS = gql`
   fragment IngredientDetails on Ingredient {
     id
     name
+    prices
     priceRange {
       min
       max
@@ -72,7 +73,7 @@ export const ALL_INGREDIENTS = gql`
 export const ADD_INGREDIENT = gql`
   mutation addIngredient(
     $name: String!
-    $price: [Float!]
+    $prices: [Float!]
     $brand: String
     $pieces: Int
     $weight: Float
@@ -86,7 +87,7 @@ export const ADD_INGREDIENT = gql`
   ) {
     addIngredient(
       name: $name
-      price: $price
+      prices: $prices
       pieces: $pieces
       brand: $brand
       weight: $weight
@@ -125,11 +126,34 @@ export const DELETE_INGREDIENT = gql`
 export const UPDATE_INGREDIENT = gql`
   mutation updateIngredient(
     $id: ID!
-    $name: String
-    $price: Float
-    $kcal: Int
+    $name: String!
+    $prices: [Float!]
+    $brand: String
+    $pieces: Int
+    $weight: Float
+    $kcal: Float
+    $fat: Float
+    $saturatedFat: Float
+    $carbs: Float
+    $sugars: Float
+    $protein: Float
+    $salt: Float
   ) {
-    updateIngredient(id: $id, name: $name, price: $price, kcal: $kcal) {
+    updateIngredient(
+      id: $id
+      name: $name
+      prices: $prices
+      pieces: $pieces
+      brand: $brand
+      weight: $weight
+      kcal: $kcal
+      fat: $fat
+      saturatedFat: $saturatedFat
+      carbs: $carbs
+      sugars: $sugars
+      protein: $protein
+      salt: $salt
+    ) {
       ...IngredientDetailsWithRef
     }
   }

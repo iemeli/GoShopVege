@@ -46,8 +46,8 @@ const addIngredient = async (root, args) => {
   })
 
   ingredientForDB.priceRange = {
-    min: Math.min(args.price),
-    max: Math.max(args.price),
+    min: Math.min(...args.prices),
+    max: Math.max(...args.prices),
   }
 
   const ingredient = await new Ingredient(ingredientForDB)
@@ -87,19 +87,41 @@ const deleteIngredient = async (root, args) => {
 
 const updateIngredient = async (root, args) => {
   try {
-    console.log('täs args', args)
-    const ingredient = await Ingredient.findOne({ _id: args.id })
-    console.log('täs ingredient fresh from db', ingredient)
+    const ingredient = await Ingredient.findOne({ _id: args.id }).populate(
+      'usedInFoods'
+    )
     Object.keys(args).forEach(key => {
-      if (key !== 'price') {
+      if (
+        [
+          'kcal',
+          'fat',
+          'saturatedFat',
+          'carbs',
+          'sugars',
+          'protein',
+          'salt',
+        ].indexOf(key) > -1
+      ) {
+        ingredient[key] = {
+          total: Number((args[key] * (args.weight / 100)).toFixed(1)),
+          in100g: args[key],
+          ...(args.pieces && {
+            inOnePiece: Number(
+              ((args[key] * (args.weight / 100)) / args.pieces).toFixed(1)
+            ),
+          }),
+        }
+      } else if (key !== 'prices') {
         ingredient[key] = args[key]
       }
     })
-    ingredient.price = args.price
-      ? [...ingredient.price, ...args.price]
-      : ingredient.price
 
-    return (await ingredient.save()).toObject()
+    ingredient.prices = args.prices
+
+    const returnThis = (await ingredient.save()).toObject()
+    console.log('huuu', returnThis)
+
+    return returnThis
   } catch (e) {
     console.log(
       'Error updating ingredient in updateIngredient resolver: ',

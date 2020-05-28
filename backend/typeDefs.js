@@ -14,6 +14,7 @@ const typeDefs = gql`
 
   type Ingredient {
     name: String!
+    prices: [Float!]
     priceRange: PriceRange
     pieces: Int
     brand: String
@@ -68,7 +69,7 @@ const typeDefs = gql`
   type Mutation {
     addIngredient(
       name: String!
-      price: [Float!]
+      prices: [Float!]
       brand: String
       pieces: Int
       weight: Float
@@ -86,7 +87,8 @@ const typeDefs = gql`
     updateIngredient(
       id: ID!
       name: String
-      price: [Float!]
+      pieces: Int
+      prices: [Float!]
       brand: String
       weight: Float
       kcal: Float

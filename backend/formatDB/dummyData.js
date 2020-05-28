@@ -1,7 +1,7 @@
 const ingredients = [
   {
     name: 'VegeSun 500g tumma soijarouhe',
-    price: [3.05],
+    prices: [3.05],
     priceRange: { min: 3.05, max: 3.05 },
     brand: 'VegeSun',
     weight: 500,
@@ -15,7 +15,7 @@ const ingredients = [
   },
   {
     name: 'Salt Crackers suolakeksi 300 g / 3 x 100 g',
-    price: [1.25],
+    prices: [1.25],
     priceRange: { min: 1.25, max: 1.25 },
     brand: 'Rainbow',
     weight: 300,
@@ -29,7 +29,7 @@ const ingredients = [
   },
   {
     name: 'Oatly påMACKAN Tomaatti/Basilika 150g',
-    price: [2.15],
+    prices: [2.15],
     priceRange: { min: 2.15, max: 2.15 },
     brand: 'Oatly',
     weight: 150,
@@ -43,7 +43,7 @@ const ingredients = [
   },
   {
     name: 'Mama kanamakuinen nuudeli 90g',
-    price: [0.69],
+    prices: [0.69],
     priceRange: { min: 0.69, max: 0.69 },
     brand: 'Mama',
     weight: 90,
@@ -57,7 +57,7 @@ const ingredients = [
   },
   {
     name: 'Fazer Puikula 550g 9kpl Kaura kauraleipä',
-    price: [1.89],
+    prices: [1.89],
     priceRange: { min: 1.89, max: 1.89 },
     brand: 'Fazer',
     pieces: 9,
@@ -72,7 +72,7 @@ const ingredients = [
   },
   {
     name: 'Keiju Laktoositon kasvirasvalevite 600 g',
-    price: [1.99],
+    prices: [1.99],
     priceRange: { min: 1.99, max: 1.99 },
     brand: 'Keiju',
     weight: 600,
@@ -86,7 +86,7 @@ const ingredients = [
   },
   {
     name: 'Heinz Tomaattiketsuppi 570g',
-    price: [2.15],
+    prices: [2.15],
     priceRange: { min: 2.15, max: 2.15 },
     brand: 'Heinz',
     weight: 570,
@@ -100,7 +100,7 @@ const ingredients = [
   },
   {
     name: 'Testi',
-    price: [2.15, 2.5],
+    prices: [2.15, 2.5],
     priceRange: { min: 2.15, max: 2.5 },
     brand: 'Heinz',
     weight: 570,
@@ -114,7 +114,7 @@ const ingredients = [
   },
   {
     name: 'Testi2',
-    price: [0.15, 0.2],
+    prices: [0.15, 0.2],
     pieces: 6,
     priceRange: { min: 0.15, max: 0.2 },
     brand: 'Heinz',

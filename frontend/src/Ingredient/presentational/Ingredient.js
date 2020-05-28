@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Button from 'react-bootstrap/Button'
+import { useHistory } from 'react-router-dom'
 import ShopListButton from '../../ShopList/ShopListButton'
 import DeleteIngredientButton from '../utils/DeleteIngredientButton'
 
@@ -46,6 +47,7 @@ const macroDetails = [
 ]
 
 const Ingredient = ({ ingredient }) => {
+  const history = useHistory()
   const macros = macroDetails.map(m => ({
     data: ingredient[m.name],
     details: m,
@@ -57,7 +59,12 @@ const Ingredient = ({ ingredient }) => {
       <h2>
         {name}
         <ShopListButton mode="ADD" object={ingredient} set="ingredients" />
-        <Button variant="outline-warning">Päivitä</Button>
+        <Button
+          variant="outline-warning"
+          onClick={() => history.push(`/ainesosat/paivita/${name}`)}
+        >
+          Päivitä
+        </Button>
         <DeleteIngredientButton ingredient={ingredient} />
       </h2>
       <hr />

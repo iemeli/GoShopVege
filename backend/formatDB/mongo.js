@@ -72,8 +72,8 @@ const getIngredientForDB = args => {
   })
 
   ingredientForDB.priceRange = {
-    min: Math.min(...ingredientForDB.price),
-    max: Math.max(...ingredientForDB.price),
+    min: Math.min(...ingredientForDB.prices),
+    max: Math.max(...ingredientForDB.prices),
   }
 
   return ingredientForDB
