@@ -36,7 +36,7 @@ const App = () => {
   }
 
   return (
-    <div className="container" style={{ heigth: '100%' }}>
+    <div className="container">
       <Router>
         <Toolbar drawerClickHandler={drawerToggleClickHandler} />
         <SideDrawer show={sideDrawerOpen} />

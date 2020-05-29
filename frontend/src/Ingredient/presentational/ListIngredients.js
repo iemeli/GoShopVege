@@ -8,7 +8,6 @@ const ListIngredients = ({ ingredients }) => (
         <tr>
           <th>Nimi</th>
           <th>Hintahaarukka</th>
-          <th>Brändi</th>
           <th>kcal yhteensä</th>
         </tr>
         {ingredients.map(i => (
@@ -19,7 +18,6 @@ const ListIngredients = ({ ingredients }) => (
             <td>
               {i.priceRange.min.toFixed(2)}€-{i.priceRange.max.toFixed(2)}€
             </td>
-            <td>{i.brand}</td>
             <td>{i.kcal.total}</td>
           </tr>
         ))}

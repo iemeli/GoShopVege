@@ -5,6 +5,7 @@
   width: 100%;
   background: var(--main-color);
   height: 56px;
+  z-index: 1000;
 }
 
 .toolbar_logo {

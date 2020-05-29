@@ -53,7 +53,6 @@ const Ingredient = ({ ingredient }) => {
     details: m,
   }))
   const { name, priceRange, brand, weight, pieces } = ingredient
-  console.log(macros)
   return (
     <div>
       <h2>
