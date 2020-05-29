@@ -16,8 +16,10 @@ const ShopListCard = ({ ingredient, buttons }) => {
       <ListGroup horizontal style={{ margin: '0.1rem' }}>
         <StyledItem>{ingredient.name}</StyledItem>
         {/* eslint-disable-next-line no-irregular-whitespace */}
-        <StyledItem>{ingredient.price.toFixed(2)} €</StyledItem>
-        <StyledItem>{ingredient.kcal} kcal</StyledItem>
+        <StyledItem>
+          {ingredient.priceRange.min.toFixed(2)} € -{' '}
+          {ingredient.priceRange.max.toFixed(2)} €
+        </StyledItem>
         {ingredient.multiplier > 1 && (
           <StyledItem>
             <h2>

@@ -9,8 +9,8 @@ const ShopList = ({ shopList }) => {
     <ListGroup variant="flush">
       {shopList.map(i => (
         <ListGroup.Item key={i.id}>
-          {i.name} / {i.price.toFixed(2)} € {i.kcal && `/ ${i.kcal} kcal`} /
-          <strong> x{i.multiplier}</strong>
+          {i.name} / {i.priceRange.min.toFixed(2)} € -{' '}
+          {i.priceRange.max.toFixed(2)} € /<strong> x{i.multiplier}</strong>
         </ListGroup.Item>
       ))}
     </ListGroup>
