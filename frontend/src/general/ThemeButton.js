@@ -7,10 +7,11 @@ const ThemeButton = ({ onClick, text, mode }) => {
     <div
       className={mode === 'main' ? 'main_button' : 'accent_button'}
       onClick={onClick}
+      onKeyDown={onClick}
+      role="button"
+      tabIndex="0"
     >
-      <div className="button_flex">
-        {text} <span id="right_arrow">></span>
-      </div>
+      <div className="button_flex">{text}</div>
     </div>
   )
 }

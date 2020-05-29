@@ -1,8 +1,16 @@
 const mongoose = require('mongoose')
-const { ApolloServer } = require('apollo-server')
+const { ApolloServer } = require('apollo-server-express')
+const express = require('express')
+const http = require('http')
+const path = require('path')
+const cors = require('cors')
 const resolvers = require('./resolvers/resolvers')
 const typeDefs = require('./typeDefs')
 require('dotenv').config()
+
+const app = express(cors())
+
+app.use(express.static('build'))
 
 mongoose.set('useFindAndModify', false)
 
@@ -15,20 +23,32 @@ mongoose
   .then(() => {
     console.log('connected to MongoDB')
   })
-  .catch((e) => {
+  .catch(e => {
     console.log('error connection to MongoDB', e.message)
   })
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  // context: params => () => {
-  //   console.log(params.req.body.query)
-  //   console.log(params.req.body.variables)
-  // },
+  cors: {
+    origin: '*',
+  },
+  introspection: true,
 })
 
-server.listen().then(({ url, subscriptionsUrl }) => {
-  console.log(`Server ready at ${url}`)
-  console.log(`Subscriptions ready at ${subscriptionsUrl}`)
+server.applyMiddleware({ app })
+
+const httpServer = http.createServer(app)
+server.installSubscriptionHandlers(httpServer)
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/build/index.html'))
+})
+
+httpServer.listen({ port: process.env.PORT || 4000 }, () => {
+  console.log(`Server ready at ${server.graphqlPath}`)
+})
+
+process.on('uncaughtException', (reason, p) => {
+  console.log(console.error(reason, 'Unhandled Rejection at Promise', p))
 })

@@ -15,13 +15,13 @@ import store from './redux/store'
 import App from './App'
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000',
+  uri: '/graphql',
 })
 
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/graphql`,
   options: {
-    reconnext: true,
+    reconnect: true,
   },
 })
 
