@@ -20,7 +20,7 @@ const httpLink = new HttpLink({
 
 const WS_LINK =
   process.env.NODE_ENV === 'production'
-    ? 'ws://goshopvege.herokuapp.com/graphql'
+    ? 'wss://goshopvege.herokuapp.com/graphql'
     : 'ws://localhost:4000/graphql'
 
 const wsLink = new WebSocketLink({
