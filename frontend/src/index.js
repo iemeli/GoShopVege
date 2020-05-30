@@ -18,8 +18,13 @@ const httpLink = new HttpLink({
   uri: '/graphql',
 })
 
+const WS_LINK =
+  process.env.NODE_ENV === 'production'
+    ? 'ws://goshopvege.herokuapp.com/graphql'
+    : 'ws://localhost:4000/graphql'
+
 const wsLink = new WebSocketLink({
-  uri: process.env.REACT_APP_WS_LINK || 'ws://localhost:4000/graphql',
+  uri: WS_LINK,
   options: {
     reconnect: true,
   },
