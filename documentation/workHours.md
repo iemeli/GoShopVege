@@ -47,4 +47,5 @@
 | 27.5.  | 4        | useMacros hookki sekä IngredientFormin päivittämistä                   |
 | 28.5.  | 7        | Debuggaamisrallia ja Ingredientin update fronttiin                     |
 | 29.5.  | 6.5      | Debuggaamista ja buildin/herokun conffaamista                          |
-|  yht   | 163      |                                                                        |
+| 30.5.  | 6        | Production build/herokun conffaamista ja GroceryStoren luominen        |
+|  yht   | 169      |                                                                        |

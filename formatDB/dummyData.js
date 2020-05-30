@@ -183,4 +183,34 @@ const foods = [
   },
 ]
 
-module.exports = { ingredients, foods }
+const foodPacks = [
+  {
+    name: 'Kurjat setit',
+    foods: ['Aamiaisleipä', 'Soijarouhenuudeli ketsupilla'],
+  },
+]
+
+const groceryStores = [
+  {
+    name: 'S-kauppa',
+    ingredients: [
+      'VegeSun 500g tumma soijarouhe',
+      'Salt Crackers suolakeksi 300 g / 3 x 100 g',
+      'Oatly påMACKAN Tomaatti/Basilika 150g',
+      'Mama kanamakuinen nuudeli 90g',
+      'Fazer Puikula 550g 9kpl Kaura kauraleipä',
+      'Keiju Laktoositon kasvirasvalevite 600 g',
+      'Heinz Tomaattiketsuppi 570g',
+    ],
+  },
+  {
+    name: 'K-kauppa',
+    ingredients: ['Testi2'],
+  },
+  {
+    name: 'Lidl',
+    ingredients: ['Testi'],
+  },
+]
+
+module.exports = { ingredients, foods, foodPacks, groceryStores }
