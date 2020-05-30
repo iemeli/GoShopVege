@@ -12,6 +12,7 @@ const ingredients = [
     sugars: 7.8,
     protein: 53,
     salt: 0,
+    foundInStores: ['S-kauppa'],
   },
   {
     name: 'Salt Crackers suolakeksi 300 g / 3 x 100 g',
@@ -26,6 +27,7 @@ const ingredients = [
     sugars: 8,
     protein: 7,
     salt: 3.3,
+    foundInStores: ['S-kauppa'],
   },
   {
     name: 'Oatly påMACKAN Tomaatti/Basilika 150g',
@@ -40,6 +42,7 @@ const ingredients = [
     sugars: 3.7,
     protein: 0.9,
     salt: 1.23,
+    foundInStores: ['S-kauppa'],
   },
   {
     name: 'Mama kanamakuinen nuudeli 90g',
@@ -54,6 +57,7 @@ const ingredients = [
     sugars: 0.6,
     protein: 1.7,
     salt: 1,
+    foundInStores: ['S-kauppa'],
   },
   {
     name: 'Fazer Puikula 550g 9kpl Kaura kauraleipä',
@@ -69,6 +73,7 @@ const ingredients = [
     sugars: 2.1,
     protein: 11,
     salt: 1.1,
+    foundInStores: ['S-kauppa'],
   },
   {
     name: 'Keiju Laktoositon kasvirasvalevite 600 g',
@@ -83,6 +88,7 @@ const ingredients = [
     sugars: 0,
     protein: 0,
     salt: 0.7,
+    foundInStores: ['S-kauppa'],
   },
   {
     name: 'Heinz Tomaattiketsuppi 570g',
@@ -97,6 +103,7 @@ const ingredients = [
     sugars: 22.8,
     protein: 1.2,
     salt: 1.8,
+    foundInStores: ['S-kauppa'],
   },
   {
     name: 'Testi',
@@ -111,6 +118,7 @@ const ingredients = [
     sugars: 22.8,
     protein: 1.2,
     salt: 1.8,
+    foundInStores: ['Lidl'],
   },
   {
     name: 'Testi2',
@@ -126,6 +134,7 @@ const ingredients = [
     sugars: 22.8,
     protein: 1.2,
     salt: 1.8,
+    foundInStores: ['K-kauppa'],
   },
 ]
 

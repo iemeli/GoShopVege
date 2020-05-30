@@ -27,6 +27,7 @@ const typeDefs = gql`
     protein: Macro
     salt: Macro
     usedInFoods: [Food!]!
+    usedInStores: [GroceryStore!]!
     id: ID!
   }
 
@@ -57,6 +58,12 @@ const typeDefs = gql`
     id: ID!
   }
 
+  type GroceryStore {
+    name: String!
+    ingredients: [Ingredient!]!
+    id: ID!
+  }
+
   type Query {
     ingredientsCount: Int!
     allIngredients(name: String): [Ingredient!]!
@@ -64,6 +71,7 @@ const typeDefs = gql`
     allFoods(name: String): [Food!]!
     foodPacksCount: Int!
     allFoodPacks(name: String): [FoodPack!]!
+    allGroceryStores: [GroceryStore!]!
   }
 
   type Mutation {
@@ -116,6 +124,16 @@ const typeDefs = gql`
     deleteFoodPack(id: ID!): FoodPack!
 
     updateFoodPack(id: ID!, name: String, foods: [String!]): FoodPack!
+
+    addGroceryStore(name: String!, ingredients: [String!]): GroceryStore!
+
+    deleteGroceryStore(id: ID!): GroceryStore!
+
+    updateGroceryStore(
+      id: ID!
+      name: String
+      ingredients: [String!]
+    ): GroceryStore!
   }
 
   type Subscription {

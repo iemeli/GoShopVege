@@ -8,12 +8,6 @@ const resolvers = require('./resolvers/resolvers')
 const typeDefs = require('./typeDefs')
 require('dotenv').config()
 
-const app = express(cors())
-
-app.use(express.static('build'))
-
-mongoose.set('useFindAndModify', false)
-
 const { MONGODB_URI } = process.env
 
 console.log('connecting to', MONGODB_URI)
@@ -26,6 +20,12 @@ mongoose
   .catch(e => {
     console.log('error connection to MongoDB', e.message)
   })
+
+const app = express(cors())
+
+app.use(express.static('build'))
+
+mongoose.set('useFindAndModify', false)
 
 const server = new ApolloServer({
   typeDefs,

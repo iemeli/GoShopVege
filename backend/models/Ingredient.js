@@ -58,6 +58,13 @@ const schema = new mongoose.Schema({
       ref: 'Food',
     },
   ],
+  foundInStores: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'GroceryStore',
+    },
+  ],
 })
 
 schema.set('toJSON', {

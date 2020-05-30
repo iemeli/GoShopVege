@@ -23,6 +23,12 @@ const {
   updateFoodPack,
   foodPackAdded,
 } = require('./foodPack')
+const {
+  allGroceryStores,
+  addGroceryStore,
+  deleteGroceryStore,
+  updateGroceryStore,
+} = require('./groceryStore')
 
 const getField = (root, field, obj) => {
   //root = foodObject
@@ -52,6 +58,7 @@ const resolvers = {
     allFoods,
     foodPacksCount: () => FoodPack.countDocuments(),
     allFoodPacks,
+    allGroceryStores,
   },
   Mutation: {
     addIngredient,
@@ -63,6 +70,9 @@ const resolvers = {
     addFoodPack,
     deleteFoodPack,
     updateFoodPack,
+    addGroceryStore,
+    deleteGroceryStore,
+    updateGroceryStore,
   },
   Subscription: {
     ingredientAdded,

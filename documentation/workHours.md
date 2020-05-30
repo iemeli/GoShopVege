@@ -46,4 +46,5 @@
 | 26.5.  | 5.5      | FoodFormin päivittämistä vastaamaan bäckendin muutoksia                |
 | 27.5.  | 4        | useMacros hookki sekä IngredientFormin päivittämistä                   |
 | 28.5.  | 7        | Debuggaamisrallia ja Ingredientin update fronttiin                     |
-|  yht   | 156.5    |                                                                        |
+| 29.5.  | 6.5      | Debuggaamista ja buildin/herokun conffaamista                          |
+|  yht   | 163      |                                                                        |

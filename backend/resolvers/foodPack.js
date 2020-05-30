@@ -1,6 +1,7 @@
+const { PubSub } = require('apollo-server')
 const Food = require('../models/Food')
 const FoodPack = require('../models/FoodPack')
-const { PubSub } = require('apollo-server')
+
 const pubsub = new PubSub()
 
 const allFoodPacks = (root, args) => {
