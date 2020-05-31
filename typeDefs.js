@@ -45,16 +45,16 @@ const typeDefs = gql`
     usedInFoodPacks: [FoodPack!]!
     ingredients: [FoodIngredient!]!
     priceRange: PriceRange!
-    totalKcal: Float!
+    inheritedStores: [GroceryStore!]!
     id: ID!
   }
 
   type FoodPack {
     name: String!
     priceRange: PriceRange!
-    kcal: Int!
     foods: [Food!]!
     foodsCount: Int!
+    inheritedStores: [GroceryStore!]!
     id: ID!
   }
 

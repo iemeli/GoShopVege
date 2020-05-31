@@ -18,16 +18,36 @@ const getFoodIngredients = ingr =>
       [i[1]]: i[2],
     }))
 
-const allFoods = (root, args) => {
-  return Food.find({ ...(args.name && { name: args.name }) })
-    .populate('ingredients.item')
-    .populate('usedInFoodPacks')
-    .catch(e => {
-      console.log(
-        `Error finding foods ${args.name ? 'with params' : ''}`,
-        e.message
-      )
+const getInheritedStores = ingredients => {
+  const stores = new Set()
+  ingredients
+    .map(i => i.item)
+    .forEach(i => {
+      i.foundInStores.forEach(store => stores.add(store))
     })
+  return [...stores]
+}
+
+const allFoods = async (root, args) => {
+  try {
+    const foods = await Food.find({ ...(args.name && { name: args.name }) })
+      .populate({
+        path: 'ingredients.item',
+        populate: {
+          path: 'foundInStores',
+        },
+      })
+      .populate('usedInFoodPacks')
+    foods.forEach(food => {
+      food.inheritedStores = getInheritedStores(food.ingredients)
+    })
+    return foods
+  } catch (e) {
+    console.log(
+      `Error finding foods ${args.name ? 'with params' : ''}`,
+      e.message
+    )
+  }
 }
 
 const addFood = async (root, args) => {
@@ -44,9 +64,16 @@ const addFood = async (root, args) => {
     usedInFoodPacks: [],
   }).save()
 
-  const food = await Food.findOne({ name: args.name }).populate(
-    'ingredients.item'
-  )
+  const food = await Food.findOne({ name: args.name })
+    .populate({
+      path: 'ingredients.item',
+      populate: {
+        path: 'foundInStores',
+      },
+    })
+    .populate('usedInFoodPacks')
+
+  food.inheritedStores = getInheritedStores(food.ingredients)
 
   food.ingredients
     .map(i => i.item.id)
@@ -66,7 +93,12 @@ const addFood = async (root, args) => {
 const deleteFood = async (root, args) => {
   try {
     const food = await Food.findOneAndDelete({ _id: args.id })
-      .populate('ingredients.item')
+      .populate({
+        path: 'ingredients.item',
+        populate: {
+          path: 'foundInStores',
+        },
+      })
       .populate('usedInFoodPacks')
     const original = food.toObject()
 
@@ -87,6 +119,8 @@ const deleteFood = async (root, args) => {
         await ingredient.save()
       })
 
+    original.inheritedStores = getInheritedStores(original.ingredients)
+
     return original
   } catch (e) {
     return console.log('Error deleting Food', e.message)
@@ -94,64 +128,77 @@ const deleteFood = async (root, args) => {
 }
 
 const updateFood = async (root, args) => {
-  if (hasDuplicate(args.ingredients)) {
-    throw new UserInputError('No duplicate ingredients for food allowed', {
-      invalidArgs: args,
-    })
-  }
-
-  const food = await Food.findOne({ _id: args.id })
-  food.name = args.name ? args.name : food.name
-  food.recipe = args.recipe ? args.recipe : food.recipe
-
-  let newIngredients
-  const previousIngredients = food.ingredients.map(i => i.item.toString())
-
-  if (args.ingredients) {
-    newIngredients = getFoodIngredients(args.ingredients)
-    food.ingredients = newIngredients
-  }
-
   try {
-    await food.save()
+    if (hasDuplicate(args.ingredients)) {
+      throw new UserInputError('No duplicate ingredients for food allowed', {
+        invalidArgs: args,
+      })
+    }
+
+    const food = await Food.findOne({ _id: args.id })
+    food.name = args.name ? args.name : food.name
+    food.recipe = args.recipe ? args.recipe : food.recipe
+
+    let newIngredients
+    const previousIngredients = food.ingredients.map(i => i.item.toString())
+
+    if (args.ingredients) {
+      newIngredients = getFoodIngredients(args.ingredients)
+      food.ingredients = newIngredients
+    }
+
+    try {
+      await food.save()
+    } catch (e) {
+      console.log('Error saving food in updateFood: ', e.message)
+    }
+
+    if (args.ingredients) {
+      const newIngredientsItems = newIngredients.map(i => i.item)
+
+      for (i = 0; i < previousIngredients.length; i++) {
+        if (newIngredientsItems.includes(previousIngredients[i])) {
+          continue
+        }
+        try {
+          const ingr = await Ingredient.findOne({ _id: previousIngredients[i] })
+          ingr.usedInFoods = ingr.usedInFoods.filter(
+            f => f.toString() !== food._id.toString()
+          )
+          await ingr.save()
+        } catch (e) {
+          console.log('Error finding Ingredient in updateFood: ', e.message)
+        }
+      }
+
+      for (i = 0; i < newIngredientsItems.length; i++) {
+        if (previousIngredients.includes(newIngredientsItems[i])) {
+          continue
+        }
+        try {
+          const ingr = await Ingredient.findOne({ _id: newIngredientsItems[i] })
+          ingr.usedInFoods.push(food._id)
+          await ingr.save()
+        } catch (e) {
+          console.log('Error finding Ingredient', e.message)
+        }
+      }
+    }
+
+    const foodFromDB = await Food.findOne({ _id: food._id })
+      .populate({
+        path: 'ingredients.item',
+        populate: {
+          path: 'foundInStores',
+        },
+      })
+      .populate('usedInFoodPacks')
+    food.inheritedStores = getInheritedStores(food.ingredients)
+
+    return foodFromDB
   } catch (e) {
-    console.log('Error saving food in updateFood: ', e.message)
+    console.log('Error in updateFood: ', e.message)
   }
-
-  if (args.ingredients) {
-    const newIngredientsItems = newIngredients.map(i => i.item)
-
-    for (i = 0; i < previousIngredients.length; i++) {
-      if (newIngredientsItems.includes(previousIngredients[i])) {
-        continue
-      }
-      try {
-        const ingr = await Ingredient.findOne({ _id: previousIngredients[i] })
-        ingr.usedInFoods = ingr.usedInFoods.filter(
-          f => f.toString() !== food._id.toString()
-        )
-        await ingr.save()
-      } catch (e) {
-        console.log('Error finding Ingredient in updateFood: ', e.message)
-      }
-    }
-
-    for (i = 0; i < newIngredientsItems.length; i++) {
-      if (previousIngredients.includes(newIngredientsItems[i])) {
-        continue
-      }
-      try {
-        const ingr = await Ingredient.findOne({ _id: newIngredientsItems[i] })
-        ingr.usedInFoods.push(food._id)
-        await ingr.save()
-      } catch (e) {
-        console.log('Error finding Ingredient', e.message)
-      }
-    }
-  }
-  return Food.findOne({ _id: food._id })
-    .populate('ingredients.item')
-    .populate('usedInFoodPacks')
 }
 
 const foodAdded = {
@@ -164,4 +211,5 @@ module.exports = {
   deleteFood,
   updateFood,
   foodAdded,
+  getInheritedStores,
 }
