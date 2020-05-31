@@ -46,6 +46,13 @@ const typeDefs = gql`
     ingredients: [FoodIngredient!]!
     priceRange: PriceRange!
     inheritedStores: [GroceryStore!]!
+    kcal: Float
+    fat: Float
+    saturatedFat: Float
+    carbs: Float
+    sugars: Float
+    protein: Float
+    salt: Float
     id: ID!
   }
 
@@ -55,6 +62,13 @@ const typeDefs = gql`
     foods: [Food!]!
     foodsCount: Int!
     inheritedStores: [GroceryStore!]!
+    kcal: Float
+    fat: Float
+    saturatedFat: Float
+    carbs: Float
+    sugars: Float
+    protein: Float
+    salt: Float
     id: ID!
   }
 
