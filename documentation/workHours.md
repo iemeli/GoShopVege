@@ -48,4 +48,5 @@
 | 28.5.  | 7        | Debuggaamisrallia ja Ingredientin update fronttiin                     |
 | 29.5.  | 6.5      | Debuggaamista ja buildin/herokun conffaamista                          |
 | 30.5.  | 6        | Production build/herokun conffaamista ja GroceryStoren luominen        |
-|  yht   | 169      |                                                                        |
+| 31.5.  | 6        | GroceryStoren ja makrojen resolvereja bäkissä sekä kiireinen viimeistely |
+|  yht   | 175      |                                                                        |
