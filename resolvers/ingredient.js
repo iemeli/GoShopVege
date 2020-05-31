@@ -1,13 +1,16 @@
 const { PubSub } = require('apollo-server')
+const isEqual = require('lodash.isequal')
 const Ingredient = require('../models/Ingredient')
-
+const GroceryStore = require('../models/GroceryStore')
 const pubsub = new PubSub()
 
 const allIngredients = async (root, args) => {
   try {
     const ingredients = await Ingredient.find({
       ...(args.name && { name: args.name }),
-    }).populate('usedInFoods')
+    })
+      .populate('usedInFoods')
+      .populate('foundInStores')
     return ingredients
   } catch (e) {
     console.log(
@@ -50,7 +53,7 @@ const addIngredient = async (root, args) => {
     max: Math.max(...args.prices),
   }
 
-  const ingredient = await new Ingredient(ingredientForDB)
+  await new Ingredient(ingredientForDB)
     .save()
     .catch(e =>
       console.log(
@@ -59,7 +62,18 @@ const addIngredient = async (root, args) => {
       )
     )
 
-  pubsub.publish('INGREDIENT_ADDED', { ingredientAdded: ingredient })
+  const ingredient = await Ingredient.findOne({ name: args.name }).populate(
+    'foundInStores'
+  )
+
+  ingredient.foundInStores.forEach(async store => {
+    store.ingredients.push(ingredient.id)
+    await store.save()
+  })
+
+  pubsub.publish('INGREDIENT_ADDED', {
+    ingredientAdded: ingredient,
+  })
 
   return ingredient
 }
@@ -68,7 +82,9 @@ const deleteIngredient = async (root, args) => {
   try {
     const ingredient = await Ingredient.findOneAndDelete({
       _id: args.id,
-    }).populate('usedInFoods')
+    })
+      .populate('usedInFoods')
+      .populate('foundInStores')
 
     const original = ingredient.toObject()
 
@@ -77,6 +93,13 @@ const deleteIngredient = async (root, args) => {
         i => i.item.toString() !== ingredient.id
       )
       await food.save()
+    })
+
+    ingredient.foundInStores.forEach(async store => {
+      store.ingredients = store.ingredients.filter(
+        i => i.toString() !== ingredient.id
+      )
+      await store.save()
     })
 
     return original
@@ -88,8 +111,9 @@ const deleteIngredient = async (root, args) => {
 const updateIngredient = async (root, args) => {
   try {
     const ingredient = await Ingredient.findOne({ _id: args.id }).populate(
-      'usedInFoods'
+      'foundInStores'
     )
+
     Object.keys(args).forEach(key => {
       if (
         [
@@ -111,17 +135,37 @@ const updateIngredient = async (root, args) => {
             ),
           }),
         }
-      } else if (key !== 'prices') {
+      } else if (key !== 'prices' && key !== 'foundInStores') {
         ingredient[key] = args[key]
       }
     })
+    if (args.prices) {
+      ingredient.prices = args.prices
+    }
 
-    ingredient.prices = args.prices
+    if (args.foundInStores !== null) {
+      ingredient.foundInStores.forEach(async store => {
+        store.ingredients = store.ingredients.filter(
+          i => i.toString() !== ingredient.id
+        )
+        await store.save()
+      })
 
-    const returnThis = (await ingredient.save()).toObject()
-    console.log('huuu', returnThis)
+      ingredient.foundInStores = args.foundInStores
 
-    return returnThis
+      const groceryStores = await GroceryStore.find({})
+
+      groceryStores.forEach(async store => {
+        if (args.foundInStores.includes(store.id.toString())) {
+          store.ingredients.push(ingredient.id)
+          await store.save()
+        }
+      })
+    }
+
+    const updatedIngredient = (await ingredient.save()).toObject()
+
+    return updatedIngredient
   } catch (e) {
     console.log(
       'Error updating ingredient in updateIngredient resolver: ',

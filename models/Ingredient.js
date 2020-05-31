@@ -61,7 +61,6 @@ const schema = new mongoose.Schema({
   foundInStores: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
       ref: 'GroceryStore',
     },
   ],

@@ -27,7 +27,7 @@ const typeDefs = gql`
     protein: Macro
     salt: Macro
     usedInFoods: [Food!]!
-    usedInStores: [GroceryStore!]!
+    foundInStores: [GroceryStore!]!
     id: ID!
   }
 
@@ -60,7 +60,7 @@ const typeDefs = gql`
 
   type GroceryStore {
     name: String!
-    ingredients: [Ingredient!]!
+    ingredients: [Ingredient!]
     id: ID!
   }
 
@@ -88,6 +88,7 @@ const typeDefs = gql`
       sugars: Float
       protein: Float
       salt: Float
+      foundInStores: [String!]
     ): Ingredient!
 
     deleteIngredient(id: ID!): Ingredient!
@@ -106,6 +107,7 @@ const typeDefs = gql`
       sugars: Float
       protein: Float
       salt: Float
+      foundInStores: [String!]
     ): Ingredient!
 
     addFood(name: String!, ingredients: [String!]!, recipe: [String!]!): Food!
