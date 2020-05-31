@@ -5,6 +5,10 @@ export const INGREDIENT_DETAILS = gql`
     id
     name
     prices
+    foundInStores {
+      name
+      id
+    }
     priceRange {
       min
       max

@@ -5,7 +5,18 @@ const FOODPACK_DETAILS = gql`
   fragment FoodPackDetails on FoodPack {
     id
     name
+    inheritedStores {
+      name
+      id
+    }
     foodsCount
+    kcal
+    fat
+    saturatedFat
+    carbs
+    sugars
+    protein
+    salt
     foods {
       ...FoodDetails
     }

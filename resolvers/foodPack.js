@@ -1,17 +1,7 @@
 const { PubSub } = require('apollo-server')
 const Food = require('../models/Food')
 const FoodPack = require('../models/FoodPack')
-const { getInheritedStores } = require('./food')
 const pubsub = new PubSub()
-
-//täs jäätiin foodPackin inheritedStores kirjoittamiseen
-
-const getInherited = foods => {
-  const foodStores = foods.map(f => getInheritedStores(f.ingredients))
-  const stores = new Set()
-  foodStores.forEach(fs => stores.add(...fs))
-  return [...stores]
-}
 
 const allFoodPacks = async (root, args) => {
   try {
@@ -26,9 +16,7 @@ const allFoodPacks = async (root, args) => {
         },
       },
     })
-    foodPacks.forEach(fp => {
-      fp.inheritedStores = getInherited(fp.foods)
-    })
+
     return foodPacks
   } catch (e) {
     console.log(
@@ -53,8 +41,6 @@ const addFoodPack = async (root, args) => {
       },
     },
   })
-
-  foodPack.inheritedStores = getInherited(foodPack.foods)
 
   foodPack.foods
     .map(f => f.id)
@@ -88,8 +74,6 @@ const deleteFoodPack = async (root, args) => {
         },
       }
     )
-
-    foodPack.inheritedStores = getInherited(foodPack.foods)
 
     const original = foodPack.toObject()
 
@@ -168,7 +152,7 @@ const updateFoodPack = async (root, args) => {
         },
       },
     })
-    foodPack.inheritedStores = getInherited(foodPack.foods)
+
     return foodPackFromBD
   } catch (e) {
     console.log(

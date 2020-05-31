@@ -5,11 +5,22 @@ export const FOOD_DETAILS = gql`
   fragment FoodDetails on Food {
     id
     name
+    inheritedStores {
+      name
+      id
+    }
     priceRange {
       min
       max
     }
     recipe
+    kcal
+    fat
+    saturatedFat
+    carbs
+    sugars
+    protein
+    salt
     ingredients {
       item {
         ...IngredientDetails

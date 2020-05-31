@@ -11,7 +11,7 @@ const ListFoodPacksContainer = () => {
   if (foodPacksResult.loading) {
     return <div>...loading</div>
   }
-
+  console.log('täs fpresult', foodPacksResult)
   const foodPacks = foodPacksResult.data.allFoodPacks
 
   return (

@@ -77,6 +77,24 @@ const getField = (root, field, obj) => {
   )
 }
 
+const getInheritedStores = (children, parent) => {
+  const stores = new Set()
+  if (parent === 'Food') {
+    children
+      .map(i => i.item)
+      .forEach(i => {
+        i.foundInStores.forEach(store => stores.add(store))
+      })
+  } else {
+    const foodStores = children.map(food =>
+      getInheritedStores(food.ingredients, 'Food')
+    )
+    foodStores.forEach(fs => stores.add(...fs))
+  }
+
+  return [...stores]
+}
+
 const resolvers = {
   Query: {
     ingredientsCount: () => Ingredient.countDocuments(),
@@ -116,6 +134,7 @@ const resolvers = {
     protein: root => getField(root, 'protein', 'Food'),
     salt: root => getField(root, 'salt', 'Food'),
     ingredientsCount: root => root.ingredients.length,
+    inheritedStores: root => getInheritedStores(root.ingredients, 'Food'),
   },
   FoodPack: {
     priceRange: root => getField(root, 'priceRange', 'FoodPack'),
@@ -127,6 +146,7 @@ const resolvers = {
     protein: root => getField(root, 'protein', 'FoodPack'),
     salt: root => getField(root, 'salt', 'FoodPack'),
     foodsCount: root => root.foods.length,
+    inheritedStores: root => getInheritedStores(root.foods, 'FoodPack'),
   },
 }
 

@@ -18,16 +18,6 @@ const getFoodIngredients = ingr =>
       [i[1]]: i[2],
     }))
 
-const getInheritedStores = ingredients => {
-  const stores = new Set()
-  ingredients
-    .map(i => i.item)
-    .forEach(i => {
-      i.foundInStores.forEach(store => stores.add(store))
-    })
-  return [...stores]
-}
-
 const allFoods = async (root, args) => {
   try {
     const foods = await Food.find({ ...(args.name && { name: args.name }) })
@@ -38,9 +28,7 @@ const allFoods = async (root, args) => {
         },
       })
       .populate('usedInFoodPacks')
-    foods.forEach(food => {
-      food.inheritedStores = getInheritedStores(food.ingredients)
-    })
+
     return foods
   } catch (e) {
     console.log(
@@ -72,8 +60,6 @@ const addFood = async (root, args) => {
       },
     })
     .populate('usedInFoodPacks')
-
-  food.inheritedStores = getInheritedStores(food.ingredients)
 
   food.ingredients
     .map(i => i.item.id)
@@ -118,8 +104,6 @@ const deleteFood = async (root, args) => {
         )
         await ingredient.save()
       })
-
-    original.inheritedStores = getInheritedStores(original.ingredients)
 
     return original
   } catch (e) {
@@ -193,7 +177,6 @@ const updateFood = async (root, args) => {
         },
       })
       .populate('usedInFoodPacks')
-    food.inheritedStores = getInheritedStores(food.ingredients)
 
     return foodFromDB
   } catch (e) {
@@ -211,5 +194,4 @@ module.exports = {
   deleteFood,
   updateFood,
   foodAdded,
-  getInheritedStores,
 }
