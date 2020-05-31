@@ -34,7 +34,7 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
   const [priceRange, setPriceRange] = useState(
     food ? food.priceRange : { min: 0, max: 0 }
   )
-  const [macros] = useMacros(food)
+  const [macros] = useMacros(food, 'food')
 
   const ingredientsResult = useQuery(ALL_INGREDIENTS)
 
@@ -82,7 +82,12 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
     const foodIngredient = foodIngredients.find(fi => fi.id === event.target.id)
     const changeInValue = Number(event.target.value) - foodIngredient.value
 
-    macros.addAll(foodIngredient.item, changeInValue, foodIngredient.unit)
+    macros.addAll(
+      foodIngredient.item,
+      changeInValue,
+      foodIngredient.unit,
+      'food'
+    )
 
     setFoodIngredients(
       foodIngredients.map(fi =>
@@ -126,7 +131,8 @@ const FoodFormContainer = ({ food, updateFood, addFood, setAlert }) => {
     macros.subtractAll(
       foodIngredient.item,
       foodIngredient.value,
-      foodIngredient.unit
+      foodIngredient.unit,
+      'food'
     )
   }
 

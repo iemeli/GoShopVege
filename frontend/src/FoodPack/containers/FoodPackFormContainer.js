@@ -5,6 +5,12 @@ import { setAlert } from '../../redux/alertReducer'
 import useField from '../../hooks/useField'
 import { ALL_FOODS } from '../../Food/queries'
 import FoodPackForm from '../presentational/FoodPackForm'
+import useMacros from '../../hooks/useMacros'
+
+const unit = {
+  PIECES: 'pieces',
+  GRAMS: 'grams',
+}
 
 const FoodPackFormContainer = ({
   foodPack,
@@ -15,10 +21,12 @@ const FoodPackFormContainer = ({
 }) => {
   const [name] = useField('text', foodPack ? foodPack.name : null)
   const [foods, setFoods] = useState(foodPack ? foodPack.foods : [])
-  const [price, setPrice] = useState(foodPack ? foodPack.price : 0)
-  const [kcal, setKcal] = useState(foodPack ? foodPack.kcal : 0)
-
+  const [priceRange, setPriceRange] = useState(
+    foodPack ? foodPack.priceRange : { min: 0, max: 0 }
+  )
   const foodsResult = useQuery(ALL_FOODS)
+  //tsiigaa handleSelect ja removeFoodissa macroista lisäys tai vähennys
+  const [macros] = useMacros(foodPack, 'foodPack')
 
   if (foodsResult.loading) {
     return <div>...loading</div>
@@ -33,8 +41,23 @@ const FoodPackFormContainer = ({
 
     setFoods(foods.concat(food))
 
-    setPrice(price + food.price)
-    setKcal(kcal + food.kcal)
+    setPriceRange({
+      min: priceRange.min + food.priceRange.min,
+      max: priceRange.max + food.priceRange.max,
+    })
+
+    // food.ingredients.forEach(fi => {
+    //   let amount
+    //   let foodIngredientUnit
+    //   if (fi.pieces) {
+    //     amount = fi.pieces
+    //     foodIngredientUnit = unit.PIECES
+    //   } else {
+    //     amount = fi.grams
+    //     foodIngredientUnit = unit.GRAMS
+    //   }
+    //   macros.addAll(fi, amount, foodIngredientUnit)
+    // })
   }
 
   const submit = async e => {
@@ -61,19 +84,47 @@ const FoodPackFormContainer = ({
     const food = foods.find(f => f.id === event.target.id)
     setFoods(foods.filter(f => f.id !== event.target.id))
 
-    setPrice(price - food.price)
-    setKcal(kcal - food.kcal)
+    const min = priceRange.min - food.priceRange.min
+    const max = priceRange.max - food.priceRange.max
+
+    setPriceRange({
+      min: min < 0 ? 0 : min,
+      max: max < 0 ? 0 : max,
+    })
+
+    // food.ingredients.forEach(fi => {
+    //   let amount
+    //   let foodIngredientUnit
+    //   if (fi.pieces) {
+    //     amount = fi.pieces
+    //     foodIngredientUnit = unit.PIECES
+    //   } else {
+    //     amount = fi.grams
+    //     foodIngredientUnit = unit.GRAMS
+    //   }
+    //   macros.subtractAll(fi, amount, foodIngredientUnit)
+    // })
   }
 
   return (
     <div>
       <h2>{foodPack ? `Päivitä ${foodPack.name}` : 'Luo uusi ruokapaketti'}</h2>
       <strong>
-        <p>Yhteishinta: {price.toFixed(2)} €</p>
+        Hintahaarukka: {priceRange.min.toFixed(2)} € -{' '}
+        {priceRange.min.toFixed(2)} €
       </strong>
-      <strong>
-        <p>Yhteensä kcal: {kcal}</p>
-      </strong>
+      <br />
+      <br />
+      <div>
+        <div>Yhteensä energiaa: {macros.kcal} kcal</div>
+        <div>Yhteensä rasvaa: {macros.fat} g</div>
+        <div>- josta tyydyttynyttä: {macros.saturatedFat} g</div>
+        <div>Yhteensä hiilareita: {macros.carbs} g</div>
+        <div>- josta sokereita: {macros.sugars} g</div>
+        <div>Yhteensä protskua {macros.protein} g</div>
+        <div>Yhteensä suolaa: {macros.salt} g</div>
+      </div>
+      <br />
       <FoodPackForm
         submit={submit}
         name={name}

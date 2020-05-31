@@ -48,15 +48,9 @@ const getField = (root, field, obj) => {
     } else {
       return root.ingredients.reduce((sum, nextIngr) => {
         if (nextIngr.pieces) {
-          console.log(`
-          nextIngr: ${nextIngr}
-          nextIngr.item[field].inOnePiece: ${nextIngr.item[field].inOnePiece}
-          nextIngr.pieces: ${nextIngr.pieces}
-          
-          `)
           return sum + nextIngr.item[field].inOnePiece * nextIngr.pieces
         }
-        return sum + nextIngr.item[field].in100g * nextIngr.grams
+        return sum + (nextIngr.item[field].in100g * nextIngr.grams) / 100
       }, 0)
     }
   }

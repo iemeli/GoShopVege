@@ -22,6 +22,7 @@ const FoodPackForm = ({
         <Form.Control {...name} />
       </Form.Group>
     </Form>
+    <h6>RUOAT</h6>
     <DropdownButton
       id="dropdown-basic-button"
       title="Lisää ruoka"
@@ -37,11 +38,8 @@ const FoodPackForm = ({
     <Table>
       <thead>
         <tr>
-          <th>
-            <h6>RUOAT</h6>
-          </th>
           <th>nimi</th>
-          <th>hinta</th>
+          <th>hintahaarukka</th>
           <th>kcal</th>
           <th>ainesosat</th>
           <th></th>
@@ -50,9 +48,10 @@ const FoodPackForm = ({
       <tbody>
         {foods.map(f => (
           <tr key={f.id}>
-            <td></td>
             <td>{f.name}</td>
-            <td>{f.price}</td>
+            <td>
+              {f.priceRange.min.toFixed(2)} € - {f.priceRange.max.toFixed(2)} €
+            </td>
             <td>{f.kcal}</td>
             <td>
               <DropdownButton

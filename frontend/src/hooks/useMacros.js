@@ -27,48 +27,54 @@ const getMacroByUnit = (
   return (ingredient[macro].in100g / 100) * foodIngredientValue
 }
 
-const getMacroForFood = (food, macro) => {
-  return food.ingredients.reduce((macroSum, nextFoodIngr) => {
-    let foodIngredientUnit
-    let amount
-    if (nextFoodIngr.pieces !== null) {
-      foodIngredientUnit = unit.PIECES
-      amount = nextFoodIngr.pieces
-    } else {
-      foodIngredientUnit = unit.GRAMS
-      amount = nextFoodIngr.grams
-    }
+const getMacroForParent = (macro, object, parent) => {
+  if (parent === 'food') {
+    return object.ingredients.reduce((macroSum, nextFoodIngr) => {
+      let foodIngredientUnit
+      let amount
+      if (nextFoodIngr.pieces !== null) {
+        foodIngredientUnit = unit.PIECES
+        amount = nextFoodIngr.pieces
+      } else {
+        foodIngredientUnit = unit.GRAMS
+        amount = nextFoodIngr.grams
+      }
 
-    return (
-      macroSum +
-      getMacroByUnit(macro, nextFoodIngr.item, amount, foodIngredientUnit)
-    )
-  }, 0)
+      return (
+        macroSum +
+        getMacroByUnit(macro, nextFoodIngr.item, amount, foodIngredientUnit)
+      )
+    }, 0)
+  }
+
+  const foodPackMacroSum = object.foods.reduce(
+    (sum, nextFood) => sum + getMacroForParent(macro, nextFood, 'food'),
+    0
+  )
+  return foodPackMacroSum
 }
 
-const useMacros = props => {
-  const food = props || null
-
+const useMacros = (object, parent) => {
   const [kcal, setKcal] = useState(
-    food ? getMacroForFood(food, macroName.KCAL) : 0
+    object ? getMacroForParent(macroName.KCAL, object, parent) : 0
   )
   const [fat, setFat] = useState(
-    food ? getMacroForFood(food, macroName.FAT) : 0
+    object ? getMacroForParent(macroName.FAT, object, parent) : 0
   )
   const [saturatedFat, setSaturatedFat] = useState(
-    food ? getMacroForFood(food, macroName.SATURATED_FAT) : 0
+    object ? getMacroForParent(macroName.SATURATED_FAT, object, parent) : 0
   )
   const [carbs, setCarbs] = useState(
-    food ? getMacroForFood(food, macroName.CARBS) : 0
+    object ? getMacroForParent(macroName.CARBS, object, parent) : 0
   )
   const [sugars, setSugars] = useState(
-    food ? getMacroForFood(food, macroName.SUGARS) : 0
+    object ? getMacroForParent(macroName.SUGARS, object, parent) : 0
   )
   const [protein, setProtein] = useState(
-    food ? getMacroForFood(food, macroName.PROTEIN) : 0
+    object ? getMacroForParent(macroName.PROTEIN, object, parent) : 0
   )
   const [salt, setSalt] = useState(
-    food ? getMacroForFood(food, macroName.SALT) : 0
+    object ? getMacroForParent(macroName.SALT, object, parent) : 0
   )
 
   const underZeroIsZero = num => {

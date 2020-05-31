@@ -5,6 +5,10 @@ const FOODPACK_DETAILS = gql`
   fragment FoodPackDetails on FoodPack {
     id
     name
+    priceRange {
+      min
+      max
+    }
     inheritedStores {
       name
       id
