@@ -142,3 +142,11 @@ main {
   background: var(--main-color-3);
   color: var(--accent-color);
 }
+
+.grocery_store_buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding-top: 3em;
+  padding-bottom: 3em;
+}

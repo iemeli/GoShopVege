@@ -10,7 +10,11 @@ const ShopList = ({ shopList }) => {
       {shopList.map(i => (
         <ListGroup.Item key={i.id}>
           {i.name} / {i.priceRange.min.toFixed(2)} € -{' '}
-          {i.priceRange.max.toFixed(2)} € /<strong> x{i.multiplier}</strong>
+          {i.priceRange.max.toFixed(2)} € /{' '}
+          {i.foundInStores.map(s => (
+            <span key={s.id}>{s.name}</span>
+          ))}{' '}
+          /<strong> x{i.multiplier}</strong>
         </ListGroup.Item>
       ))}
     </ListGroup>

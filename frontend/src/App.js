@@ -8,6 +8,7 @@ import Routes from './Menu/presentational/Routes'
 import { ALL_INGREDIENTS } from './Ingredient/queries'
 import { ALL_FOODS } from './Food/queries'
 import { ALL_FOODPACKS } from './FoodPack/queries'
+import { ALL_GROCERYSTORES } from './GroceryStore/queries'
 import GlobalAlert from './general/GlobalAlert'
 import SideDrawer from './Menu/presentational/SideDrawer'
 import useUpdateStore from './hooks/useUpdateStore'
@@ -17,13 +18,19 @@ const App = () => {
   const ingredients = useQuery(ALL_INGREDIENTS)
   const foods = useQuery(ALL_FOODS)
   const foodPacks = useQuery(ALL_FOODPACKS)
+  const groceryStores = useQuery(ALL_GROCERYSTORES)
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false)
 
   useUpdateStore('INITSHOPLIST')
 
   useEpicSubscription()
 
-  if (ingredients.loading || foods.loading || foodPacks.loading) {
+  if (
+    ingredients.loading ||
+    foods.loading ||
+    foodPacks.loading ||
+    groceryStores.loading
+  ) {
     return <div>...loading</div>
   }
 
