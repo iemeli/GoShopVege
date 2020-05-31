@@ -1,5 +1,8 @@
 # GoShopVege
 
+sovellus löytyy osoitteesta: https://goshopvege.herokuapp.com/
+dokumentaatio löytyy kansiosta: documentation/workHours.md
+
 ## IDEA
 
 Kauppaan mennessä vegaanista voi tuntua hankalalta ilman selkeätä ostoslistaa. Sovellus generoi käyttäjälle automaattisesti kauppalistan, kun halutaan ruoat X päiväksi kaupasta Y. Keskiössä ovat "ruokapaketit", jotka sisältävät ruokia jotka sisältävät ruoka-aineita. Ruokapaketti kolmelle päivälle voisi näyttää esim. tältä:
